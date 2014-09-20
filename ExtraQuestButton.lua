@@ -60,25 +60,26 @@ Button:SetScript('OnEvent', function(self, event)
 		self.rangeTimer = 0
 		self:Hide()
 
-		local Icon = self:CreateTexture(nil, 'BACKGROUND')
+		local Icon = self:CreateTexture('$parentIcon', 'BACKGROUND')
 		Icon:SetAllPoints()
 		self.Icon = Icon
 
-		local HotKey = self:CreateFontString(nil, nil, 'NumberFontNormal')
+		local HotKey = self:CreateFontString('$parentHotKey', nil, 'NumberFontNormal')
 		HotKey:SetPoint('BOTTOMRIGHT', -5, 5)
 		self.HotKey = HotKey
 
-		local Cooldown = CreateFrame('Cooldown', nil, self, 'CooldownFrameTemplate')
+		local Cooldown = CreateFrame('Cooldown', '$parentCooldown', self, 'CooldownFrameTemplate')
 		Cooldown:ClearAllPoints()
 		Cooldown:SetPoint('TOPRIGHT', -2, -3)
 		Cooldown:SetPoint('BOTTOMLEFT', 2, 1)
 		Cooldown:Hide()
 		self.Cooldown = Cooldown
 
-		local Artwork = self:CreateTexture(nil, 'OVERLAY')
+		local Artwork = self:CreateTexture('$parentArtwork', 'OVERLAY')
 		Artwork:SetPoint('CENTER', -2, 0)
 		Artwork:SetSize(256, 128)
 		Artwork:SetTexture([[Interface\ExtraButton\Default]])
+		self.Artwork = Artwork
 
 		self:RegisterEvent('UPDATE_BINDINGS')
 		self:RegisterEvent('UPDATE_EXTRA_ACTIONBAR')
