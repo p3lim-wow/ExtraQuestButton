@@ -1,0 +1,7 @@
+## Interface: 60000
+## Author: p3lim
+## Version: Alpha
+## Title: ExtraQuestButton
+## Notes: An extra button for quest items!
+
+ExtraQuestButton.lua
