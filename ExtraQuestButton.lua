@@ -1,3 +1,7 @@
+if(select(4, GetBuildInfo()) < 6e4) then
+	return
+end
+
 local Button = CreateFrame('Button', (...), UIParent, 'SecureActionButtonTemplate, SecureHandlerStateTemplate, SecureHandlerAttributeTemplate')
 RegisterStateDriver(Button, 'visible', '[extrabar] hide; show')
 Button:SetAttribute('_onattributechanged', [[
