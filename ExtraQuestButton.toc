@@ -1,6 +1,6 @@
 ## Interface: 60000
 ## Author: p3lim
-## Version: Alpha
+## Version: @project-version@
 ## Title: ExtraQuestButton
 ## Notes: An extra button for quest items!
 
