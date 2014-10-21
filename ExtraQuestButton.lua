@@ -102,6 +102,7 @@ Button:SetScript('OnEnter', function(self)
 	GameTooltip:SetHyperlink(self.itemLink)
 end)
 
+-- BUG: IsItemInRange() is broken versus friendly npcs (and possibly others)
 Button:SetScript('OnUpdate', function(self, elapsed)
 	if(self.rangeTimer > TOOLTIP_UPDATE_TIME) then
 		local HotKey = self.HotKey
