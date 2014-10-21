@@ -137,6 +137,10 @@ Button:SetScript('OnUpdate', function(self, elapsed)
 	end
 end)
 
+local zoneWide = {
+	[14108] = 541,
+}
+
 function Button:SetItem(itemLink, texture)
 	if(itemLink) then
 		if(itemLink == self.itemLink and self:IsShown()) then
@@ -185,12 +189,18 @@ function Button:Update()
 		local questID, _, questIndex, _, _, isComplete = GetQuestWatchInfo(index)
 		if(questID and QuestHasPOIInfo(questID)) then
 			local link, texture, _, showCompleted = GetQuestLogSpecialItemInfo(questIndex)
-			if(link and (not isComplete or (isComplete and showCompleted))) then
-				local distanceSq, onContinent = GetDistanceSqToQuest(questIndex)
-				if(onContinent and distanceSq < shortestDistance) then
-					shortestDistance = distanceSq
+			if(link) then
+				local areaID = zoneWide[questID]
+				if(areaID and areaID == GetCurrentMapAreaID()) then
 					closestQuestLink = link
 					closestQuestTexture = texture
+				elseif(not isComplete or (isComplete and showCompleted)) then
+					local distanceSq, onContinent = GetDistanceSqToQuest(questIndex)
+					if(onContinent and distanceSq < shortestDistance) then
+						shortestDistance = distanceSq
+						closestQuestLink = link
+						closestQuestTexture = texture
+					end
 				end
 			end
 		end
