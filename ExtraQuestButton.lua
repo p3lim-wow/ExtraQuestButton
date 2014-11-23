@@ -147,6 +147,12 @@ local zoneWide = {
 	[14108] = 541,
 }
 
+local blacklist = {
+	[113191] = true,
+	[110799] = true,
+	[109164] = true,
+}
+
 function Button:SetItem(itemLink, texture)
 	if(itemLink) then
 		if(itemLink == self.itemLink and self:IsShown()) then
@@ -156,6 +162,10 @@ function Button:SetItem(itemLink, texture)
 		self.Icon:SetTexture(texture)
 		self.itemID, self.itemName = string.match(itemLink, '|Hitem:(.-):.-|h%[(.+)%]|h')
 		self.itemLink = itemLink
+
+		if(blacklist[self.itemID]) then
+			return
+		end
 	end
 
 	local HotKey = self.HotKey
