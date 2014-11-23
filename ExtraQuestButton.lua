@@ -31,21 +31,26 @@ Button:SetAttribute('_onattributechanged', [[
 	end
 ]])
 
+local function UpdateCooldown(self)
+	if(self:IsShown()) then
+		local start, duration, enable = GetItemCooldown(self.itemID)
+		if(duration > 0) then
+			self.Cooldown:SetCooldown(start, duration)
+			self.Cooldown:Show()
+		else
+			self.Cooldown:Hide()
+		end
+	end
+end
+
 Button:RegisterEvent('PLAYER_LOGIN')
 Button:SetScript('OnEvent', function(self, event)
 	if(event == 'BAG_UPDATE_COOLDOWN') then
-		if(self:IsShown()) then
-			local start, duration, enable = GetItemCooldown(self.itemID)
-			if(duration > 0) then
-				self.Cooldown:SetCooldown(start, duration)
-				self.Cooldown:Show()
-			else
-				self.Cooldown:Hide()
-			end
-		end
+		UpdateCooldown(self)
 	elseif(event == 'PLAYER_REGEN_ENABLED') then
 		self:SetAttribute('item', self.attribute)
 		self:UnregisterEvent(event)
+		UpdateCooldown(self)
 	elseif(event == 'UPDATE_BINDINGS') then
 		if(self:IsShown()) then
 			self:SetItem()
@@ -170,6 +175,7 @@ function Button:SetItem(itemLink, texture)
 		self:RegisterEvent('PLAYER_REGEN_ENABLED')
 	else
 		self:SetAttribute('item', self.itemName)
+		UpdateCooldown(self)
 	end
 end
 
