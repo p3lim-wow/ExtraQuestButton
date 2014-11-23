@@ -188,7 +188,9 @@ function Button:RemoveItem()
 	end
 end
 
+local ticker
 function Button:Update()
+	local numItems = 0
 	local shortestDistance = 62500 -- 250 yards²
 	local closestQuestLink, closestQuestTexture
 
@@ -209,6 +211,8 @@ function Button:Update()
 						closestQuestTexture = texture
 					end
 				end
+
+				numItems = numItems + 1
 			end
 		end
 	end
@@ -217,5 +221,14 @@ function Button:Update()
 		self:SetItem(closestQuestLink, closestQuestTexture)
 	elseif(self:IsShown()) then
 		self:RemoveItem()
+	end
+
+	if(numItems > 0 and not ticker) then
+		ticker = C_Timer.NewTicker(30, function() -- might want to lower this
+			Button:Update()
+		end)
+	elseif(numItems == 0 and ticker) then
+		ticker:Cancel()
+		ticker = nil
 	end
 end
