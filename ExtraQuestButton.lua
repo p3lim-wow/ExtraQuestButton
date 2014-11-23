@@ -145,6 +145,12 @@ end)
 
 local zoneWide = {
 	[14108] = 541,
+	[13998] = 11,
+	[25798] = 61, -- quest is bugged, has no zone
+	[25799] = 61, -- quest is bugged, has no zone
+	[25112] = 161,
+	[25111] = 161,
+	[24735] = 201,
 }
 
 local blacklist = {
