@@ -161,8 +161,11 @@ function Button:SetItem(itemLink, texture)
 			return
 		end
 
+		local itemID, itemName = string.match(itemLink, '|Hitem:(.-):.-|h%[(.+)%]|h')
+
 		self.Icon:SetTexture(texture)
-		self.itemID, self.itemName = string.match(itemLink, '|Hitem:(.-):.-|h%[(.+)%]|h')
+		self.itemID = tonumber(itemID)
+		self.itemName = itemName
 		self.itemLink = itemLink
 
 		if(blacklist[self.itemID]) then
