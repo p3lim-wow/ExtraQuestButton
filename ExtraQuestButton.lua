@@ -149,6 +149,7 @@ local zoneWide = {
 	[24735] = 201,
 }
 
+-- XXX: Sometimes blizzard does actually do what I want
 local blacklist = {
 	[113191] = true,
 	[110799] = true,
