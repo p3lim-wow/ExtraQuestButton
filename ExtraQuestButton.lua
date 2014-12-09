@@ -93,6 +93,7 @@ Button:SetScript('OnEvent', function(self, event)
 		self:RegisterEvent('WORLD_MAP_UPDATE')
 		self:RegisterEvent('QUEST_LOG_UPDATE')
 		self:RegisterEvent('QUEST_POI_UPDATE')
+		self:RegisterEvent('QUEST_WATCH_LIST_CHANGED')
 	else
 		self:Update()
 	end
