@@ -61,6 +61,7 @@ Button:SetScript('OnEvent', function(self, event)
 		self:GetPushedTexture():SetBlendMode('ADD')
 		self:SetScript('OnLeave', GameTooltip_Hide)
 		self:SetAttribute('type', 'item')
+		self:SetToplevel(true)
 		self.updateTimer = 0
 		self.rangeTimer = 0
 		self:Hide()
