@@ -1,5 +1,5 @@
 local Button = CreateFrame('Button', (...), UIParent, 'SecureActionButtonTemplate, SecureHandlerStateTemplate, SecureHandlerAttributeTemplate')
-RegisterStateDriver(Button, 'visible', '[extrabar] hide; show')
+RegisterStateDriver(Button, 'visible', '[extrabar][petbattle] hide; show')
 Button:SetAttribute('_onattributechanged', [[
 	if(name == 'item') then
 		if(value and not self:IsShown() and not HasExtraActionBar()) then
