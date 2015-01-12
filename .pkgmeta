@@ -1,1 +1,4 @@
 package-as: ExtraQuestButton
+
+ignore:
+    - CONTRIBUTING.md
