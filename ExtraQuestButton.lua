@@ -170,6 +170,10 @@ Button:SetScript('OnEnable', function(self)
 end)
 
 Button:SetScript('OnDisable', function(self)
+	if(not self:IsMovable()) then
+		self:SetMovable(true)
+	end
+
 	RegisterStateDriver(self, 'visible', 'show')
 	self:SetAttribute('_onattributechanged', nil)
 	self.Icon:SetTexture([[Interface\Icons\INV_Misc_Wrench_01]])
@@ -334,6 +338,7 @@ SlashCmdList.ExtraQuestButton = function(message)
 	if(string.lower(message) == 'reset') then
 		Button:ClearAllPoints()
 		Button:SetPoint('CENTER', ExtraActionButton1)
+		Button:SetMovable(false)
 		print('|cff33ff99ExtraQuestButton:|r', 'Reset to default position.')
 		return
 	end
