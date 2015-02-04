@@ -1,6 +1,16 @@
 local Button = CreateFrame('Button', (...), UIParent, 'SecureActionButtonTemplate, SecureHandlerStateTemplate, SecureHandlerAttributeTemplate')
-RegisterStateDriver(Button, 'visible', '[extrabar][petbattle] hide; show')
-Button:SetAttribute('_onattributechanged', [[
+Button:SetMovable(true)
+Button:RegisterEvent('PLAYER_LOGIN')
+Button:SetScript('OnEvent', function(self, event, ...)
+	if(self[event]) then
+		self[event](self, event, ...)
+	elseif(self:IsEnabled()) then
+		self:Update()
+	end
+end)
+
+local visibilityState = '[extrabar][petbattle] hide; show'
+local onAttributeChanged = [[
 	if(name == 'item') then
 		if(value and not self:IsShown() and not HasExtraActionBar()) then
 			self:Show()
@@ -25,10 +35,10 @@ Button:SetAttribute('_onattributechanged', [[
 			self:SetBindingClick(1, key, self, 'LeftButton')
 		end
 	end
-]])
+]]
 
-local function UpdateCooldown(self)
-	if(self:IsShown()) then
+function Button:BAG_UPDATE_COOLDOWN()
+	if(self:IsShown() and self:IsEnabled()) then
 		local start, duration, enable = GetItemCooldown(self.itemID)
 		if(duration > 0) then
 			self.Cooldown:SetCooldown(start, duration)
@@ -39,76 +49,86 @@ local function UpdateCooldown(self)
 	end
 end
 
-Button:RegisterEvent('PLAYER_LOGIN')
-Button:SetScript('OnEvent', function(self, event)
-	if(event == 'BAG_UPDATE_COOLDOWN') then
-		UpdateCooldown(self)
-	elseif(event == 'PLAYER_REGEN_ENABLED') then
-		self:SetAttribute('item', self.attribute)
-		self:UnregisterEvent(event)
-		UpdateCooldown(self)
-	elseif(event == 'UPDATE_BINDINGS') then
-		if(self:IsShown()) then
-			self:SetItem()
-			self:SetAttribute('binding', GetTime())
-		end
-	elseif(event == 'PLAYER_LOGIN') then
-		self:SetPoint('CENTER', ExtraActionButton1)
-		self:SetSize(ExtraActionButton1:GetSize())
-		self:SetScale(ExtraActionButton1:GetScale())
-		self:SetHighlightTexture([[Interface\Buttons\ButtonHilight-Square]])
-		self:SetPushedTexture([[Interface\Buttons\CheckButtonHilight]])
-		self:GetPushedTexture():SetBlendMode('ADD')
-		self:SetScript('OnLeave', GameTooltip_Hide)
-		self:SetAttribute('type', 'item')
-		self:SetToplevel(true)
-		self.updateTimer = 0
-		self.rangeTimer = 0
-		self:Hide()
+function Button:PLAYER_REGEN_ENABLED()
+	self:SetAttribute('item', self.attribute)
+	self:UnregisterEvent(event)
+	self:BAG_UPDATE_COOLDOWN()
+end
 
-		local Icon = self:CreateTexture('$parentIcon', 'BACKGROUND')
-		Icon:SetAllPoints()
-		self.Icon = Icon
-
-		local HotKey = self:CreateFontString('$parentHotKey', nil, 'NumberFontNormal')
-		HotKey:SetPoint('BOTTOMRIGHT', -5, 5)
-		self.HotKey = HotKey
-
-		local Cooldown = CreateFrame('Cooldown', '$parentCooldown', self, 'CooldownFrameTemplate')
-		Cooldown:ClearAllPoints()
-		Cooldown:SetPoint('TOPRIGHT', -2, -3)
-		Cooldown:SetPoint('BOTTOMLEFT', 2, 1)
-		Cooldown:Hide()
-		self.Cooldown = Cooldown
-
-		local Artwork = self:CreateTexture('$parentArtwork', 'OVERLAY')
-		Artwork:SetPoint('CENTER', -2, 0)
-		Artwork:SetSize(256, 128)
-		Artwork:SetTexture([[Interface\ExtraButton\Default]])
-		self.Artwork = Artwork
-
-		self:RegisterEvent('UPDATE_BINDINGS')
-		self:RegisterEvent('UPDATE_EXTRA_ACTIONBAR')
-		self:RegisterEvent('BAG_UPDATE_COOLDOWN')
-		self:RegisterEvent('BAG_UPDATE_DELAYED')
-		self:RegisterEvent('WORLD_MAP_UPDATE')
-		self:RegisterEvent('QUEST_LOG_UPDATE')
-		self:RegisterEvent('QUEST_POI_UPDATE')
-		self:RegisterEvent('QUEST_WATCH_LIST_CHANGED')
-	else
-		self:Update()
+function Button:UPDATE_BINDINGS()
+	if(self:IsShown() and self:IsEnabled()) then
+		self:SetItem()
+		self:SetAttribute('binding', GetTime())
 	end
-end)
+end
+
+function Button:PLAYER_LOGIN()
+	RegisterStateDriver(self, 'visible', visibilityState)
+	self:SetAttribute('_onattributechanged', onAttributeChanged)
+	self:SetAttribute('type', 'item')
+
+	if(not self:GetPoint()) then
+		self:SetPoint('CENTER', ExtraActionButton1)
+	end
+
+	self:SetSize(ExtraActionButton1:GetSize())
+	self:SetScale(ExtraActionButton1:GetScale())
+	self:SetHighlightTexture([[Interface\Buttons\ButtonHilight-Square]])
+	self:SetPushedTexture([[Interface\Buttons\CheckButtonHilight]])
+	self:GetPushedTexture():SetBlendMode('ADD')
+	self:SetScript('OnLeave', GameTooltip_Hide)
+	self:SetClampedToScreen(true)
+	self:SetToplevel(true)
+
+	self.updateTimer = 0
+	self.rangeTimer = 0
+	self:Hide()
+
+	local Icon = self:CreateTexture('$parentIcon', 'BACKGROUND')
+	Icon:SetAllPoints()
+	self.Icon = Icon
+
+	local HotKey = self:CreateFontString('$parentHotKey', nil, 'NumberFontNormal')
+	HotKey:SetPoint('BOTTOMRIGHT', -5, 5)
+	self.HotKey = HotKey
+
+	local Cooldown = CreateFrame('Cooldown', '$parentCooldown', self, 'CooldownFrameTemplate')
+	Cooldown:ClearAllPoints()
+	Cooldown:SetPoint('TOPRIGHT', -2, -3)
+	Cooldown:SetPoint('BOTTOMLEFT', 2, 1)
+	Cooldown:Hide()
+	self.Cooldown = Cooldown
+
+	local Artwork = self:CreateTexture('$parentArtwork', 'OVERLAY')
+	Artwork:SetPoint('CENTER', -2, 0)
+	Artwork:SetSize(256, 128)
+	Artwork:SetTexture([[Interface\ExtraButton\Default]])
+	self.Artwork = Artwork
+
+	self:RegisterEvent('UPDATE_BINDINGS')
+	self:RegisterEvent('UPDATE_EXTRA_ACTIONBAR')
+	self:RegisterEvent('BAG_UPDATE_COOLDOWN')
+	self:RegisterEvent('BAG_UPDATE_DELAYED')
+	self:RegisterEvent('WORLD_MAP_UPDATE')
+	self:RegisterEvent('QUEST_LOG_UPDATE')
+	self:RegisterEvent('QUEST_POI_UPDATE')
+	self:RegisterEvent('QUEST_WATCH_LIST_CHANGED')
+end
 
 Button:SetScript('OnEnter', function(self)
 	GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
 	GameTooltip:SetHyperlink(self.itemLink)
 end)
 
--- BUG: IsItemInRange() is broken versus friendly npcs (and possibly others)
 Button:SetScript('OnUpdate', function(self, elapsed)
+	if(not self:IsEnabled()) then
+		return
+	end
+
 	if(self.rangeTimer > TOOLTIP_UPDATE_TIME) then
 		local HotKey = self.HotKey
+
+		-- BUG: IsItemInRange() is broken versus friendly npcs (and possibly others)
 		local inRange = IsItemInRange(self.itemLink, 'target')
 		if(HotKey:GetText() == RANGE_INDICATOR) then
 			if(inRange == false) then
@@ -141,6 +161,22 @@ Button:SetScript('OnUpdate', function(self, elapsed)
 	end
 end)
 
+Button:SetScript('OnEnable', function(self)
+	RegisterStateDriver(self, 'visible', visibilityState)
+	self:SetAttribute('_onattributechanged', onAttributeChanged)
+	self.Artwork:SetTexture([[Interface\ExtraButton\Default]])
+	self:Update()
+	self:SetItem()
+end)
+
+Button:SetScript('OnDisable', function(self)
+	RegisterStateDriver(self, 'visible', 'show')
+	self:SetAttribute('_onattributechanged', nil)
+	self.Icon:SetTexture([[Interface\Icons\INV_Misc_Wrench_01]])
+	self.Artwork:SetTexture([[Interface\ExtraButton\Ultraxion]])
+	self.HotKey:Hide()
+end)
+
 local zoneWide = {
 	[14108] = 541,
 	[13998] = 11,
@@ -154,7 +190,7 @@ local zoneWide = {
 	[29510] = 823,
 }
 
--- XXX: Sometimes blizzard does actually do what I want
+-- Sometimes blizzard does actually do what I want
 local blacklist = {
 	[113191] = true,
 	[110799] = true,
@@ -163,13 +199,13 @@ local blacklist = {
 
 function Button:SetItem(itemLink, texture)
 	if(itemLink) then
+		self.Icon:SetTexture(texture)
+
 		if(itemLink == self.itemLink and self:IsShown()) then
 			return
 		end
 
 		local itemID, itemName = string.match(itemLink, '|Hitem:(.-):.-|h%[(.+)%]|h')
-
-		self.Icon:SetTexture(texture)
 		self.itemID = tonumber(itemID)
 		self.itemName = itemName
 		self.itemLink = itemLink
@@ -196,7 +232,7 @@ function Button:SetItem(itemLink, texture)
 		self:RegisterEvent('PLAYER_REGEN_ENABLED')
 	else
 		self:SetAttribute('item', self.itemName)
-		UpdateCooldown(self)
+		self:BAG_UPDATE_COOLDOWN()
 	end
 end
 
@@ -211,6 +247,10 @@ end
 
 local ticker
 function Button:Update()
+	if(not self:IsEnabled()) then
+		return
+	end
+
 	local numItems = 0
 	local shortestDistance = 62500 -- 250 yards²
 	local closestQuestLink, closestQuestTexture
@@ -251,5 +291,57 @@ function Button:Update()
 	elseif(numItems == 0 and ticker) then
 		ticker:Cancel()
 		ticker = nil
+	end
+end
+
+local Drag = CreateFrame('Frame', nil, Button)
+Drag:SetAllPoints()
+Drag:SetFrameStrata('HIGH')
+Drag:EnableMouse(true)
+Drag:RegisterForDrag('LeftButton')
+Drag:Hide()
+
+Drag:SetScript('OnShow', function(self)
+	Button:Disable()
+	self:RegisterEvent('PLAYER_REGEN_DISABLED')
+end)
+
+Drag:SetScript('OnHide', function(self)
+	Button:Enable()
+	self:UnregisterEvent('PLAYER_REGEN_DISABLED')
+end)
+
+Drag:SetScript('OnEvent', function(self)
+	self:Hide()
+	Button:StopMovingOrSizing()
+end)
+
+Drag:SetScript('OnDragStart', function()
+	Button:StartMoving()
+end)
+
+Drag:SetScript('OnDragStop', function()
+	Button:StopMovingOrSizing()
+end)
+
+SLASH_ExtraQuestButton1 = '/eqb'
+SlashCmdList.ExtraQuestButton = function(message)
+	if(InCombatLockdown()) then
+		print('|cff33ff99ExtraQuestButton:|r', 'Cannot move during combat.')
+		return
+	end
+
+	if(string.lower(message) == 'reset') then
+		Button:ClearAllPoints()
+		Button:SetPoint('CENTER', ExtraActionButton1)
+		print('|cff33ff99ExtraQuestButton:|r', 'Reset to default position.')
+		return
+	end
+
+	if(Drag:IsShown()) then
+		Drag:Hide()
+	else
+		Drag:Show()
+		Button:Show()
 	end
 end
