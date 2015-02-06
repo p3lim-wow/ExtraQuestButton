@@ -339,6 +339,8 @@ SlashCmdList.ExtraQuestButton = function(message)
 		Button:ClearAllPoints()
 		Button:SetPoint('CENTER', ExtraActionButton1)
 		Button:SetMovable(false)
+		Drag:Hide()
+
 		print('|cff33ff99ExtraQuestButton:|r', 'Reset to default position.')
 		return
 	end
