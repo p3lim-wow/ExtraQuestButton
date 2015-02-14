@@ -192,6 +192,7 @@ local zoneWide = {
 	[29821] = 806,
 	[31112] = 806,
 	[29510] = 823,
+	[24629] = true,
 }
 
 -- Sometimes blizzard does actually do what I want
