@@ -265,7 +265,8 @@ function Button:Update()
 			local link, texture, _, showCompleted = GetQuestLogSpecialItemInfo(questIndex)
 			if(link) then
 				local areaID = zoneWide[questID]
-				if(areaID and areaID == GetCurrentMapAreaID()) then
+				local valueType = type(areaID)
+				if(areaID and (type(areaID) == 'boolean' or areaID == GetCurrentMapAreaID())) then
 					closestQuestLink = link
 					closestQuestTexture = texture
 				elseif(not isComplete or (isComplete and showCompleted)) then
