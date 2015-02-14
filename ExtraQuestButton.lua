@@ -49,7 +49,7 @@ function Button:BAG_UPDATE_COOLDOWN()
 	end
 end
 
-function Button:PLAYER_REGEN_ENABLED()
+function Button:PLAYER_REGEN_ENABLED(event)
 	self:SetAttribute('item', self.attribute)
 	self:UnregisterEvent(event)
 	self:BAG_UPDATE_COOLDOWN()
