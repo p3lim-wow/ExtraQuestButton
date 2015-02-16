@@ -5,7 +5,7 @@ It can be downloaded at [Curse](http://curse.com/addons/wow/extraquestbutton) or
 
 ## Description
 
-ExtraQuestButton adds a button to the game that will display a button for the most representable quest item for your quests.  
+ExtraQuestButton adds a button to the game that will display the most representable quest item for your quests.  
 It is basically replicating the Extra*Action*Button, just for quest items!
 
 It was designed to copy the behavior of the quest items for some of the quests in Tanaan Jungle, but for every other quest item in the game.
