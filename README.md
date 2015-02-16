@@ -13,7 +13,7 @@ It was designed to copy the behavior of the quest items for some of the quests i
 Now, by "most representable" I mean that it will show the quest item for the quest area that you are closest to, and never unless you are in some range of where it should be used (hardcoded to 250 yards to the center of the quest area).
 
 It uses the same keybinding as the Extra*Action*Button, and it's even anchored to it, so when you move the Extra*Action*Button, Extra*Quest*Button follows suit!  
-This means that if you want to move it you can just use any™ addon that moves the Extra*Action*Button around.
+You can also move it manually by unlocking it with `/eqb` (`/eqb reset` to reset).
 
 If both the Extra*Action*Button and the Extra*Quest*Button are to be shown, the Extra*Action*Button takes precedence, and the transition looks something like this:  
 ![](https://i.imgur.com/QJm7CBx.gif)
