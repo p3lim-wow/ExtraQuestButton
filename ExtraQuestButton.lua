@@ -97,7 +97,7 @@ function Button:PLAYER_LOGIN()
 	Icon:SetAllPoints()
 	self.Icon = Icon
 
-	local HotKey = self:CreateFontString('$parentHotKey', nil, 'NumberFontNormal')
+	local HotKey = self:CreateFontString('$parentHotKey', nil, 'NumberFontNormalGray')
 	HotKey:SetPoint('BOTTOMRIGHT', -5, 5)
 	self.HotKey = HotKey
 
@@ -148,7 +148,7 @@ Button:SetScript('OnUpdate', function(self, elapsed)
 				HotKey:SetTextColor(1, 0.1, 0.1)
 				HotKey:Show()
 			elseif(inRange) then
-				HotKey:SetTextColor(1, 1, 1)
+				HotKey:SetTextColor(0.6, 0.6, 0.6)
 				HotKey:Show()
 			else
 				HotKey:Hide()
@@ -157,7 +157,7 @@ Button:SetScript('OnUpdate', function(self, elapsed)
 			if(inRange == false) then
 				HotKey:SetTextColor(1, 0.1, 0.1)
 			else
-				HotKey:SetTextColor(1, 1, 1)
+				HotKey:SetTextColor(0.6, 0.6, 0.6)
 			end
 		end
 
