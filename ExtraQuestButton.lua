@@ -49,6 +49,15 @@ function Button:BAG_UPDATE_COOLDOWN()
 	end
 end
 
+function Button:BAG_UPDATE_DELAYED()
+	self:Update()
+
+	if(self:IsShown() and self:IsEnabled()) then
+		local count = GetItemCount(self.itemLink)
+		self.Count:SetText(count and count > 1 and count or '')
+	end
+end
+
 function Button:PLAYER_REGEN_ENABLED(event)
 	self:SetAttribute('item', self.attribute)
 	self:UnregisterEvent(event)
@@ -91,6 +100,10 @@ function Button:PLAYER_LOGIN()
 	local HotKey = self:CreateFontString('$parentHotKey', nil, 'NumberFontNormal')
 	HotKey:SetPoint('BOTTOMRIGHT', -5, 5)
 	self.HotKey = HotKey
+
+	local Count = self:CreateFontString('$parentCount', nil, 'NumberFontNormal')
+	Count:SetPoint('TOPLEFT', 7, -7)
+	self.Count = Count
 
 	local Cooldown = CreateFrame('Cooldown', '$parentCooldown', self, 'CooldownFrameTemplate')
 	Cooldown:ClearAllPoints()
