@@ -21,7 +21,8 @@ If both the Extra*Action*Button and the Extra*Quest*Button are to be shown, the 
 ## Feedback
 
 If you have a question, please use the comments section on Curse/WoWInterface.  
-If you would like to report a bug or contribute to the project, please follow [this link](https://github.com/p3lim-wow/ExtraQuestButton/blob/master/CONTRIBUTING.md) to get started.
+If you would like to report a bug or contribute to the project, please follow [this link](https://github.com/p3lim-wow/ExtraQuestButton/blob/master/CONTRIBUTING.md) to get started.  
+**If you find a quest item that doesn't show up properly, please report the quest.**
 
 ## Legal
 
