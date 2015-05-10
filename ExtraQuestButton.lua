@@ -1,4 +1,6 @@
-local Button = CreateFrame('Button', (...), UIParent, 'SecureActionButtonTemplate, SecureHandlerStateTemplate, SecureHandlerAttributeTemplate')
+local addonName, ns = ...
+
+local Button = CreateFrame('Button', addonName, UIParent, 'SecureActionButtonTemplate, SecureHandlerStateTemplate, SecureHandlerAttributeTemplate')
 Button:SetMovable(true)
 Button:RegisterEvent('PLAYER_LOGIN')
 Button:SetScript('OnEvent', function(self, event, ...)
@@ -194,27 +196,6 @@ Button:SetScript('OnDisable', function(self)
 	self.HotKey:Hide()
 end)
 
-local zoneWide = {
-	[14108] = 541,
-	[13998] = 11,
-	[25798] = 61,
-	[25799] = 61,
-	[25112] = 161,
-	[25111] = 161,
-	[24735] = 201,
-	[29821] = 806,
-	[31112] = 806,
-	[29510] = 823,
-	[24629] = true,
-	[24440] = 9,
-	[14491] = 9,
-	[24456] = 9,
-	[24524] = 9,
-	[25577] = 606,
-	[10129] = 465,
-	[10146] = 465,
-}
-
 -- Sometimes blizzard does actually do what I want
 local blacklist = {
 	[113191] = true,
@@ -285,8 +266,11 @@ function Button:Update()
 		if(questID and QuestHasPOIInfo(questID)) then
 			local link, texture, _, showCompleted = GetQuestLogSpecialItemInfo(questIndex)
 			if(link) then
-				local areaID = zoneWide[questID]
-				local valueType = type(areaID)
+				local areaID = ns.questAreas[questID]
+				if(not areaID) then
+					areaID = ns.itemAreas[tonumber(string.match(link, 'item:(%d+)'))]
+				end
+
 				if(areaID and (type(areaID) == 'boolean' or areaID == GetCurrentMapAreaID())) then
 					closestQuestLink = link
 					closestQuestTexture = texture

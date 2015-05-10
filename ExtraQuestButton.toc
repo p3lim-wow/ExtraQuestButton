@@ -4,4 +4,6 @@
 ## Title: ExtraQuestButton
 ## Notes: An extra button for quest items!
 
+quests.lua
+
 ExtraQuestButton.lua
