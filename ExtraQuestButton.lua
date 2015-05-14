@@ -216,7 +216,7 @@ function Button:SetItem(itemLink, texture)
 		self.itemName = itemName
 		self.itemLink = itemLink
 
-		if(blacklist[self.itemID]) then
+		if(blacklist[itemID]) then
 			return
 		end
 	end
@@ -226,7 +226,7 @@ function Button:SetItem(itemLink, texture)
 	if(key) then
 		HotKey:SetText(GetBindingText(key, 1))
 		HotKey:Show()
-	elseif(ItemHasRange(self.itemLink)) then
+	elseif(ItemHasRange(itemLink)) then
 		HotKey:SetText(RANGE_INDICATOR)
 		HotKey:Show()
 	else
