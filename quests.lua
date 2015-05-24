@@ -1,10 +1,6 @@
---[[
-	This file contains all quests with items and quest items that have
-	incorrect or missing quest area blobs, forcing them to be tracked
-	zone-wide or globally.
---]]
-
 local _, ns = ...
+
+-- Quests with incorrect or missing quest area blobs
 ns.questAreas = {
 	-- Global
 	[24629] = true,
@@ -32,6 +28,7 @@ ns.questAreas = {
 	[25577] = 606,
 }
 
+-- Quests items with incorrect or missing quest area blobs
 ns.itemAreas = {
 	-- Thousand Needles
 	[56011] = 61,
@@ -45,4 +42,12 @@ ns.itemAreas = {
 	-- Hellfire Peninsula
 	[28038] = 465,
 	[28132] = 465,
+}
+
+-- Items that needs to be used on specific creatures
+ns.creatureSpecific = {
+	[25814] = 35401,
+	[25758] = 35352,
+	[25752] = 35352,
+	[25753] = 35352,
 }

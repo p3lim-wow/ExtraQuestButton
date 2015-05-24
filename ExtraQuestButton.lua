@@ -73,6 +73,22 @@ function Button:UPDATE_BINDINGS()
 	end
 end
 
+function Button:PLAYER_TARGET_CHANGED()
+	if(UnitExists('target')) then
+		local creatureID = tonumber(string.match(UnitGUID('target') or '', 'Creature%-.-%-.-%-.-%-.-%-(.-)%-'))
+		local itemID = ns.creatureSpecific[creatureID]
+		if(itemID and GetItemCount(itemID) > 0) then
+			local _, link, _, _, _, _, _, _, _, texture = GetItemInfo(itemID)
+			self.locked = true
+			self:SetItem(link, texture)
+			return
+		end
+	end
+
+	self.locked = false
+	self:Update()
+end
+
 function Button:PLAYER_LOGIN()
 	RegisterStateDriver(self, 'visible', visibilityState)
 	self:SetAttribute('_onattributechanged', onAttributeChanged)
@@ -128,6 +144,7 @@ function Button:PLAYER_LOGIN()
 	self:RegisterEvent('QUEST_LOG_UPDATE')
 	self:RegisterEvent('QUEST_POI_UPDATE')
 	self:RegisterEvent('QUEST_WATCH_LIST_CHANGED')
+	self:RegisterEvent('PLAYER_TARGET_CHANGED')
 end
 
 Button:SetScript('OnEnter', function(self)
@@ -204,6 +221,10 @@ local blacklist = {
 }
 
 function Button:SetItem(itemLink, texture)
+	if(HasExtraActionBar()) then
+		return
+	end
+
 	if(itemLink) then
 		self.Icon:SetTexture(texture)
 
@@ -253,7 +274,7 @@ end
 
 local ticker
 function Button:Update()
-	if(not self:IsEnabled()) then
+	if(not self:IsEnabled() or self.locked) then
 		return
 	end
 
@@ -288,7 +309,7 @@ function Button:Update()
 		end
 	end
 
-	if(closestQuestLink and not HasExtraActionBar()) then
+	if(closestQuestLink) then
 		self:SetItem(closestQuestLink, closestQuestTexture)
 	elseif(self:IsShown()) then
 		self:RemoveItem()
