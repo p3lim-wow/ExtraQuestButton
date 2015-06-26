@@ -1,3 +1,9 @@
+### Changed in 60200.5-Beta:
+
+- Added: Items that should specifically used on creatures
+- Added: Midsummer Festival areas
+- Changed: Update Interface version
+
 ### Changed in 60100.4-Beta:
 
 - Changed: Updated untracked quest items
