@@ -30,6 +30,13 @@ ns.questAreas = {
 
 -- Quests items with incorrect or missing quest area blobs
 ns.itemAreas = {
+	-- Global
+	[34862] = true,
+	[34833] = true,
+
+	-- Ashenvale
+	[35237] = 43,
+
 	-- Thousand Needles
 	[56011] = 61,
 
