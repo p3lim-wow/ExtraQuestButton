@@ -45,10 +45,14 @@ ns.itemAreas = {
 
 	-- The Jade Forest
 	[84157] = 806,
+	[89769] = 806,
 
 	-- Hellfire Peninsula
 	[28038] = 465,
 	[28132] = 465,
+
+	-- Stormheim
+	[128287] = 1017,
 }
 
 -- Items that needs to be used on specific creatures
