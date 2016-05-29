@@ -75,7 +75,7 @@ end
 
 function Button:PLAYER_TARGET_CHANGED()
 	if(UnitExists('target')) then
-		local creatureID = tonumber(string.match(UnitGUID('target') or '', 'Creature%-.-%-.-%-.-%-.-%-(.-)%-'))
+		local creatureID = tonumber(string.match(UnitGUID('target') or '', '%w+%-.-%-.-%-.-%-.-%-(.-)%-'))
 		local itemID = ns.creatureSpecific[creatureID]
 		if(itemID and GetItemCount(itemID) > 0) then
 			local _, link, _, _, _, _, _, _, _, texture = GetItemInfo(itemID)
