@@ -1,3 +1,8 @@
+### Changes in 70000.6-Release:
+
+- Changed: Update Interface version
+- Changed: Updated quest database
+
 ### Changed in 60200.5-Beta:
 
 - Added: Items that should specifically used on creatures
