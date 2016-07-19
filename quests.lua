@@ -33,6 +33,7 @@ ns.itemAreas = {
 	-- Global
 	[34862] = true,
 	[34833] = true,
+	[39700] = true,
 
 	-- Ashenvale
 	[35237] = 43,
