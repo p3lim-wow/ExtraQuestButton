@@ -35,6 +35,10 @@ ns.itemAreas = {
 	[34833] = true,
 	[39700] = true,
 
+	-- Deepholm
+	[58167] = 640,
+	[60490] = 640,
+
 	-- Ashenvale
 	[35237] = 43,
 
@@ -54,6 +58,9 @@ ns.itemAreas = {
 
 	-- Stormheim
 	[128287] = 1017,
+
+	-- Dalaran (Broken Isles)
+	[129047] = 1105,
 }
 
 -- Items that needs to be used on specific creatures
