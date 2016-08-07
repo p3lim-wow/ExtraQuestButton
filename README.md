@@ -1,7 +1,7 @@
 # ExtraQuestButton
 
 This is an addon for the popular MMORPG "World of Warcraft".  
-It can be downloaded at [Curse](http://curse.com/addons/wow/extraquestbutton) or at [WoWInterface](http://wowinterface.com/downloads/info23464).
+It can be downloaded at [Curse](//mods.curse.com/addons/wow/extraquestbutton) or at [WoWInterface](//wowinterface.com/downloads/info23464).
 
 ## Description
 
@@ -16,7 +16,7 @@ It uses the same keybinding as the Extra*Action*Button, and it's even anchored t
 You can also move it manually by unlocking it with `/eqb` (`/eqb reset` to reset).
 
 If both the Extra*Action*Button and the Extra*Quest*Button are to be shown, the Extra*Action*Button takes precedence, and the transition looks something like this:  
-![](https://i.imgur.com/QJm7CBx.gif)
+![](//i.imgur.com/QJm7CBx.gif)
 
 ## Feedback
 
@@ -26,4 +26,4 @@ If you would like to report a bug or contribute to the project, please follow [t
 
 ## Legal
 
-Please see the [LICENSE](https://github.com/p3lim-wow/ExtraQuestButton/blob/master/LICENSE.txt) file.
+Please see the [LICENSE](//github.com/p3lim-wow/ExtraQuestButton/blob/master/LICENSE.txt) file.
