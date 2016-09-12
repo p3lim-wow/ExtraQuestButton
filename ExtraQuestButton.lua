@@ -146,6 +146,10 @@ function Button:PLAYER_LOGIN()
 	self:RegisterEvent('QUEST_WATCH_LIST_CHANGED')
 	self:RegisterEvent('PLAYER_TARGET_CHANGED')
 	self:RegisterEvent('QUEST_ACCEPTED')
+
+	if(not WorldMapFrame:IsShown()) then
+		SetMapToCurrentZone()
+	end
 end
 
 local worldQuests = {}
