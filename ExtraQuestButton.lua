@@ -1,9 +1,9 @@
 local addonName, ns = ...
 
-local Button = CreateFrame('Button', addonName, UIParent, 'SecureActionButtonTemplate, SecureHandlerStateTemplate, SecureHandlerAttributeTemplate')
-Button:SetMovable(true)
-Button:RegisterEvent('PLAYER_LOGIN')
-Button:SetScript('OnEvent', function(self, event, ...)
+local ExtraQuestButton = CreateFrame('Button', addonName, UIParent, 'SecureActionButtonTemplate, SecureHandlerStateTemplate, SecureHandlerAttributeTemplate')
+ExtraQuestButton:SetMovable(true)
+ExtraQuestButton:RegisterEvent('PLAYER_LOGIN')
+ExtraQuestButton:SetScript('OnEvent', function(self, event, ...)
 	if(self[event]) then
 		self[event](self, event, ...)
 	elseif(self:IsEnabled()) then
@@ -39,7 +39,7 @@ local onAttributeChanged = [[
 	end
 ]]
 
-function Button:BAG_UPDATE_COOLDOWN()
+function ExtraQuestButton:BAG_UPDATE_COOLDOWN()
 	if(self:IsShown() and self:IsEnabled()) then
 		local start, duration, enable = GetItemCooldown(self.itemID)
 		if(duration > 0) then
@@ -51,7 +51,7 @@ function Button:BAG_UPDATE_COOLDOWN()
 	end
 end
 
-function Button:BAG_UPDATE_DELAYED()
+function ExtraQuestButton:BAG_UPDATE_DELAYED()
 	self:Update()
 
 	if(self:IsShown() and self:IsEnabled()) then
@@ -60,20 +60,19 @@ function Button:BAG_UPDATE_DELAYED()
 	end
 end
 
-function Button:PLAYER_REGEN_ENABLED(event)
+function ExtraQuestButton:PLAYER_REGEN_ENABLED(event)
 	self:SetAttribute('item', self.attribute)
 	self:UnregisterEvent(event)
 	self:BAG_UPDATE_COOLDOWN()
 end
 
-function Button:UPDATE_BINDINGS()
+function ExtraQuestButton:UPDATE_BINDINGS()
 	if(self:IsShown() and self:IsEnabled()) then
 		self:SetItem()
 		self:SetAttribute('binding', GetTime())
 	end
 end
-
-function Button:PLAYER_TARGET_CHANGED()
+function ExtraQuestButton:PLAYER_TARGET_CHANGED()
 	if(UnitExists('target')) then
 		local creatureID = tonumber(string.match(UnitGUID('target') or '', '%w+%-.-%-.-%-.-%-.-%-(.-)%-'))
 		local itemID = ns.creatureSpecific[creatureID]
@@ -88,8 +87,7 @@ function Button:PLAYER_TARGET_CHANGED()
 	self.locked = false
 	self:Update()
 end
-
-function Button:PLAYER_LOGIN()
+function ExtraQuestButton:PLAYER_LOGIN()
 	RegisterStateDriver(self, 'visible', visibilityState)
 	self:SetAttribute('_onattributechanged', onAttributeChanged)
 	self:SetAttribute('type', 'item')
@@ -153,7 +151,7 @@ function Button:PLAYER_LOGIN()
 end
 
 local worldQuests = {}
-function Button:QUEST_REMOVED(event, questID)
+function ExtraQuestButton:QUEST_REMOVED(event, questID)
 	if(worldQuests[questID]) then
 		worldQuests[questID] = nil
 
@@ -161,7 +159,7 @@ function Button:QUEST_REMOVED(event, questID)
 	end
 end
 
-function Button:QUEST_ACCEPTED(event, questLogIndex, questID)
+function ExtraQuestButton:QUEST_ACCEPTED(event, questLogIndex, questID)
 	if(questID and not IsQuestBounty(questID) and IsQuestTask(questID)) then
 		local _, _, worldQuestType = GetQuestTagInfo(questID)
 		if(worldQuestType and not worldQuests[questID]) then
@@ -172,12 +170,12 @@ function Button:QUEST_ACCEPTED(event, questLogIndex, questID)
 	end
 end
 
-Button:SetScript('OnEnter', function(self)
+ExtraQuestButton:SetScript('OnEnter', function(self)
 	GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
 	GameTooltip:SetHyperlink(self.itemLink)
 end)
 
-Button:SetScript('OnUpdate', function(self, elapsed)
+ExtraQuestButton:SetScript('OnUpdate', function(self, elapsed)
 	if(not self:IsEnabled()) then
 		return
 	end
@@ -218,7 +216,7 @@ Button:SetScript('OnUpdate', function(self, elapsed)
 	end
 end)
 
-Button:SetScript('OnEnable', function(self)
+ExtraQuestButton:SetScript('OnEnable', function(self)
 	RegisterStateDriver(self, 'visible', visibilityState)
 	self:SetAttribute('_onattributechanged', onAttributeChanged)
 	self.Artwork:SetTexture([[Interface\ExtraButton\Default]])
@@ -226,7 +224,7 @@ Button:SetScript('OnEnable', function(self)
 	self:SetItem()
 end)
 
-Button:SetScript('OnDisable', function(self)
+ExtraQuestButton:SetScript('OnDisable', function(self)
 	if(not self:IsMovable()) then
 		self:SetMovable(true)
 	end
@@ -245,7 +243,7 @@ local blacklist = {
 	[109164] = true,
 }
 
-function Button:SetItem(itemLink, texture)
+function ExtraQuestButton:SetItem(itemLink, texture)
 	if(HasExtraActionBar()) then
 		return
 	end
@@ -288,7 +286,7 @@ function Button:SetItem(itemLink, texture)
 	end
 end
 
-function Button:RemoveItem()
+function ExtraQuestButton:RemoveItem()
 	if(InCombatLockdown()) then
 		self.attribute = nil
 		self:RegisterEvent('PLAYER_REGEN_ENABLED')
@@ -423,7 +421,7 @@ local function GetClosestQuestItem()
 end
 
 local ticker
-function Button:Update()
+function ExtraQuestButton:Update()
 	if(not self:IsEnabled() or self.locked) then
 		return
 	end
@@ -437,7 +435,7 @@ function Button:Update()
 
 	if(numItems > 0 and not ticker) then
 		ticker = C_Timer.NewTicker(30, function() -- might want to lower this
-			Button:Update()
+			ExtraQuestButton:Update()
 		end)
 	elseif(numItems == 0 and ticker) then
 		ticker:Cancel()
@@ -445,7 +443,7 @@ function Button:Update()
 	end
 end
 
-local Drag = CreateFrame('Frame', nil, Button)
+local Drag = CreateFrame('Frame', nil, ExtraQuestButton)
 Drag:SetAllPoints()
 Drag:SetFrameStrata('HIGH')
 Drag:EnableMouse(true)
@@ -453,26 +451,26 @@ Drag:RegisterForDrag('LeftButton')
 Drag:Hide()
 
 Drag:SetScript('OnShow', function(self)
-	Button:Disable()
+	ExtraQuestButton:Disable()
 	self:RegisterEvent('PLAYER_REGEN_DISABLED')
 end)
 
 Drag:SetScript('OnHide', function(self)
-	Button:Enable()
+	ExtraQuestButton:Enable()
 	self:UnregisterEvent('PLAYER_REGEN_DISABLED')
 end)
 
 Drag:SetScript('OnEvent', function(self)
 	self:Hide()
-	Button:StopMovingOrSizing()
+	ExtraQuestButton:StopMovingOrSizing()
 end)
 
 Drag:SetScript('OnDragStart', function()
-	Button:StartMoving()
+	ExtraQuestButton:StartMoving()
 end)
 
 Drag:SetScript('OnDragStop', function()
-	Button:StopMovingOrSizing()
+	ExtraQuestButton:StopMovingOrSizing()
 end)
 
 SLASH_ExtraQuestButton1 = '/eqb'
@@ -483,9 +481,9 @@ SlashCmdList.ExtraQuestButton = function(message)
 	end
 
 	if(string.lower(message) == 'reset') then
-		Button:ClearAllPoints()
-		Button:SetPoint('CENTER', ExtraActionButton1)
-		Button:SetMovable(false)
+		ExtraQuestButton:ClearAllPoints()
+		ExtraQuestButton:SetPoint('CENTER', ExtraActionButton1)
+		ExtraQuestButton:SetMovable(false)
 		Drag:Hide()
 
 		print('|cff33ff99ExtraQuestButton:|r', 'Reset to default position.')
@@ -496,6 +494,6 @@ SlashCmdList.ExtraQuestButton = function(message)
 		Drag:Hide()
 	else
 		Drag:Show()
-		Button:Show()
+		ExtraQuestButton:Show()
 	end
 end
