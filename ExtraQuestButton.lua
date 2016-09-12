@@ -145,6 +145,27 @@ function Button:PLAYER_LOGIN()
 	self:RegisterEvent('QUEST_POI_UPDATE')
 	self:RegisterEvent('QUEST_WATCH_LIST_CHANGED')
 	self:RegisterEvent('PLAYER_TARGET_CHANGED')
+	self:RegisterEvent('QUEST_ACCEPTED')
+end
+
+local worldQuests = {}
+function Button:QUEST_REMOVED(event, questID)
+	if(worldQuests[questID]) then
+		worldQuests[questID] = nil
+
+		self:Update()
+	end
+end
+
+function Button:QUEST_ACCEPTED(event, questLogIndex, questID)
+	if(questID and not IsQuestBounty(questID) and IsQuestTask(questID)) then
+		local _, _, worldQuestType = GetQuestTagInfo(questID)
+		if(worldQuestType and not worldQuests[questID]) then
+			worldQuests[questID] = questLogIndex
+
+			self:Update()
+		end
+	end
 end
 
 Button:SetScript('OnEnter', function(self)
@@ -272,34 +293,34 @@ function Button:RemoveItem()
 	end
 end
 
-local ticker
-function Button:Update()
-	if(not self:IsEnabled() or self.locked) then
-		return
-	end
-
-	local numItems = 0
-	local shortestDistance = 62500 -- 250 yards²
+local function GetClosestQuestItem()
+	-- Basically a copy of QuestSuperTracking_ChooseClosestQuest from Blizzard_ObjectiveTracker
 	local closestQuestLink, closestQuestTexture
+	local shortestDistanceSq = math.huge
+	local numItems = 0
 
-	for index = 1, GetNumQuestWatches() do
-		local questID, _, questIndex, _, _, isComplete = GetQuestWatchInfo(index)
-		if(questID and QuestHasPOIInfo(questID)) then
-			local link, texture, _, showCompleted = GetQuestLogSpecialItemInfo(questIndex)
+	-- XXX: this API seems to be broken, we're tracking shit manually for now
+	--[[
+	for index = 1, GetNumWorldQuestWatches() do
+		local questID = GetWorldQuestWatchInfo(index)
+		if(questID) then
+			local questLogIndex = GetQuestLogIndexByID(questID)
+			local itemLink, texture, _, showCompleted = GetQuestLogSpecialItemInfo(questLogIndex)
 			if(link) then
 				local areaID = ns.questAreas[questID]
 				if(not areaID) then
 					areaID = ns.itemAreas[tonumber(string.match(link, 'item:(%d+)'))]
 				end
 
+				local _, _, _, _, _, isComplete = GetQuestLogTitle(questLogIndex)
 				if(areaID and (type(areaID) == 'boolean' or areaID == GetCurrentMapAreaID())) then
-					closestQuestLink = link
+					closestQuestLink = itemLink
 					closestQuestTexture = texture
 				elseif(not isComplete or (isComplete and showCompleted)) then
-					local distanceSq, onContinent = GetDistanceSqToQuest(questIndex)
-					if(onContinent and distanceSq < shortestDistance) then
-						shortestDistance = distanceSq
-						closestQuestLink = link
+					local distanceSq = C_TaskQuest.GetDistanceSqToQuest(questID)
+					if(distanceSq and distanceSq <= shortestDistanceSq) then
+						shortestDistanceSq = distanceSq
+						closestQuestLink = itemLink
 						closestQuestTexture = texture
 					end
 				end
@@ -308,9 +329,104 @@ function Button:Update()
 			end
 		end
 	end
+	--]]
 
-	if(closestQuestLink) then
-		self:SetItem(closestQuestLink, closestQuestTexture)
+	-- XXX: temporary solution for the above
+	for questID, questLogIndex in next, worldQuests do
+		local itemLink, texture, _, showCompleted = GetQuestLogSpecialItemInfo(questLogIndex)
+		if(itemLink) then
+			local areaID = ns.questAreas[questID]
+			if(not areaID) then
+				areaID = ns.itemAreas[tonumber(string.match(itemLink, 'item:(%d+)'))]
+			end
+
+			local _, _, _, _, _, isComplete = GetQuestLogTitle(questLogIndex)
+			if(areaID and (type(areaID) == 'boolean' or areaID == GetCurrentMapAreaID())) then
+				closestQuestLink = itemLink
+				closestQuestTexture = texture
+			elseif(not isComplete or (isComplete and showCompleted)) then
+				local distanceSq = C_TaskQuest.GetDistanceSqToQuest(questID)
+				if(distanceSq and distanceSq <= shortestDistanceSq) then
+					shortestDistanceSq = distanceSq
+					closestQuestLink = itemLink
+					closestQuestTexture = texture
+				end
+			end
+
+			numItems = numItems + 1
+		end
+	end
+
+	if(not closestQuestLink) then
+		for index = 1, GetNumQuestWatches() do
+			local questID, _, questLogIndex, _, _, isComplete = GetQuestWatchInfo(index)
+			if(questID and QuestHasPOIInfo(questID)) then
+				local itemLink, texture, _, showCompleted = GetQuestLogSpecialItemInfo(questLogIndex)
+				if(itemLink) then
+					local areaID = ns.questAreas[questID]
+					if(not areaID) then
+						areaID = ns.itemAreas[tonumber(string.match(itemLink, 'item:(%d+)'))]
+					end
+
+					if(areaID and (type(areaID) == 'boolean' or areaID == GetCurrentMapAreaID())) then
+						closestQuestLink = itemLink
+						closestQuestTexture = texture
+					elseif(not isComplete or (isComplete and showCompleted)) then
+						local distanceSq, onContinent = GetDistanceSqToQuest(questLogIndex)
+						if(onContinent and distanceSq <= shortestDistanceSq) then
+							shortestDistanceSq = distanceSq
+							closestQuestLink = itemLink
+							closestQuestTexture = texture
+						end
+					end
+
+					numItems = numItems + 1
+				end
+			end
+		end
+	end
+
+	if(not closestQuestLink) then
+		for questLogIndex = 1, GetNumQuestLogEntries() do
+			local _, _, _, isHeader, _, isComplete, _, questID = GetQuestLogTitle(questLogIndex)
+			if(not isHeader and QuestHasPOIInfo(questID)) then
+				local itemLink, texture, _, showCompleted = GetQuestLogSpecialItemInfo(questLogIndex)
+				if(itemLink) then
+					local areaID = ns.questAreas[questID]
+					if(not areaID) then
+						areaID = ns.itemAreas[tonumber(string.match(itemLink, 'item:(%d+)'))]
+					end
+
+					if(areaID and (type(areaID) == 'boolean' or areaID == GetCurrentMapAreaID())) then
+						closestQuestLink = itemLink
+						closestQuestTexture = texture
+					elseif(not isComplete or (isComplete and showCompleted)) then
+						local distanceSq, onContinent = GetDistanceSqToQuest(questLogIndex)
+						if(onContinent and distanceSq <= shortestDistanceSq) then
+							shortestDistanceSq = distanceSq
+							closestQuestLink = itemLink
+							closestQuestTexture = texture
+						end
+					end
+
+					numItems = numItems + 1
+				end
+			end
+		end
+	end
+
+	return closestQuestLink, closestQuestTexture, numItems
+end
+
+local ticker
+function Button:Update()
+	if(not self:IsEnabled() or self.locked) then
+		return
+	end
+
+	local itemLink, texture, numItems = GetClosestQuestItem()
+	if(itemLink) then
+		self:SetItem(itemLink, texture)
 	elseif(self:IsShown()) then
 		self:RemoveItem()
 	end
