@@ -72,21 +72,7 @@ function ExtraQuestButton:UPDATE_BINDINGS()
 		self:SetAttribute('binding', GetTime())
 	end
 end
-function ExtraQuestButton:PLAYER_TARGET_CHANGED()
-	if(UnitExists('target')) then
-		local creatureID = tonumber(string.match(UnitGUID('target') or '', '%w+%-.-%-.-%-.-%-.-%-(.-)%-'))
-		local itemID = ns.creatureSpecific[creatureID]
-		if(itemID and GetItemCount(itemID) > 0) then
-			local _, link, _, _, _, _, _, _, _, texture = GetItemInfo(itemID)
-			self.locked = true
-			self:SetItem(link, texture)
-			return
-		end
-	end
 
-	self.locked = false
-	self:Update()
-end
 function ExtraQuestButton:PLAYER_LOGIN()
 	RegisterStateDriver(self, 'visible', visibilityState)
 	self:SetAttribute('_onattributechanged', onAttributeChanged)
@@ -135,14 +121,12 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	self.Artwork = Artwork
 
 	self:RegisterEvent('UPDATE_BINDINGS')
-	self:RegisterEvent('UPDATE_EXTRA_ACTIONBAR')
 	self:RegisterEvent('BAG_UPDATE_COOLDOWN')
 	self:RegisterEvent('BAG_UPDATE_DELAYED')
 	self:RegisterEvent('WORLD_MAP_UPDATE')
 	self:RegisterEvent('QUEST_LOG_UPDATE')
 	self:RegisterEvent('QUEST_POI_UPDATE')
 	self:RegisterEvent('QUEST_WATCH_LIST_CHANGED')
-	self:RegisterEvent('PLAYER_TARGET_CHANGED')
 	self:RegisterEvent('QUEST_ACCEPTED')
 
 	if(not WorldMapFrame:IsShown()) then
