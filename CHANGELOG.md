@@ -1,3 +1,9 @@
+### Changes in 70000.7-Release:
+
+- Added: Support for World Quests
+- Changed: Updated quest database
+- Fixed: Map not being set correct on login (Blizzard bug)
+
 ### Changes in 70000.6-Release:
 
 - Changed: Update Interface version
