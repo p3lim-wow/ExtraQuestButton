@@ -282,7 +282,7 @@ end
 local function GetClosestQuestItem()
 	-- Basically a copy of QuestSuperTracking_ChooseClosestQuest from Blizzard_ObjectiveTracker
 	local closestQuestLink, closestQuestTexture
-	local shortestDistanceSq = math.huge
+	local shortestDistanceSq = 62500 -- 250 yards²
 	local numItems = 0
 
 	-- XXX: this API seems to be broken, we're tracking shit manually for now
