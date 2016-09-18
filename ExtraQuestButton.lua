@@ -331,8 +331,8 @@ local function GetClosestQuestItem()
 				closestQuestLink = itemLink
 				closestQuestTexture = texture
 			elseif(not isComplete or (isComplete and showCompleted)) then
-				local distanceSq = C_TaskQuest.GetDistanceSqToQuest(questID)
-				if(distanceSq and distanceSq <= shortestDistanceSq) then
+				local distanceSq, onContinent = GetDistanceSqToQuest(questLogIndex)
+				if(onContinent and distanceSq <= shortestDistanceSq) then
 					shortestDistanceSq = distanceSq
 					closestQuestLink = itemLink
 					closestQuestTexture = texture
