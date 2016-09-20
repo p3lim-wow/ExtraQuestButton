@@ -1,3 +1,7 @@
+### Changes in 70000.8-Release:
+
+- Fixed: Items from other zones showing up
+
 ### Changes in 70000.7-Release:
 
 - Added: Support for World Quests
