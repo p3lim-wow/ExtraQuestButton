@@ -16,7 +16,7 @@ It uses the same keybinding as the Extra*Action*Button, and it's even anchored t
 You can also move it manually by unlocking it with `/eqb` (`/eqb reset` to reset).
 
 If both the Extra*Action*Button and the Extra*Quest*Button are to be shown, the Extra*Action*Button takes precedence, and the transition looks something like this:  
-![](//i.imgur.com/QJm7CBx.gif)
+![](https://i.imgur.com/QJm7CBx.gif)
 
 ## Feedback
 
