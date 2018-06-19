@@ -4,6 +4,9 @@
 ## Title: ExtraQuestButton
 ## Notes: An extra button for quest items!
 
+## X-Curse-Project-ID: 88865
+## X-WoWI-ID: 23464
+
 quests.lua
 
 ExtraQuestButton.lua
