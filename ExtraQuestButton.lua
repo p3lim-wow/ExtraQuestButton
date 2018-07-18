@@ -265,7 +265,7 @@ function ExtraQuestButton:SetItem(itemLink, texture)
 		self.attribute = self.itemName
 		self:RegisterEvent('PLAYER_REGEN_ENABLED')
 	else
-		self:SetAttribute('item', self.itemName)
+		self:SetAttribute('item', 'item:' .. self.itemID)
 		self:BAG_UPDATE_COOLDOWN()
 	end
 end
