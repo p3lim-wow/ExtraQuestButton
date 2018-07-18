@@ -123,15 +123,12 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	self:RegisterEvent('UPDATE_BINDINGS')
 	self:RegisterEvent('BAG_UPDATE_COOLDOWN')
 	self:RegisterEvent('BAG_UPDATE_DELAYED')
-	self:RegisterEvent('WORLD_MAP_UPDATE')
 	self:RegisterEvent('QUEST_LOG_UPDATE')
 	self:RegisterEvent('QUEST_POI_UPDATE')
 	self:RegisterEvent('QUEST_WATCH_LIST_CHANGED')
 	self:RegisterEvent('QUEST_ACCEPTED')
-
-	if(not WorldMapFrame:IsShown()) then
-		SetMapToCurrentZone()
-	end
+	self:RegisterEvent('ZONE_CHANGED')
+	self:RegisterEvent('ZONE_CHANGED_NEW_AREA')
 end
 
 local worldQuests = {}
@@ -299,7 +296,7 @@ local function GetClosestQuestItem()
 				end
 
 				local _, _, _, _, _, isComplete = GetQuestLogTitle(questLogIndex)
-				if(areaID and (type(areaID) == 'boolean' or areaID == GetCurrentMapAreaID())) then
+				if(areaID and (type(areaID) == 'boolean' or areaID == C_Map.GetBestMapForUnit('player'))) then
 					closestQuestLink = itemLink
 					closestQuestTexture = texture
 				elseif(not isComplete or (isComplete and showCompleted)) then
@@ -327,7 +324,7 @@ local function GetClosestQuestItem()
 			end
 
 			local _, _, _, _, _, isComplete = GetQuestLogTitle(questLogIndex)
-			if(areaID and (type(areaID) == 'boolean' or areaID == GetCurrentMapAreaID())) then
+			if(areaID and (type(areaID) == 'boolean' or areaID == C_Map.GetBestMapForUnit('player'))) then
 				closestQuestLink = itemLink
 				closestQuestTexture = texture
 			elseif(not isComplete or (isComplete and showCompleted)) then
@@ -354,7 +351,7 @@ local function GetClosestQuestItem()
 						areaID = ns.itemAreas[tonumber(string.match(itemLink, 'item:(%d+)'))]
 					end
 
-					if(areaID and (type(areaID) == 'boolean' or areaID == GetCurrentMapAreaID())) then
+					if(areaID and (type(areaID) == 'boolean' or areaID == C_Map.GetBestMapForUnit('player'))) then
 						closestQuestLink = itemLink
 						closestQuestTexture = texture
 					elseif(not isComplete or (isComplete and showCompleted)) then
@@ -383,7 +380,7 @@ local function GetClosestQuestItem()
 						areaID = ns.itemAreas[tonumber(string.match(itemLink, 'item:(%d+)'))]
 					end
 
-					if(areaID and (type(areaID) == 'boolean' or areaID == GetCurrentMapAreaID())) then
+					if(areaID and (type(areaID) == 'boolean' or areaID == C_Map.GetBestMapForUnit('player'))) then
 						closestQuestLink = itemLink
 						closestQuestTexture = texture
 					elseif(not isComplete or (isComplete and showCompleted)) then
