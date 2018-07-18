@@ -1,3 +1,13 @@
+### Changes in 80000.9-Release:
+
+- Added: Option to scale the button
+- Added: Option to hide the artwork
+- Added: More Darkmoon Faire items
+- Added: Fallback slash command (/extraquestbutton)
+- Changed: Update Interface version
+- Fixed: Map logic for Battle for Azeroth
+- Fixed: Toys being mistaken as quest items
+
 ### Changes in 70000.8-Release:
 
 - Fixed: Items from other zones showing up
