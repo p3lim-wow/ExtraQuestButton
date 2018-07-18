@@ -463,6 +463,7 @@ local function printf(msg, ...)
 end
 
 SLASH_ExtraQuestButton1 = '/eqb'
+SLASH_ExtraQuestButton2 = '/extraquestbutton'
 SlashCmdList.ExtraQuestButton = function(message)
 	local option, value = strsplit(' ', message)
 	option = string.lower(option)
