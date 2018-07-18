@@ -3,6 +3,7 @@
 ## Version: @project-version@
 ## Title: ExtraQuestButton
 ## Notes: An extra button for quest items!
+## SavedVariables: ExtraQuestButtonDB
 
 ## X-Curse-Project-ID: 88865
 ## X-WoWI-ID: 23464

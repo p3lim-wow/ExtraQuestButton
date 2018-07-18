@@ -74,6 +74,8 @@ function ExtraQuestButton:UPDATE_BINDINGS()
 end
 
 function ExtraQuestButton:PLAYER_LOGIN()
+	ExtraQuestButtonDB = ExtraQuestButtonDB or {}
+
 	RegisterStateDriver(self, 'visible', visibilityState)
 	self:SetAttribute('_onattributechanged', onAttributeChanged)
 	self:SetAttribute('type', 'item')
@@ -90,6 +92,7 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	self:SetScript('OnLeave', GameTooltip_Hide)
 	self:SetClampedToScreen(true)
 	self:SetToplevel(true)
+	self:SetScale(ExtraQuestButtonDB.scale or 1)
 
 	self.updateTimer = 0
 	self.rangeTimer = 0
@@ -118,6 +121,7 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	Artwork:SetPoint('CENTER', -2, 0)
 	Artwork:SetSize(256, 128)
 	Artwork:SetTexture([[Interface\ExtraButton\Default]])
+	Artwork:SetShown(not ExtraQuestButtonDB.hideArtwork)
 	self.Artwork = Artwork
 
 	self:RegisterEvent('UPDATE_BINDINGS')
@@ -454,27 +458,48 @@ Drag:SetScript('OnDragStop', function()
 	ExtraQuestButton:StopMovingOrSizing()
 end)
 
+local function printf(msg, ...)
+	print(string.format('|cff33ff99%s:|r', addonName), string.format(msg, ...))
+end
+
 SLASH_ExtraQuestButton1 = '/eqb'
 SlashCmdList.ExtraQuestButton = function(message)
-	if(InCombatLockdown()) then
-		print('|cff33ff99ExtraQuestButton:|r', 'Cannot move during combat.')
-		return
-	end
+	local option, value = strsplit(' ', message)
+	option = string.lower(option)
 
-	if(string.lower(message) == 'reset') then
+	if(option == 'reset') then
 		ExtraQuestButton:ClearAllPoints()
 		ExtraQuestButton:SetPoint('CENTER', ExtraActionButton1)
 		ExtraQuestButton:SetMovable(false)
 		Drag:Hide()
 
-		print('|cff33ff99ExtraQuestButton:|r', 'Reset to default position.')
-		return
-	end
+		printf('Reset to default position.')
+	elseif(option == 'unlock' or option == 'lock') then
+		if(InCombatLockdown()) then
+			printf('Cannot move during combat.')
+		else
+			if(Drag:IsShown()) then
+				Drag:Hide()
+			else
+				Drag:Show()
+				ExtraQuestButton:Show()
+			end
+		end
+	elseif(option == 'texture') then
+		ExtraQuestButtonDB.hideArtwork = not ExtraQuestButtonDB.hideArtwork
+		ExtraQuestButton.Artwork:SetShown(not ExtraQuestButtonDB.hideArtwork)
 
-	if(Drag:IsShown()) then
-		Drag:Hide()
+		printf('Artwork is now %s.', ExtraQuestButtonDB.hideArtwork and 'hidden' or 'shown')
+	elseif(option == 'scale' and tonumber(value)) then
+		ExtraQuestButtonDB.scale = math.max(math.min(tonumber(value), 100), 0) / 100
+		ExtraQuestButton:SetScale(ExtraQuestButtonDB.scale)
+
+		printf('Scale is now %d%%.', ExtraQuestButtonDB.scale * 100)
 	else
-		Drag:Show()
-		ExtraQuestButton:Show()
+		printf('Usage:')
+		printf('/eqb lock        - Locks/unlocks movement')
+		printf('/eqb reset       - Resets position')
+		printf('/eqb texture     - Shows/hides artwork')
+		printf('/eqb scale <num> - Set the scale of the button (0-100)')
 	end
 end
