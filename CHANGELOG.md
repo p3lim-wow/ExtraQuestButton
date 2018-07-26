@@ -1,3 +1,8 @@
+### Changes in 80000.10-Release:
+
+- Fixed: Errors when leaving combat
+- Fixed: Errors when resetting position
+
 ### Changes in 80000.9-Release:
 
 - Added: Option to scale the button
