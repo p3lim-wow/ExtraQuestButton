@@ -272,13 +272,14 @@ function ExtraQuestButtonMixin:Update()
 		return
 	end
 
-	if(self:SetItem(self:GetClosestQuestItem())) then
+	local item = self:GetClosestQuestItem()
+	if(self:SetItem(item)) then
 		self:Reset()
 		self.Icon:SetTexture(GetItemIcon(self:GetItemID()))
 		self.updateRange = ItemHasRange(self:GetItemLink())
 
 		self:UpdateAttributes()
-	elseif(self:IsShown()) then
+	elseif(self:IsShown() and not item) then
 		self:UpdateAttributes()
 	end
 end
@@ -298,7 +299,10 @@ end
 
 function ExtraQuestButtonMixin:QueueAttributeUpdate()
 	self.attributeUpdateQueued = true
-	self:SetAlpha(0) -- fake it 'till we make it
+
+	if(not self:HasItem()) then
+		self:SetAlpha(0) -- fake it 'till we make it
+	end
 
 	if(not self:IsEventRegistered('PLAYER_REGEN_ENABLED')) then
 		self:RegisterEvent('PLAYER_REGEN_ENABLED')
