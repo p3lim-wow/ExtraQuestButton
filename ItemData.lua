@@ -1,7 +1,14 @@
-local _, ns = ...
+local _, itemData = ...
+
+-- Warlords of Draenor intro quest items which inspired this addon
+itemData.itemBlacklist = {
+	[113191] = true,
+	[110799] = true,
+	[109164] = true,
+}
 
 -- Quests with incorrect or missing quest area blobs
-ns.questAreas = {
+itemData.questAreas = {
 	-- Global
 	[24629] = true,
 
@@ -32,7 +39,7 @@ ns.questAreas = {
 }
 
 -- Quests items with incorrect or missing quest area blobs
-ns.itemAreas = {
+itemData.itemAreas = {
 	-- Global
 	[34862] = true,
 	[34833] = true,
