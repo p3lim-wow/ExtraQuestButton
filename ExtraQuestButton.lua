@@ -1,24 +1,39 @@
 local _, itemData = ...
 
+local CONSOLIDATING_POWER = false
+
 local activeWorldQuests = {}
 local onAttributeChanged = [[
-	if(name == 'item') then
-		if(value and not self:IsShown() and not HasExtraActionBar()) then
+	if(name == 'state-combat') then
+		local ExtraActionButton = self:GetFrameRef('ExtraActionButton')
+		if(value == 'true') then
+			ExtraActionButton:Hide()
 			self:Show()
-		elseif(not value) then
+		elseif(HasExtraActionBar()) then
+			ExtraActionButton:Show()
 			self:Hide()
 			self:ClearBindings()
 		end
-	elseif(name == 'state-visible') then
-		if(value == 'show') then
-			self:CallMethod('Update')
-		else
-			self:Hide()
-			self:ClearBindings()
+	else
+		local inCombat = self:GetAttribute('state-combat') == 'true'
+		if(name == 'item') then
+			if(value and not self:IsShown() and (not HasExtraActionBar() or inCombat)) then
+				self:Show()
+			elseif(not value) then
+				self:Hide()
+				self:ClearBindings()
+			end
+		elseif(name == 'state-visible') then
+			if(value == 'show') then
+				self:CallMethod('Update')
+			elseif(not inCombat) then
+				self:Hide()
+				self:ClearBindings()
+			end
 		end
 	end
 
-	if(self:IsShown() and (name == 'item' or name == 'binding')) then
+	if(self:IsShown() and (name == 'item' or name == 'binding' or name == 'state-combat')) then
 		self:ClearBindings()
 
 		local key = GetBindingKey('EXTRAACTIONBUTTON1')
@@ -31,6 +46,7 @@ local onAttributeChanged = [[
 ExtraQuestButtonMixin = {}
 function ExtraQuestButtonMixin:OnLoad()
 	RegisterStateDriver(self, 'visible', '[extrabar][petbattle] hide; show')
+	SecureHandlerSetFrameRef(self, 'ExtraActionButton', ExtraActionButton1)
 
 	self:SetAttribute('_onattributechanged', onAttributeChanged)
 	self:SetAttribute('type', 'item')
@@ -74,6 +90,20 @@ function ExtraQuestButtonMixin:OnEvent(event, ...)
 		if(self:HasItem()) then
 			self:UpdateCount()
 		end
+	elseif(event == 'QUEST_LOG_UPDATE') then
+		CONSOLIDATING_POWER = C_QuestLog.IsOnQuest(44067)
+
+		if(InCombatLockdown()) then
+			self.stateDriverQueued = true
+
+			if(not self:IsEventRegistered('PLAYER_REGEN_ENABLED')) then
+				self:RegisterEvent('PLAYER_REGEN_ENABLED')
+			end
+		else
+			self:UpdateStateDriver()
+		end
+
+		self:Update()
 	elseif(event == 'QUEST_ACCEPTED') then
 		self:AddWorldQuest(...)
 	elseif(event == 'QUEST_REMOVED') then
@@ -91,6 +121,10 @@ function ExtraQuestButtonMixin:OnEvent(event, ...)
 			self.attributeUpdateQueued = false
 			self:UpdateAttributes()
 			self:SetAlpha(1)
+		end
+
+		if(self.stateDriverQueued) then
+			self.stateDriverQueued = false
 		end
 	else
 		self:Update()
@@ -233,7 +267,7 @@ function ExtraQuestButtonMixin:Reset()
 end
 
 function ExtraQuestButtonMixin:Update()
-	if(HasExtraActionBar()) then
+	if(HasExtraActionBar() and not CONSOLIDATING_POWER) then
 		-- don't bother updating, when the extra button disappears this method will be called again
 		return
 	end
@@ -268,6 +302,17 @@ function ExtraQuestButtonMixin:QueueAttributeUpdate()
 
 	if(not self:IsEventRegistered('PLAYER_REGEN_ENABLED')) then
 		self:RegisterEvent('PLAYER_REGEN_ENABLED')
+	end
+end
+
+function ExtraQuestButtonMixin:UpdateStateDriver()
+	if(CONSOLIDATING_POWER and not self:GetAttribute('state-combat')) then
+		-- Consolidating Power, we need to change the display logic
+		RegisterStateDriver(self, 'combat', '[combat] true; false')
+	elseif(not CONSOLIDATING_POWER and self:GetAttribute('state-combat')) then
+		UnregisterStateDriver(self, 'combat')
+		-- we need to reset the state, this doesn't happen by itself
+		self:SetAttribute('state-combat', nil)
 	end
 end
 
