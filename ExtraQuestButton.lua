@@ -132,8 +132,11 @@ function ExtraQuestButtonMixin:OnEvent(event, ...)
 end
 
 function ExtraQuestButtonMixin:OnEnter()
-	GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
-	GameTooltip:SetHyperlink(self:GetItemLink())
+	local itemLink = self:GetItemLink()
+	if(itemLink) then
+		GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
+		GameTooltip:SetHyperlink(itemLink)
+	end
 end
 
 function ExtraQuestButtonMixin:OnUpdate(elapsed)
