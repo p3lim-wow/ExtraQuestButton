@@ -10,12 +10,12 @@
 			<Layer level='ARTWORK'>
 				<FontString name='$parentHotKey' parentKey='HotKey' inherits='NumberFontNormalGray'>
 					<Anchors>
-						<Anchor point='TOPLEFT' x='10' y='-10'/>
+						<Anchor point='TOPLEFT' x='7' y='-7'/>
 					</Anchors>
 				</FontString>
 				<FontString name='$parentCount' parentKey='Count' inherits='NumberFontNormal' justifyH='RIGHT'>
 					<Anchors>
-						<Anchor point='BOTTOMRIGHT' x='-10' y='10'/>
+						<Anchor point='BOTTOMRIGHT' x='-5' y='5'/>
 					</Anchors>
 				</FontString>
 			</Layer>
@@ -23,8 +23,8 @@
 		<Frames>
 			<Cooldown name='$parentCooldown' inherits='CooldownFrameTemplate' parentKey='Cooldown'>
 				<Anchors>
-					<Anchor point='TOPLEFT' x='5' y='-4'/>
-					<Anchor point='BOTTOMRIGHT' x='-5' y='5'/>
+					<Anchor point='TOPLEFT' x='1' y='-1'/>
+					<Anchor point='BOTTOMRIGHT' x='-1' y='1'/>
 				</Anchors>
 			</Cooldown>
 		</Frames>
