@@ -56,18 +56,6 @@ end
 
 function ExtraQuestButtonMixin:OnEvent(event, ...)
 	if(event == 'PLAYER_LOGIN') then
-		-- savedvariables
-		ExtraQuestButtonDB = ExtraQuestButtonDB or {}
-
-		-- default position
-		if(not self:GetPoint()) then
-			self:SetPoint('CENTER', ExtraActionButton1)
-		end
-
-		-- widgets
-		self:SetSize(ExtraActionButton1:GetSize())
-		self:SetScale(ExtraActionButton1:GetScale())
-
 		-- register events
 		self:RegisterEvent('UPDATE_BINDINGS')
 		self:RegisterEvent('BAG_UPDATE_COOLDOWN')
