@@ -69,6 +69,7 @@ Anchor:SetScript('OnEvent', function(self, event)
 		ExtraQuestButton:SetAllPoints(self)
 	elseif(event == 'PLAYER_REGEN_DISABLED') then
 		self:Hide()
+		self:StopMovingOrSizing() -- for good measure
 		printf('Repositioning halted due to combat.')
 	end
 end)
