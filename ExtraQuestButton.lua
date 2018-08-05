@@ -54,6 +54,10 @@ function ExtraQuestButtonMixin:OnLoad()
 	self:RegisterEvent('PLAYER_LOGIN')
 end
 
+function ExtraQuestButtonMixin:PostClick()
+	self:UpdateState()
+end
+
 function ExtraQuestButtonMixin:OnEvent(event, ...)
 	if(event == 'PLAYER_LOGIN') then
 		-- register events
@@ -68,6 +72,7 @@ function ExtraQuestButtonMixin:OnEvent(event, ...)
 		self:RegisterEvent('ZONE_CHANGED') -- Update
 		self:RegisterEvent('ZONE_CHANGED_NEW_AREA') -- Update
 		self:RegisterEvent('VIGNETTES_UPDATED')
+		self:RegisterEvent('CURRENT_SPELL_CAST_CHANGED')
 	elseif(event == 'UPDATE_BINDINGS') then
 		self:UpdateBindings()
 	elseif(event == 'BAG_UPDATE_COOLDOWN') then
@@ -114,6 +119,8 @@ function ExtraQuestButtonMixin:OnEvent(event, ...)
 		if(self.stateDriverQueued) then
 			self.stateDriverQueued = false
 		end
+	elseif(event == 'CURRENT_SPELL_CAST_CHANGED') then
+		self:UpdateState()
 	else
 		self:Update()
 	end
@@ -255,6 +262,7 @@ end
 
 function ExtraQuestButtonMixin:Reset()
 	self.HotKey:SetTextColor(1, 1, 1)
+	self:UpdateState()
 end
 
 function ExtraQuestButtonMixin:Update()
@@ -273,6 +281,10 @@ function ExtraQuestButtonMixin:Update()
 	elseif(self:IsShown() and not item) then
 		self:UpdateAttributes()
 	end
+end
+
+function ExtraQuestButtonMixin:UpdateState()
+	self:SetChecked(IsCurrentItem(self:GetItemID()))
 end
 
 function ExtraQuestButtonMixin:UpdateAttributes()
