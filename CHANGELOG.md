@@ -1,3 +1,13 @@
+### Changes in 80000.11-Release:
+
+- Added: Option to hide the artwork (will also hide it for ExtraActionButton)
+- Changed: Moving the button also moves the ExtraActionButton
+- Changed: Scaling the button also scales the ExtraActionButton
+- Changed: New way to move, scale and hide the artwork (use /eqb)
+- Fixed: Suramar action showing instead of quest item for Consolidating Power world quest
+- Fixed: Missing indication that the item was being used (checked state)
+- Fixed: Various errors
+
 ### Changes in 80000.10-Release:
 
 - Fixed: Errors when leaving combat
