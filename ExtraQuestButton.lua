@@ -120,7 +120,9 @@ function ExtraQuestButtonMixin:OnEvent(event, ...)
 			self.stateDriverQueued = false
 		end
 	elseif(event == 'CURRENT_SPELL_CAST_CHANGED') then
-		self:UpdateState()
+		if(self:IsShown()) then
+			self:UpdateState()
+		end
 	else
 		self:Update()
 	end
