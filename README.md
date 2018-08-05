@@ -5,18 +5,15 @@ It can be downloaded at [Curse](//mods.curse.com/addons/wow/extraquestbutton) or
 
 ## Description
 
-ExtraQuestButton adds a button to the game that will display the most representable quest item for your quests.  
-It is basically replicating the Extra*Action*Button, just for quest items!
+ExtraQuestButton adds a button that will show the quest item for the closest quest with an item.  
+It is basically the Extra*Action*Button of quests!
 
-It was designed to copy the behavior of the quest items for some of the quests in Tanaan Jungle, but for every other quest item in the game.
+Since it's so similar to the Extra*Action*Button, it will use the same keybinding and style, and when you move/scale Extra*Quest*Button you'll move/scale the Extra*Action*Button too.
 
-Now, by "most representable" I mean that it will show the quest item for the quest area that you are closest to, and never unless you are in some range of where it should be used (hardcoded to 250 yards to the center of the quest area).
-
-It uses the same keybinding as the Extra*Action*Button, and it's even anchored to it, so when you move the Extra*Action*Button, Extra*Quest*Button follows suit!  
-You can also move it manually by unlocking it with `/eqb` (`/eqb reset` to reset).
-
-If both the Extra*Action*Button and the Extra*Quest*Button are to be shown, the Extra*Action*Button takes precedence, and the transition looks something like this:  
+If both the Extra*Action*Button and the Extra*Quest*Button should show at the same time, the Extra*Action*Button will be preferred, and the transition between them looks something like this:  
 ![](https://i.imgur.com/QJm7CBx.gif)
+
+Type `/eqb` in the chat to see the options.
 
 ## Feedback
 
