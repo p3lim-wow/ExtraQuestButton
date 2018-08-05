@@ -113,6 +113,7 @@ end
 
 function Anchor:OnEnter()
 	GameTooltip:SetOwner(self, 'ANCHOR_TOP')
+	GameTooltip:SetText(addonName, 1, 1, 1)
 	GameTooltip:AddLine('|cff33ff99Drag|r to move')
 	GameTooltip:AddLine('|cff33ff99Scroll|r to scale')
 	GameTooltip:AddLine('|cff33ff99Right-click|r to toggle artwork')
