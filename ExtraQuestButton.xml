@@ -19,6 +19,14 @@
 					</Anchors>
 				</FontString>
 			</Layer>
+			<Layer level='OVERLAY'>
+				<Texture name='$parentArtwork' parentKey='Artwork' file='Interface\ExtraButton\Default'>
+					<Size x='256' y='128'/>
+					<Anchors>
+						<Anchor point='CENTER' x='-2' y='0'/>
+					</Anchors>
+				</Texture>
+			</Layer>
 		</Layers>
 		<Frames>
 			<Cooldown name='$parentCooldown' inherits='CooldownFrameTemplate' parentKey='Cooldown'>
