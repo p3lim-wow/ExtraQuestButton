@@ -67,18 +67,18 @@ Anchor:SetScript('OnEvent', function(self, event)
 
 		ExtraQuestButton:ClearAllPoints()
 		ExtraQuestButton:SetAllPoints(self)
-	elseif(event == 'PLAYER_REGEN_ENABLED') then
+	elseif(event == 'PLAYER_REGEN_DISABLED') then
 		self:Hide()
 		printf('Repositioning halted due to combat.')
 	end
 end)
 
 function Anchor:OnShow()
-	self:RegisterEvent('PLAYER_REGEN_ENABLED')
+	self:RegisterEvent('PLAYER_REGEN_DISABLED')
 end
 
 function Anchor:OnHide()
-	self:UnregisterEvent('PLAYER_REGEN_ENABLED')
+	self:UnregisterEvent('PLAYER_REGEN_DISABLED')
 end
 
 function Anchor:OnDragStart()
