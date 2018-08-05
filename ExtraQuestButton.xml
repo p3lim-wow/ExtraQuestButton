@@ -40,13 +40,4 @@
 			<!-- <OnHide method='OnHide'/> -->
 		</Scripts>
 	</Button>
-
-	<Frame name='ParentWorldQuestPinTemplate' inherits='WorldMap_WorldQuestPinTemplate' virtual='true'>
-		<Scripts>
-			<OnShow>
-				-- we need to set this here to avoid messing with other pin providers
-				self:SetScalingLimits(1, 0.3, 0.5)
-			</OnShow>
-		</Scripts>
-	</Frame>
 </Ui>
