@@ -33,11 +33,14 @@ function buttonMixin:OnMouseWheel(delta)
 	end
 
 	scale = math.floor((scale + 0.05) * 10) / 10
+	scale = math.max(math.min(scale, 3), 0.2)
 
-	ExtraQuestButtonDB.scale = math.max(math.min(scale, 3), 0.2)
-	self:GetParent():UpdateScale()
+	if(scale ~= ExtraQuestButtonDB.scale) then
+		ExtraQuestButtonDB.scale = scale
+		self:GetParent():UpdateScale()
 
-	printf('Scale is now %d%%.', ExtraQuestButtonDB.scale * 100)
+		printf('Scale is now %d%%.', scale * 100)
+	end
 end
 
 function buttonMixin:OnEnter()
