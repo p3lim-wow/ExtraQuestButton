@@ -96,13 +96,13 @@ Anchor:SetScript('OnEvent', function(self, event)
 		Texture:SetPoint('CENTER')
 		Texture:SetSize(self:GetSize())
 		Texture:SetTexture([[Interface\Icons\INV_Misc_Wrench_01]])
-		Texture:SetVertexColor(0, 2/3, 1/3)
+		Texture:SetVertexColor(2/5, 1, 2/5)
 
 		local Artwork = Button:CreateTexture(nil, 'OVERLAY')
 		Artwork:SetPoint('CENTER', -2, 0)
 		Artwork:SetSize(256, 128)
 		Artwork:SetTexture([[Interface\ExtraButton\Default]])
-		Artwork:SetVertexColor(0, 2/3, 1/3)
+		Artwork:SetVertexColor(2/5, 1, 2/5)
 		self.Artwork = Artwork
 
 		-- update anchor
