@@ -8,6 +8,45 @@ local function printf(msg, ...)
 	print(string.format('|cff33ff99%s:|r', addonName), string.format(msg, ...))
 end
 
+local buttonMixin = {}
+function buttonMixin:OnDragStart()
+	self:GetParent():StartMoving()
+end
+
+function buttonMixin:OnDragStop()
+	self:GetParent():StopMovingOrSizing()
+end
+
+function buttonMixin:OnClick()
+	ExtraQuestButtonDB.artwork = not ExtraQuestButtonDB.artwork
+	self:GetParent():UpdateArtwork()
+
+	printf('Artwork is now %s.', ExtraQuestButtonDB.artwork and 'shown' or 'hidden')
+end
+
+function buttonMixin:OnMouseWheel(delta)
+	local scale = ExtraQuestButtonDB.scale
+	if(delta > 0) then
+		scale = scale + 0.1
+	else
+		scale = scale - 0.1
+	end
+
+	ExtraQuestButtonDB.scale = math.max(math.min(scale, 3), 0)
+	self:GetParent():UpdateScale()
+
+	printf('Scale is now %d%%.', ExtraQuestButtonDB.scale * 100)
+end
+
+function buttonMixin:OnEnter()
+	GameTooltip:SetOwner(self, 'ANCHOR_TOP')
+	GameTooltip:SetText(addonName, 1, 1, 1)
+	GameTooltip:AddLine('|cff33ff99Drag|r to move')
+	GameTooltip:AddLine('|cff33ff99Scroll|r to scale')
+	GameTooltip:AddLine('|cff33ff99Right-click|r to toggle artwork')
+	GameTooltip:Show()
+end
+
 local Anchor = CreateFrame('Button', 'ExtraQuestButtonAnchor', UIParent)
 Anchor:Hide()
 Anchor:SetMovable(true)
@@ -29,24 +68,31 @@ Anchor:SetScript('OnEvent', function(self, event)
 		self:EnableMouseWheel(true)
 		self:SetClampedToScreen(true)
 		self:SetFrameStrata('HIGH')
-		self:RegisterForDrag('LeftButton')
-		self:RegisterForClicks('RightButtonUp')
-		self:SetSize(ExtraActionButton1:GetSize())
-
+		self:SetSize(52, 52) -- default ExtraActionButton1 size
 		self:SetScript('OnShow', self.OnShow)
 		self:SetScript('OnHide', self.OnHide)
-		self:SetScript('OnEnter', self.OnEnter)
-		self:SetScript('OnLeave', GameTooltip_Hide)
-		self:SetScript('OnDragStart', self.OnDragStart)
-		self:SetScript('OnDragStop', self.OnDragStop)
-		self:SetScript('OnClick', self.OnClick)
-		self:SetScript('OnMouseWheel', self.OnMouseWheel)
 
-		local Texture = self:CreateTexture()
-		Texture:SetAllPoints()
+		-- add overlapping button for the anchor that we'll parent textures to
+		-- so that when we scale the points it won't "nudge" the anchor (see issue #15)
+		local Button = CreateFrame('Button', nil, self)
+		Button:SetSize(52, 52)
+		Button:SetPoint('CENTER')
+		Button:RegisterForDrag('LeftButton')
+		Button:RegisterForClicks('RightButtonUp')
+		Button:SetScript('OnEnter', buttonMixin.OnEnter)
+		Button:SetScript('OnLeave', GameTooltip_Hide)
+		Button:SetScript('OnDragStart', buttonMixin.OnDragStart)
+		Button:SetScript('OnDragStop', buttonMixin.OnDragStop)
+		Button:SetScript('OnClick', buttonMixin.OnClick)
+		Button:SetScript('OnMouseWheel', buttonMixin.OnMouseWheel)
+		self.Button = Button
+
+		local Texture = Button:CreateTexture()
+		Texture:SetPoint('CENTER')
+		Texture:SetSize(self:GetSize())
 		Texture:SetColorTexture(0, 2/3, 1/3)
 
-		local Artwork = self:CreateTexture(nil, 'OVERLAY')
+		local Artwork = Button:CreateTexture(nil, 'OVERLAY')
 		Artwork:SetPoint('CENTER', -2, 0)
 		Artwork:SetSize(256, 128)
 		Artwork:SetTexture([[Interface\ExtraButton\Default]])
@@ -61,12 +107,14 @@ Anchor:SetScript('OnEvent', function(self, event)
 			self:SetPoint('BOTTOM', 0, 160)
 		end
 
-		-- re-anchor buttons
+		-- re-anchor/size buttons
 		ExtraActionButton1:ClearAllPoints()
-		ExtraActionButton1:SetAllPoints(self)
+		ExtraActionButton1:SetPoint('CENTER', self)
+		ExtraActionButton1:SetSize(self:GetSize())
 
 		ExtraQuestButton:ClearAllPoints()
-		ExtraQuestButton:SetAllPoints(self)
+		ExtraQuestButton:SetPoint('CENTER', self)
+		ExtraQuestButton:SetSize(self:GetSize())
 	elseif(event == 'PLAYER_REGEN_DISABLED') then
 		self:Hide()
 		self:StopMovingOrSizing() -- for good measure
@@ -82,47 +130,11 @@ function Anchor:OnHide()
 	self:UnregisterEvent('PLAYER_REGEN_DISABLED')
 end
 
-function Anchor:OnDragStart()
-	self:StartMoving()
-end
-
-function Anchor:OnDragStop()
-	self:StopMovingOrSizing()
-end
-
-function Anchor:OnClick(button)
-	ExtraQuestButtonDB.artwork = not ExtraQuestButtonDB.artwork
-	self:UpdateArtwork()
-
-	printf('Artwork is now %s.', ExtraQuestButtonDB.artwork and 'shown' or 'hidden')
-end
-
-function Anchor:OnMouseWheel(delta)
-	local scale = ExtraQuestButtonDB.scale
-	if(delta > 0) then
-		scale = scale + 0.1
-	else
-		scale = scale - 0.1
-	end
-
-	ExtraQuestButtonDB.scale = math.max(math.min(scale, 3), 0)
-	self:UpdateScale()
-
-	printf('Scale is now %d%%.', ExtraQuestButtonDB.scale * 100)
-end
-
-function Anchor:OnEnter()
-	GameTooltip:SetOwner(self, 'ANCHOR_TOP')
-	GameTooltip:SetText(addonName, 1, 1, 1)
-	GameTooltip:AddLine('|cff33ff99Drag|r to move')
-	GameTooltip:AddLine('|cff33ff99Scroll|r to scale')
-	GameTooltip:AddLine('|cff33ff99Right-click|r to toggle artwork')
-	GameTooltip:Show()
-end
-
 function Anchor:UpdateScale()
-	self:SetScale(ExtraQuestButtonDB.scale)
-	ExtraActionButton1:SetScale(ExtraQuestButtonDB.scale)
+	local scale = ExtraQuestButtonDB.scale
+	self.Button:SetScale(scale)
+	ExtraQuestButton:SetScale(scale)
+	ExtraActionButton1:SetScale(scale)
 end
 
 function Anchor:UpdateArtwork()
