@@ -32,6 +32,8 @@ function buttonMixin:OnMouseWheel(delta)
 		scale = scale - 0.1
 	end
 
+	scale = math.floor((scale + 0.05) * 10) / 10
+
 	ExtraQuestButtonDB.scale = math.max(math.min(scale, 3), 0.2)
 	self:GetParent():UpdateScale()
 
