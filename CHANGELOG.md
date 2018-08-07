@@ -1,3 +1,13 @@
+### Changes in 80000.12-Release:
+
+- Changed: User is now warned if other addons move ExtraActionButton
+- Changed: Added icon texture to anchor button so it doesn't look like size changes when artwork is toggled
+- Fixed: Button moving while scaling
+- Fixed: Errors when scaling below a 0% (limited to 20% minimum now)
+- Fixed: Excessive chat spam when scaling past limits
+- Fixed: Scaling not rounded to nearest 10%, ending up at e.g. 89%
+- Fixed: Button not following ExtraActionButton positioning from other addons
+
 ### Changes in 80000.11-Release:
 
 - Added: Option to hide the artwork (will also hide it for ExtraActionButton)
