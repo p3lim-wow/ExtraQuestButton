@@ -8,9 +8,17 @@ local function printf(msg, ...)
 	print(string.format('|cff33ff99%s:|r', addonName), string.format(msg, ...))
 end
 
+local function printe(msg, ...)
+	print(string.format('|cffee3333%s:|r', addonName), string.format(msg, ...))
+end
+
 local buttonMixin = {}
 function buttonMixin:OnDragStart()
-	self:GetParent():StartMoving()
+	if(select(2, ExtraActionButton1:GetPoint()) ~= self:GetParent()) then
+		printe('Some other addon is controlling the ExtraActionButton positioning!')
+	else
+		self:GetParent():StartMoving()
+	end
 end
 
 function buttonMixin:OnDragStop()
