@@ -4,6 +4,7 @@ local defaults = {
 	artwork = true,
 }
 
+local DEBUG = false
 local function printf(msg, ...)
 	print(string.format('|cff33ff99%s:|r', addonName), string.format(msg, ...))
 end
@@ -14,8 +15,14 @@ end
 
 local buttonMixin = {}
 function buttonMixin:OnDragStart()
-	if(select(2, ExtraActionButton1:GetPoint()) ~= self:GetParent()) then
+	local anchor = select(2, ExtraActionButton1:GetPoint())
+	if(anchor ~= self:GetParent()) then
 		printe('Some other addon is controlling the ExtraActionButton positioning!')
+
+		if(DEBUG) then
+			printe('DEBUG: EAB Anchor: %s', anchor:GetDebugName())
+			printe('DEBUG: EAB Parent Anchor: %s', select(2, ExtraActionBarFrame:GetPoint()):GetDebugName())
+		end
 	else
 		self:GetParent():StartMoving()
 	end
@@ -188,6 +195,9 @@ SlashCmdList.ExtraQuestButton = function(msg)
 		Anchor:Reset()
 	elseif(option == 'unlock' or option == 'lock') then
 		Anchor:Toggle()
+	elseif(option == 'debug') then
+		DEBUG = not DEBUG
+		printe('Debugging %s.', DEBUG and 'enabled' or 'disabled')
 	else
 		printf('Usage:')
 		printf('/eqb lock  - Locks/unlocks position')
