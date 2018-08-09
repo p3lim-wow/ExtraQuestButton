@@ -1,3 +1,8 @@
+### Changes in 80000.13-Release:
+
+- Changed: Now respects the position of ExtraActionBarFrame (might need a /eqb reset)
+- Changed: Updated quest database
+
 ### Changes in 80000.12-Release:
 
 - Changed: User is now warned if other addons move ExtraActionButton
