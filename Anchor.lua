@@ -16,7 +16,8 @@ end
 local buttonMixin = {}
 function buttonMixin:OnDragStart()
 	local anchor = select(2, ExtraActionButton1:GetPoint())
-	if(anchor ~= self:GetParent()) then
+	if(anchor ~= self:GetParent() or not UIPARENT_MANAGED_FRAME_POSITIONS.ExtraActionBarFrame or ExtraActionBarFrame.ignoreFramePositionManager) then
+		-- respect other addons position
 		printe('Some other addon is controlling the ExtraActionButton positioning!')
 
 		if(DEBUG) then
@@ -125,7 +126,7 @@ Anchor:SetScript('OnEvent', function(self, event)
 		self:UpdateArtwork()
 
 		if(not self:GetPoint()) then
-			self:SetPoint('BOTTOM', 0, 160)
+			self:SetPoint('CENTER', ExtraActionBarFrame)
 		end
 
 		-- re-anchor/size buttons
@@ -171,7 +172,7 @@ function Anchor:Reset()
 	self:UpdateScale()
 	self:UpdateArtwork()
 	self:ClearAllPoints()
-	self:SetPoint('BOTTOM', 0, 160)
+	self:SetPoint('CENTER', ExtraActionBarFrame)
 
 	printf('Reset to default.')
 end
