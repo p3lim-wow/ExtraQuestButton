@@ -7,7 +7,7 @@ itemData.itemBlacklist = {
 	[109164] = true,
 }
 
--- Quests with incorrect or missing quest area blobs
+-- Quests with incorrect or missing quest area blobs (questID = mapID)
 itemData.questAreas = {
 	-- Global
 	[24629] = true,
@@ -38,7 +38,7 @@ itemData.questAreas = {
 	[25577] = 198,
 }
 
--- Quests items with incorrect or missing quest area blobs
+-- Quests items with incorrect or missing quest area blobs (itemID = mapID)
 itemData.itemAreas = {
 	-- Global
 	[34862] = true,
