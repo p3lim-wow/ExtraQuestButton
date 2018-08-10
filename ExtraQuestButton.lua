@@ -205,7 +205,7 @@ local function GetQuestDistanceAndItemLink(questLogIndex)
 		local itemLink, _, _, showCompleted = GetQuestLogSpecialItemInfo(questLogIndex)
 		if(not itemLink) then
 			local itemID = itemData.questItems[questID]
-			if(itemID) then
+			if(itemID and GetItemCount(itemID) > 0) then
 				_, itemLink = GetItemInfo(itemID)
 				showCompleted = false
 			end
