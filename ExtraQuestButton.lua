@@ -200,10 +200,18 @@ end
 
 local function GetQuestDistanceAndItemLink(questLogIndex)
 	-- returns the distance to the quest area and the item link if the quest has an item
-	local itemLink, _, _, showCompleted = GetQuestLogSpecialItemInfo(questLogIndex)
-	if(itemLink) then
-		local _, _, _, isHeader, _, isComplete, _, questID = GetQuestLogTitle(questLogIndex)
-		if(not isHeader) then
+	local _, _, _, isHeader, _, isComplete, _, questID = GetQuestLogTitle(questLogIndex)
+	if(not isHeader) then
+		local itemLink, _, _, showCompleted = GetQuestLogSpecialItemInfo(questLogIndex)
+		if(not itemLink) then
+			local itemID = itemData.questItems[questID]
+			if(itemID) then
+				_, itemLink = GetItemInfo(itemID)
+				showCompleted = false
+			end
+		end
+
+		if(itemLink) then
 			local areaID = itemData.questAreas[questID]
 			if(not areaID) then
 				areaID = itemData.itemAreas[(GetItemInfoFromHyperlink(itemLink))]

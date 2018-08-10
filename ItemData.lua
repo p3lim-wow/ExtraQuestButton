@@ -101,3 +101,9 @@ itemData.itemAreas = {
 	-- Suramar
 	[133882] = 680,
 }
+
+-- Items not properly flagged as a special quest item (questID = itemID)
+itemData.questItems = {
+	-- Grizzly Hills
+	[11982] = 35734,
+}
