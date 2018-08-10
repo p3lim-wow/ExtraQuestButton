@@ -387,4 +387,9 @@ end
 function ExtraQuestButtonMixin:UpdateCount()
 	local num = GetItemCount(self:GetItemLink())
 	self.Count:SetText(num and num > 1 and num or '')
+
+	if(num == 0) then
+		-- we probably don't want the item showing any more, let's update to be sure
+		self:Update()
+	end
 end
