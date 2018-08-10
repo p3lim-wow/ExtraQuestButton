@@ -88,6 +88,14 @@ itemData.itemAreas = {
 	[38699] = 121,
 	[41390] = 121,
 
+	-- Grizzly Hills
+	[38083] = 116,
+	[35797] = 116,
+	[37716] = 116,
+	[35739] = 116,
+	[36851] = 116,
+	-- [36859] = 116,
+
 	-- Dalaran (Broken Isles)
 	[129047] = 625,
 
@@ -110,6 +118,7 @@ itemData.questItems = {
 	[12007] = 35797,
 	[12802] = 35797,
 	[12068] = 35797,
+	[12137] = 36859,
 }
 
 -- Items from the above list that needs to be showed when the quest is completed (itemID = flag)
