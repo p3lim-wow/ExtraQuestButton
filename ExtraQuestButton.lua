@@ -209,12 +209,14 @@ local function GetQuestDistanceAndItemLink(questLogIndex)
 				areaID = itemData.itemAreas[(GetItemInfoFromHyperlink(itemLink))]
 			end
 
-			if(areaID and (type(areaID) == 'boolean' or areaID == C_Map.GetBestMapForUnit('player'))) then
-				return 62500, itemLink -- "maximum" distance, basically lowest priority
-			elseif(QuestHasPOIInfo(questID) and (not isComplete or (isComplete and showCompleted))) then
-				local distanceSq, onContinent = GetDistanceSqToQuest(questLogIndex)
-				if(onContinent) then
-					return distanceSq, itemLink
+			if(not isComplete or (isComplete and showCompleted)) then
+				if(areaID and (type(areaID) == 'boolean' or areaID == C_Map.GetBestMapForUnit('player'))) then
+					return 62500, itemLink -- "maximum" distance, basically lowest priority
+				elseif(QuestHasPOIInfo(questID)) then
+					local distanceSq, onContinent = GetDistanceSqToQuest(questLogIndex)
+					if(onContinent) then
+						return distanceSq, itemLink
+					end
 				end
 			end
 		end
