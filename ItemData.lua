@@ -106,4 +106,13 @@ itemData.itemAreas = {
 itemData.questItems = {
 	-- Grizzly Hills
 	[11982] = 35734,
+	[11991] = 35797,
+	[12007] = 35797,
+	[12802] = 35797,
+	[12068] = 35797,
+}
+
+-- Items from the above list that needs to be showed when the quest is completed (itemID = flag)
+itemData.questItemsShowComplete = {
+	[35797] = true
 }
