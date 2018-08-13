@@ -169,12 +169,32 @@ function ExtraQuestButtonMixin:OnUpdate(elapsed)
 	end
 end
 
-function ExtraQuestButtonMixin:SetItem(itemLink)
-	self:SetItemLink(itemLink)
-	self:SetItemID((GetItemInfoFromHyperlink(itemLink or '')))
+local itemIDs = setmetatable({}, {
+	-- caching itemLinks to itemIDs
+	__index = function(t, item)
+		if(type(item) == 'number') then
+			t[item] = item
+			return item
+		elseif(type(item) ~= 'string') then
+			t[item] = false
+			return
+		end
 
+		local itemID = GetItemInfoFromHyperlink(item)
+		t[item] = itemID
+		return itemID
+	end
+})
+
+function ExtraQuestButtonMixin:SetItem(itemLink)
 	if(itemLink) then
+		self:SetItemLink(itemLink)
+		self:SetItemID(itemIDs[itemLink])
+
 		return not itemData.itemBlacklist[self:GetItemID()]
+	else
+		self.itemID = nil
+		self.itemLink = nil
 	end
 end
 
