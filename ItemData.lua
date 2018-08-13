@@ -44,6 +44,10 @@ itemData.itemAreas = {
 	[34862] = true,
 	[34833] = true,
 	[39700] = true,
+	[155915] = true,
+	[156474] = true,
+	[156477] = true,
+	[155918] = true,
 
 	-- Deepholm
 	[58167] = 207,
