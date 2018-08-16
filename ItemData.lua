@@ -100,6 +100,9 @@ itemData.itemAreas = {
 	[36851] = 116,
 	-- [36859] = 116,
 
+	-- Icecrown
+	[41265] = 170,
+
 	-- Dalaran (Broken Isles)
 	[129047] = 625,
 
