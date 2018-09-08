@@ -115,6 +115,9 @@ itemData.itemAreas = {
 
 	-- Suramar
 	[133882] = 680,
+
+	-- Tiragarde Sound
+	[154878] = 895
 }
 
 -- Items not properly flagged as a special quest item (questID = itemID)
