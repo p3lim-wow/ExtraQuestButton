@@ -1,3 +1,14 @@
+### Changes in 80100.14-Release:
+
+- Changed: Hide items for completed quests unless the game tells us otherwise
+- Changed: Cache items for a slight performance gain
+- Changed: Database updates
+- Changed: Update Interface version
+- Fixed: Some items are not properly flagged as part of a quest by Blizzard
+- Fixed: Items the player doesn't have showing up as quest items
+- Fixed: Button still showing after all the charges of an item has been used
+- Fixed: Certain items not showing up after completing the quest objectives
+
 ### Changes in 80000.13-Release:
 
 - Changed: Now respects the position of ExtraActionBarFrame (might need a /eqb reset)
