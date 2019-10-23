@@ -36,9 +36,12 @@ local onAttributeChanged = [[
 	if(self:IsShown() and (name == 'item' or name == 'binding' or name == 'state-combat')) then
 		self:ClearBindings()
 
-		local key = GetBindingKey('EXTRAACTIONBUTTON1')
-		if(key) then
-			self:SetBindingClick(1, key, self, 'LeftButton')
+		local key1, key2 = GetBindingKey('EXTRAACTIONBUTTON1')
+		if(key1) then
+			self:SetBindingClick(1, key1, self, 'LeftButton')
+		end
+		if(key2) then
+			self:SetBindingClick(2, key2, self, 'LeftButton')
 		end
 	end
 ]]
