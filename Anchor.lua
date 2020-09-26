@@ -4,29 +4,13 @@ local defaults = {
 	artwork = true,
 }
 
-local DEBUG = false
 local function printf(msg, ...)
 	print(string.format('|cff33ff99%s:|r', addonName), string.format(msg, ...))
 end
 
-local function printe(msg, ...)
-	print(string.format('|cffee3333%s:|r', addonName), string.format(msg, ...))
-end
-
 local buttonMixin = {}
 function buttonMixin:OnDragStart()
-	local anchor = select(2, ExtraActionButton1:GetPoint())
-	if(anchor ~= self:GetParent() or not UIPARENT_MANAGED_FRAME_POSITIONS.ExtraActionBarFrame or ExtraActionBarFrame.ignoreFramePositionManager) then
-		-- respect other addons position
-		printe('Some other addon is controlling the ExtraActionButton positioning!')
-
-		if(DEBUG) then
-			printe('DEBUG: EAB Anchor: %s', anchor:GetDebugName())
-			printe('DEBUG: EAB Parent Anchor: %s', select(2, ExtraActionBarFrame:GetPoint()):GetDebugName())
-		end
-	else
-		self:GetParent():StartMoving()
-	end
+	self:GetParent():StartMoving(true)
 end
 
 function buttonMixin:OnDragStop()
@@ -97,7 +81,7 @@ Anchor:SetScript('OnEvent', function(self, event)
 		-- so that when we scale the points it won't "nudge" the anchor (see issue #15)
 		local Button = CreateFrame('Button', nil, self)
 		Button:SetSize(52, 52)
-		Button:SetPoint('CENTER', ExtraActionButton1)
+		Button:SetPoint('CENTER')
 		Button:RegisterForDrag('LeftButton')
 		Button:RegisterForClicks('RightButtonUp')
 		Button:SetScript('OnEnter', buttonMixin.OnEnter)
@@ -129,12 +113,7 @@ Anchor:SetScript('OnEvent', function(self, event)
 			self:SetPoint('CENTER', ExtraActionBarFrame)
 		end
 
-		-- re-anchor/size buttons
-		ExtraActionButton1:ClearAllPoints()
-		ExtraActionButton1:SetPoint('CENTER', self)
-		ExtraActionButton1:SetSize(self:GetSize())
-
-		ExtraQuestButton:SetAllPoints(ExtraActionButton1)
+		ExtraQuestButton:SetAllPoints(self)
 	elseif(event == 'PLAYER_REGEN_DISABLED') then
 		self:Hide()
 		self:StopMovingOrSizing() -- for good measure
@@ -154,14 +133,12 @@ function Anchor:UpdateScale()
 	local scale = ExtraQuestButtonDB.scale
 	self.Button:SetScale(scale)
 	ExtraQuestButton:SetScale(scale)
-	ExtraActionButton1:SetScale(scale)
 end
 
 function Anchor:UpdateArtwork()
 	local state = ExtraQuestButtonDB.artwork
 	self.Artwork:SetShown(state)
 	ExtraQuestButton.Artwork:SetShown(state)
-	ExtraActionButton1.style:SetShown(state)
 end
 
 function Anchor:Reset()
@@ -196,9 +173,6 @@ SlashCmdList.ExtraQuestButton = function(msg)
 		Anchor:Reset()
 	elseif(option == 'unlock' or option == 'lock') then
 		Anchor:Toggle()
-	elseif(option == 'debug') then
-		DEBUG = not DEBUG
-		printe('Debugging %s.', DEBUG and 'enabled' or 'disabled')
 	else
 		printf('Usage:')
 		printf('/eqb lock  - Locks/unlocks position')
