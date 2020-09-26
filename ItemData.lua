@@ -18,6 +18,9 @@ itemData.questAreas = {
 	-- Northern Barrens
 	[13998] = 11,
 
+	-- Desolace
+	[14246] = 66,
+
 	-- Un'Goro Crater
 	[24735] = 78,
 
@@ -36,6 +39,9 @@ itemData.questAreas = {
 
 	-- Mount Hyjal
 	[25577] = 198,
+
+	-- Ardenwald
+	[60575] = 1565, -- reported on beta
 }
 
 -- Quests items with incorrect or missing quest area blobs (itemID = mapID)
