@@ -1,418 +1,271 @@
-local _, itemData = ...
+local addonName, ns = ...
+local mixins = ns.mixins
+local itemData = ns.itemData
 
-local CONSOLIDATING_POWER = false
+local ATTRIBUTE_HANDLER = [[
+	local bindingParent = '%s'
 
-local activeWorldQuests = {}
-local onAttributeChanged = [[
-	if(name == 'state-combat') then
-		local ExtraActionButton = self:GetFrameRef('ExtraActionButton')
-		if(value == 'true') then
-			ExtraActionButton:Hide()
+	print('attribute update', name, value)
+
+	if name == 'item' then
+		-- update when the item attribute changes
+		if value and not self:IsShown() and not (bindingParent == 'EXTRAACTIONBUTTON1' and HasExtraActionBar()) then
 			self:Show()
-		elseif(HasExtraActionBar()) then
-			ExtraActionButton:Show()
+		elseif not value then
 			self:Hide()
 			self:ClearBindings()
 		end
-	else
-		local inCombat = self:GetAttribute('state-combat') == 'true'
-		if(name == 'item') then
-			if(value and not self:IsShown() and (not HasExtraActionBar() or inCombat)) then
-				self:Show()
-			elseif(not value) then
-				self:Hide()
-				self:ClearBindings()
-			end
-		elseif(name == 'state-visible') then
-			if(value == 'show') then
-				self:CallMethod('Update')
-			elseif(not inCombat) then
-				self:Hide()
-				self:ClearBindings()
-			end
+	elseif name == 'state-visible' then
+		-- there is (or was) a pet battle
+		if value == 'show' then
+			-- trigger an update to check if we should show an item
+			self:CallMethod('UpdateState')
+			self:Show()
+		else
+			self:Hide()
+			self:ClearBindings()
 		end
 	end
 
-	if(self:IsShown() and (name == 'item' or name == 'binding' or name == 'state-combat')) then
+	if self:IsShown() then
 		self:ClearBindings()
 
-		local key1, key2 = GetBindingKey('EXTRAACTIONBUTTON1')
-		if(key1) then
+		local key1, key2 = GetBindingKey(bindingParent)
+		if key1 then
 			self:SetBindingClick(1, key1, self, 'LeftButton')
 		end
-		if(key2) then
+		if key2 then
 			self:SetBindingClick(2, key2, self, 'LeftButton')
 		end
 	end
 ]]
 
-ExtraQuestButtonMixin = {}
-function ExtraQuestButtonMixin:OnLoad()
-	RegisterStateDriver(self, 'visible', '[extrabar][petbattle] hide; show')
-	SecureHandlerSetFrameRef(self, 'ExtraActionButton', ExtraActionButton1)
+local Anchor = CreateFrame('CheckButton', addonName .. 'Anchor', UIParent)
+Mixin(Anchor, mixins.EventHandler, mixins.QuestButton, mixins.Anchor)
+Anchor:OnLoad()
 
-	self:SetAttribute('_onattributechanged', onAttributeChanged)
+local ExtraQuestButton = CreateFrame('CheckButton', addonName, UIParent, 'QuickKeybindButtonTemplate, SecureActionButtonTemplate, SecureHandlerStateTemplate, SecureHandlerAttributeTemplate')
+Mixin(ExtraQuestButton, mixins.EventHandler, mixins.QuestButton)
+ExtraQuestButton:SetAllPoints(Anchor)
+
+function ExtraQuestButton:OnLoad()
+	-- trigger inherited loaders
+	mixins.QuestButton.OnLoad(self)
+	mixins.EventHandler.OnLoad(self)
+
+	-- set action type
 	self:SetAttribute('type', 'item')
 
-	self:RegisterEvent('PLAYER_LOGIN')
+	-- register events for updating displayed data
+	self:RegisterEvent('UPDATE_BINDINGS', self.UpdateBinding)
+	self:RegisterEvent('BAG_UPDATE_DELAYED', self.UpdateCount)
+	self:RegisterEvent('BAG_UPDATE_COOLDOWN', self.UpdateCooldown)
+
+	-- VIGNETTES_UPDATED will trigger approx every 2 seconds while not in range of a quest area
+	-- due to the minimap POI, which is perfect for out updating criteria
+	self:RegisterEvent('VIGNETTES_UPDATED', self.UpdateState)
+
+	-- quest and tracking related events that should cover all we need
+	self:RegisterEvent('QUEST_LOG_UPDATE', self.UpdateState)
+	self:RegisterEvent('QUEST_POI_UPDATE', self.UpdateState)
+	self:RegisterEvent('QUEST_WATCH_LIST_CHANGED', self.UpdateState)
+	self:RegisterEvent('ZONE_CHANGED', self.UpdateState)
+	self:RegisterEvent('ZONE_CHANGED_NEW_AREA', self.UpdateState)
+	self:RegisterEvent('WAYPOINT_UPDATE', self.UpdateState)
+	self:RegisterEvent('BAG_UPDATE_DELAYED', self.UpdateState)
+
+	-- some items are used directly on targets
+	self:RegisterEvent('PLAYER_TARGET_CHANGED', self.UpdateTarget)
 end
 
-function ExtraQuestButtonMixin:PostClick()
-	self:UpdateState()
-end
+function ExtraQuestButton:UpdateBinding()
+	local key = GetBindingKey(ExtraQuestButtonDB.copyBindings and 'EXTRAACTIONBUTTON1' or addonName)
+	self:SetHotkey(key and GetBindingText(key, 1))
 
-function ExtraQuestButtonMixin:OnEvent(event, ...)
-	if(event == 'PLAYER_LOGIN') then
-		-- register events
-		self:RegisterEvent('UPDATE_BINDINGS')
-		self:RegisterEvent('BAG_UPDATE_COOLDOWN')
-		self:RegisterEvent('BAG_UPDATE_DELAYED')
-		self:RegisterEvent('QUEST_LOG_UPDATE') -- Update
-		self:RegisterEvent('QUEST_POI_UPDATE') -- Update
-		self:RegisterEvent('QUEST_WATCH_LIST_CHANGED') -- Update
-		self:RegisterEvent('QUEST_ACCEPTED')
-		self:RegisterEvent('QUEST_REMOVED')
-		self:RegisterEvent('ZONE_CHANGED') -- Update
-		self:RegisterEvent('ZONE_CHANGED_NEW_AREA') -- Update
-		self:RegisterEvent('VIGNETTES_UPDATED')
-		self:RegisterEvent('CURRENT_SPELL_CAST_CHANGED')
-	elseif(event == 'UPDATE_BINDINGS') then
-		self:UpdateBindings()
-	elseif(event == 'BAG_UPDATE_COOLDOWN') then
-		if(self:IsShown() and self:HasItem()) then
-			self:UpdateCooldown()
-		end
-	elseif(event == 'BAG_UPDATE_DELAYED') then
-		if(self:HasItem()) then
-			self:UpdateCount()
-		end
-	elseif(event == 'QUEST_LOG_UPDATE') then
-		CONSOLIDATING_POWER = C_QuestLog.IsOnQuest(44067)
+	if not InCombatLockdown() then
+		-- reset state driver
+		UnregisterStateDriver(self, 'visible')
 
-		if(InCombatLockdown()) then
-			self.stateDriverQueued = true
-
-			if(not self:IsEventRegistered('PLAYER_REGEN_ENABLED')) then
-				self:RegisterEvent('PLAYER_REGEN_ENABLED')
-			end
+		-- update the state driver and attribute handler
+		if ExtraQuestButtonDB.copyBindings then
+			RegisterStateDriver(self, 'visible','[extrabar][petbattle] hide; show')
+			self:SetAttribute('_onattributechanged', ATTRIBUTE_HANDLER:format('EXTRAACTIONBUTTON1'))
 		else
-			self:UpdateStateDriver()
+			RegisterStateDriver(self, 'visible','[petbattle] hide; show')
+			self:SetAttribute('_onattributechanged', ATTRIBUTE_HANDLER:format(addonName))
 		end
 
-		self:Update()
-	elseif(event == 'QUEST_ACCEPTED') then
-		self:AddWorldQuest(...)
-	elseif(event == 'QUEST_REMOVED') then
-		self:RemoveWorldQuest(...)
-	elseif(event == 'VIGNETTES_UPDATED') then
-		-- this will fire every 2 seconds not in range of a quest area due to the minimap POI,
-		-- which is perfect for our updating needs and update criteria
-		if(not self:IsShown()) then
-			self:Update()
-		end
-	elseif(event == 'PLAYER_REGEN_ENABLED') then
-		self:UnregisterEvent(event)
+		-- trigger a state update for the binding
+		self:SetAttribute('binding', GetTime())
 
-		if(self.attributeUpdateQueued) then
-			self.attributeUpdateQueued = false
-			self:UpdateAttributes()
-			self:SetAlpha(1)
-		end
-
-		if(self.stateDriverQueued) then
-			self.stateDriverQueued = false
-		end
-	elseif(event == 'CURRENT_SPELL_CAST_CHANGED') then
-		if(self:IsShown()) then
-			self:UpdateState()
+		-- unregister in case we came from combat
+		if self:IsEventRegistered('PLAYER_REGEN_ENABLED') then
+			self:UnregisterEvent('PLAYER_REGEN_ENABLED', self.UpdateBinding)
 		end
 	else
-		self:Update()
+		self:RegisterEvent('PLAYER_REGEN_ENABLED', self.UpdateBinding)
 	end
 end
 
-function ExtraQuestButtonMixin:OnEnter()
+function ExtraQuestButton:UpdateCount()
+	if self:HasItem() then
+		local count = GetItemCount(self:GetItemLink())
+		self:SetCount(count and count > 1 and count)
+
+		if count == 0 then
+			-- trigger an update since we have no items left
+			self:UpdateState()
+		end
+	end
+end
+
+function ExtraQuestButton:UpdateCooldown()
+	if self:HasItem() then
+		local start, duration, enable = GetItemCooldown(self:GetItemID())
+		if duration > 0 then
+			self:SetCooldown(start, duration)
+		else
+			self:ClearCooldown()
+		end
+	end
+end
+
+function ExtraQuestButton:UpdateTooltip()
 	local itemLink = self:GetItemLink()
-	if(itemLink) then
+	if itemLink then
 		GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
 		GameTooltip:SetHyperlink(itemLink)
 	end
 end
 
-function ExtraQuestButtonMixin:OnUpdate(elapsed)
-	if(updateRange) then
-		if((self.rangeTimer or 0) > TOOLTIP_UPDATE_TIME) then
-			local HotKey = self.HotKey
+function ExtraQuestButton:UpdateState()
+	local itemLink = self:GetTargetItem()
+	if not itemLink then
+		itemLink = ns:GetClosestQuestItem()
+	end
 
-			-- BUG: IsItemInRange() is broken versus friendly targets
-			local inRange = IsItemInRange(self:GetItemLink(), 'target')
-			if(inRange == false) then
-				HotKey:SetTextColor(1, 0.1, 0.1)
-			else
-				HotKey:SetTextColor(0.6, 0.6, 0.6)
-			end
-
-			if(HotKey:GetText() == RANGE_INDICATOR) then
-				HotKey:SetShown(inRange ~= nil)
-			else
-				HotKey:Show()
-			end
-
-			self.rangeTimer = 0
-		else
-			self.rangeTimer = (self.rangeTimer or 0) + elapsed
+	if itemLink then
+		if itemLink ~= self:GetItemLink() then
+			self:SetItem(itemLink)
 		end
-	end
-
-	if((self.updateTimer or 0) > 5) then
-		self:Update()
-		self.updateTimer = 0
-	else
-		self.updateTimer = (self.updateTimer or 0) + elapsed
-	end
-end
-
-local itemIDs = setmetatable({}, {
-	-- caching itemLinks to itemIDs
-	__index = function(t, item)
-		if(type(item) == 'number') then
-			t[item] = item
-			return item
-		elseif(type(item) ~= 'string') then
-			t[item] = false
-			return
-		end
-
-		local itemID = GetItemInfoFromHyperlink(item)
-		t[item] = itemID
-		return itemID
-	end
-})
-
-function ExtraQuestButtonMixin:SetItem(itemLink)
-	if(itemLink) then
-		self:SetItemLink(itemLink)
-		self:SetItemID(itemIDs[itemLink])
-
-		return not itemData.itemBlacklist[self:GetItemID()]
-	else
-		self.itemID = nil
-		self.itemLink = nil
-	end
-end
-
-function ExtraQuestButtonMixin:HasItem()
-	return not not self.itemID
-end
-
-function ExtraQuestButtonMixin:SetItemLink(itemLink)
-	self.itemLink = itemLink
-end
-
-function ExtraQuestButtonMixin:GetItemLink()
-	return self.itemLink
-end
-
-function ExtraQuestButtonMixin:SetItemID(itemID)
-	self.itemID = itemID
-end
-
-function ExtraQuestButtonMixin:GetItemID()
-	return self.itemID
-end
-
-local function GetQuestDistanceAndItemLink(questLogIndex)
-	-- returns the distance to the quest area and the item link if the quest has an item
-	local _, _, _, isHeader, _, isComplete, _, questID = GetQuestLogTitle(questLogIndex)
-	if(not isHeader) then
-		local itemLink, _, _, showCompleted = GetQuestLogSpecialItemInfo(questLogIndex)
-		if(not itemLink) then
-			local itemID = itemData.questItems[questID]
-			if(itemID and GetItemCount(itemID) > 0) then
-				_, itemLink = GetItemInfo(itemID)
-				showCompleted = itemData.questItemsShowComplete[itemID]
-			end
-		end
-
-		if(itemLink) then
-			local areaID = itemData.questAreas[questID]
-			if(not areaID) then
-				areaID = itemData.itemAreas[(GetItemInfoFromHyperlink(itemLink))]
-			end
-
-			if(not isComplete or (isComplete and showCompleted)) then
-				if(areaID and (type(areaID) == 'boolean' or areaID == C_Map.GetBestMapForUnit('player'))) then
-					return 62500, itemLink -- "maximum" distance, basically lowest priority
-				elseif(QuestHasPOIInfo(questID)) then
-					local distanceSq, onContinent = GetDistanceSqToQuest(questLogIndex)
-					if(onContinent) then
-						return distanceSq, itemLink
-					end
-				end
-			end
-		end
-	end
-end
-
-function ExtraQuestButtonMixin:GetClosestQuestItem()
-	-- iterate through world, watched and normal quests to find the closest one with an item
-	local closestItemLink
-	-- we can only get the distance to the center of the blob, so we only get the one the player
-	-- is closest to the center of, and we limit this to a certain distance
-	local shortestDistanceSq = 62500 -- start at 250 sq yards
-
-	for _, questLogIndex in next, activeWorldQuests do
-		local distanceSq, itemLink = GetQuestDistanceAndItemLink(questLogIndex)
-		if(distanceSq and distanceSq <= shortestDistanceSq) then
-			shortestDistanceSq = distanceSq
-			closestItemLink = itemLink
-		end
-	end
-
-	if(not closestItemLink) then
-		for index = 1, GetNumQuestWatches() do
-			local _, _, questLogIndex = GetQuestWatchInfo(index)
-			if(questLogIndex) then
-				local distanceSq, itemLink = GetQuestDistanceAndItemLink(questLogIndex)
-				if(distanceSq and distanceSq <= shortestDistanceSq) then
-					shortestDistanceSq = distanceSq
-					closestItemLink = itemLink
-				end
-			end
-		end
-	end
-
-	if(not closestItemLink) then
-		for questLogIndex = 1, GetNumQuestLogEntries() do
-			local distanceSq, itemLink = GetQuestDistanceAndItemLink(questLogIndex)
-			if(distanceSq and distanceSq <= shortestDistanceSq) then
-				shortestDistanceSq = distanceSq
-				closestItemLink = itemLink
-			end
-		end
-	end
-
-	return closestItemLink
-end
-
-function ExtraQuestButtonMixin:Reset()
-	self.HotKey:SetTextColor(1, 1, 1)
-	self:UpdateState()
-end
-
-function ExtraQuestButtonMixin:Update()
-	if(HasExtraActionBar() and not CONSOLIDATING_POWER) then
-		-- don't bother updating, when the extra button disappears this method will be called again
-		return
-	end
-
-	local item = self:GetClosestQuestItem()
-	if(self:SetItem(item)) then
+	elseif self:IsShown() then
 		self:Reset()
-		self.Icon:SetTexture(GetItemIcon(self:GetItemID()))
-		self.updateRange = ItemHasRange(self:GetItemLink())
-
-		self:UpdateAttributes()
-	elseif(self:IsShown() and not item) then
-		self:UpdateAttributes()
 	end
 end
 
-function ExtraQuestButtonMixin:UpdateState()
-	self:SetChecked(IsCurrentItem(self:GetItemID()))
-end
-
-function ExtraQuestButtonMixin:UpdateAttributes()
-	if(InCombatLockdown()) then
-		return self:QueueAttributeUpdate()
+function ExtraQuestButton:UpdateTarget()
+	local npcID = ns:GetNPCID('target')
+	if npcID then
+		local targetItemID = itemData.targetItems[npcID]
+		if targetItemID then
+			if GetItemCount(targetItemID) > 0 then
+				self:SetTargetItem(targetItemID)
+				self:UpdateState()
+				return
+			end
+		end
 	end
 
-	if(self:HasItem()) then
+	if self:GetTargetItem() then
+		-- there's no npc ID or valid target item, we need to reset
+		self:SetTargetItem()
+		self:UpdateState()
+	end
+end
+
+function ExtraQuestButton:SetTargetItem(itemID)
+	if itemID then
+		-- need to turn this into an item link
+		local _, itemLink = GetItemInfo(itemID)
+		itemID = itemLink
+	end
+
+	self.targetItem = itemID
+end
+
+function ExtraQuestButton:GetTargetItem()
+	return self.targetItem
+end
+
+function ExtraQuestButton:UpdateAttributes()
+	if InCombatLockdown() then
+		-- can't update attributes in combat
+		self:QueueAttributeUpdate()
+		return
+	else
+		self:SetAlpha(1)
+	end
+
+	if self:HasItem() then
 		self:SetAttribute('item', 'item:' .. self:GetItemID())
 		self:UpdateCooldown()
 	else
 		self:SetAttribute('item', nil)
+		self:ClearCooldown()
+	end
+
+	return true -- to unregister the attribute queue
+end
+
+function ExtraQuestButton:QueueAttributeUpdate()
+	if not self:HasItem() and self:IsShown() then
+		-- pretend like it's gone already
+		self:SetAlpha(0)
+	end
+
+	if not self:IsEventRegistered('PLAYER_REGEN_ENABLED') then
+		self:RegisterEvent('PLAYER_REGEN_ENABLED', self.UpdateAttributes)
 	end
 end
 
-function ExtraQuestButtonMixin:QueueAttributeUpdate()
-	self.attributeUpdateQueued = true
+function ExtraQuestButton:SetItem(itemLink)
+	self.itemLink = itemLink
+	self.itemID = GetItemInfoFromHyperlink(itemLink)
 
-	if(not self:HasItem()) then
-		self:SetAlpha(0) -- fake it 'till we make it
-	end
+	self:SetTexture(GetItemIcon(itemLink))
+	self:EnableUpdateRange(ItemHasRange(itemLink))
 
-	if(not self:IsEventRegistered('PLAYER_REGEN_ENABLED')) then
-		self:RegisterEvent('PLAYER_REGEN_ENABLED')
-	end
+	self:UpdateAttributes()
+	self:UpdateCount()
 end
 
-function ExtraQuestButtonMixin:UpdateStateDriver()
-	if(CONSOLIDATING_POWER and not self:GetAttribute('state-combat')) then
-		-- Consolidating Power, we need to change the display logic
-		RegisterStateDriver(self, 'combat', '[combat] true; false')
-	elseif(not CONSOLIDATING_POWER and self:GetAttribute('state-combat')) then
-		UnregisterStateDriver(self, 'combat')
-		-- we need to reset the state, this doesn't happen by itself
-		self:SetAttribute('state-combat', nil)
-	end
+function ExtraQuestButton:Reset()
+	self.itemLink = nil
+	self.itemID = nil
+	self:EnableUpdateRange(false)
+
+	self:UpdateAttributes()
 end
 
-function ExtraQuestButtonMixin:AddWorldQuest(questLogIndex, questID)
-	-- world quests are "hidden" in the quest log while active, so we have to track them manually
-	if(questID and not IsQuestBounty(questID) and IsQuestTask(questID)) then
-		local _, _, isWorldQuest = GetQuestTagInfo(questID)
-		if(isWorldQuest) then
-			local updateAfter = not not activeWorldQuests[questID]
-			activeWorldQuests[questID] = questLogIndex
-
-			if(updateAfter) then
-				-- the world quest did not already exist in the list, run a full update
-				self:Update()
-			end
-		end
-	end
+function ExtraQuestButton:HasItem()
+	return not not self.itemLink
 end
 
-function ExtraQuestButtonMixin:RemoveWorldQuest(questID)
-	-- remove if the quest was a world quest, then update
-	if(activeWorldQuests[questID]) then
-		activeWorldQuests[questID] = nil
-		self:Update()
-	end
+function ExtraQuestButton:GetItemLink()
+	return self.itemLink
 end
 
-function ExtraQuestButtonMixin:UpdateBindings()
-	local HotKey = self.HotKey
-	local key = GetBindingKey('EXTRAACTIONBUTTON1')
-	if(key) then
-		HotKey:SetText(GetBindingText(key, 1))
-	else
-		HotKey:SetText(RANGE_INDICATOR)
-	end
-
-	if(self:HasItem()) then
-		-- trigger the secure handler to update the binding
-		self:SetAttribute('binding', GetTime())
-	end
+function ExtraQuestButton:GetItemID()
+	-- some APIs can't handle item links
+	return self.itemID
 end
 
-function ExtraQuestButtonMixin:UpdateCooldown()
-	local start, duration, enable = GetItemCooldown(self:GetItemID())
-	if(duration > 0) then
-		self.Cooldown:SetCooldown(start, duration)
-		self.Cooldown:Show()
-	else
-		self.Cooldown:Hide()
-	end
-end
+-- init
+ExtraQuestButton:OnLoad()
 
-function ExtraQuestButtonMixin:UpdateCount()
-	local num = GetItemCount(self:GetItemLink())
-	self.Count:SetText(num and num > 1 and num or '')
+-- Binding UI global names
+-- BUG: this will taint the binding UI if bindings are changed in combat, no way around it
+BINDING_HEADER_EXTRAQUESTBUTTON = addonName
+BINDING_NAME_EXTRAQUESTBUTTON = addonName
 
-	if(num == 0) then
-		-- we probably don't want the item showing any more, let's update to be sure
-		self:Update()
+-- quick binding support, this + mixin + some customizations to the enter/leave scripts
+hooksecurefunc(ActionButtonUtil, 'SetAllQuickKeybindButtonHighlights', function(show)
+	ExtraQuestButton.commandName = show and addonName:upper() -- the mixin uses this to generate the tooltip
+	ExtraQuestButton.QuickKeybindHighlightTexture:SetShown(show)
+
+	if show and InCombatLockdown() then
+		-- TODO: figure out if we can realistically support this, the problem is that we can't
+		--       update the attributes in combat
+		ns:Print('Can\'t quick bind while in combat, you will see errors!')
 	end
-end
+end)
