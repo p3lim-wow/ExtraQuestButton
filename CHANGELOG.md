@@ -1,3 +1,12 @@
+### Changes in 90000.15-Release:
+
+- Added: Support for items used on specific enemies
+- Added: Support for decoupling keybinding from ExtraActionButton
+- Changed: Decoupled position/scale/binding from ExtraActionButton
+- Changed: Update Interface version
+- Changed: Updated quest/item database
+- Fixed: Shadowlands compatibility
+
 ### Changes in 80100.14-Release:
 
 - Changed: Hide items for completed quests unless the game tells us otherwise
