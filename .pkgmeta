@@ -4,7 +4,8 @@ externals:
   libs/LibStub:
     url: https://repos.curseforge.com/wow/libstub/trunk
     tag: 1.0
-  libs/CallbackHandler-1.0: https://repos.curseforge.com/wow/callbackhandler/trunk/CallbackHandler-1.0
+  libs/CallbackHandler-1.0:
+    url: https://repos.curseforge.com/wow/callbackhandler/trunk/CallbackHandler-1.0
   libs/HereBeDragons:
     url: https://github.com/Nevcairiel/HereBeDragons
     tag: latest
