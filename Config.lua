@@ -6,8 +6,13 @@ local defaults = {
 	copyBindings = true,
 }
 
-local SavedVariables = CreateFromMixins(CreateFrame('Frame'), ns.mixins.EventHandler)
-SavedVariables:RegisterEvent('PLAYER_LOGIN', function()
+local Handler = CreateFrame('Frame')
+Handler:RegisterEvent('ADDON_LOADED')
+Handler:SetScript('OnEvent', function(self, event, addon)
+	if addon ~= addonName then
+		return
+	end
+
 	ExtraQuestButtonDB = ExtraQuestButtonDB or {}
 
 	-- upgrade savedvariables
@@ -17,7 +22,7 @@ SavedVariables:RegisterEvent('PLAYER_LOGIN', function()
 		end
 	end
 
-	return true
+	self:UnregisterEvent(event)
 end)
 
 _G['SLASH_' .. addonName .. '1'] = '/eqb'
