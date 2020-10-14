@@ -5,8 +5,6 @@ local itemData = ns.itemData
 local ATTRIBUTE_HANDLER = [[
 	local bindingParent = '%s'
 
-	print('attribute update', name, value)
-
 	if name == 'item' then
 		-- update when the item attribute changes
 		if value and not self:IsShown() and not (bindingParent == 'EXTRAACTIONBUTTON1' and HasExtraActionBar()) then
