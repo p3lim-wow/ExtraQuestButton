@@ -17,7 +17,6 @@ ItemData.lua
 
 mixins\EventHandlerMixin.lua
 mixins\QuestButtonMixin.lua
-mixins\StateHandlerMixin.lua
 mixins\AnchorMixin.lua
 
 Utils.lua
