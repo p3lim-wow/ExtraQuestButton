@@ -1,3 +1,9 @@
+### Changes in 90000.16-Release:
+
+- Fixed: Incorrect Interface version
+- Fixed: Error from using removed API
+- Removed: Debugging prints
+
 ### Changes in 90000.15-Release:
 
 - Added: Support for items used on specific enemies
