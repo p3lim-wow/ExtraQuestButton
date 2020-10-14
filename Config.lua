@@ -6,9 +6,9 @@ local defaults = {
 	copyBindings = true,
 }
 
-local Handler = CreateFrame('Frame')
-Handler:RegisterEvent('ADDON_LOADED')
-Handler:SetScript('OnEvent', function(self, event, addon)
+local SavedVariables = Mixin(CreateFrame('Frame'), ns.mixins.EventHandler)
+SavedVariables:OnLoad()
+SavedVariables:RegisterEvent('ADDON_LOADED', function(self, addon)
 	if addon ~= addonName then
 		return
 	end
@@ -22,7 +22,7 @@ Handler:SetScript('OnEvent', function(self, event, addon)
 		end
 	end
 
-	self:UnregisterEvent(event)
+	return true
 end)
 
 _G['SLASH_' .. addonName .. '1'] = '/eqb'
