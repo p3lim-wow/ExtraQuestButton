@@ -1,3 +1,7 @@
+### Changes in 90000.18-Release:
+
+- Fixed: Savedvariables not loading properly
+
 ### Changes in 90000.17-Release:
 
 - Fixed: XML warnings for missing file
