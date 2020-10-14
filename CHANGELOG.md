@@ -1,3 +1,7 @@
+### Changes in 90000.17-Release:
+
+- Fixed: XML warnings for missing file
+
 ### Changes in 90000.16-Release:
 
 - Fixed: Incorrect Interface version
