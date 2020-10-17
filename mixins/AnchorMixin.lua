@@ -40,7 +40,7 @@ end
 function AnchorMixin:Initialize()
 	if not self:GetPoint() then
 		-- set default position
-		self:SetPoint('CENTER', ExtraActionBarFrame)
+		self:SetPoint(unpack(ExtraQuestButtonDB.position))
 	end
 
 	self:UpdateScale()
@@ -55,6 +55,7 @@ end
 
 function AnchorMixin:OnDragStop()
 	self:StopMovingOrSizing()
+	ExtraQuestButtonDB.position = {self:GetPoint()}
 end
 
 function AnchorMixin:OnMouseWheel(delta)

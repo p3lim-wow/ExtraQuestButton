@@ -4,6 +4,7 @@ local defaults = {
 	scale = 1,
 	artwork = true,
 	copyBindings = true,
+	position = {'CENTER', 0, -math.floor(select(2, GetPhysicalScreenSize()) / 3)}
 }
 
 local SavedVariables = Mixin(CreateFrame('Frame'), ns.mixins.EventHandler)
