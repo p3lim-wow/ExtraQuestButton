@@ -6,28 +6,6 @@ local sqrt = math.sqrt
 
 local MAX_DISTANCE_YARDS = 1e5
 
--- manually track world quests since the C_QuestLog API doesn't correctly do it :/
-local activeWorldQuests = {}
-local WorldQuestHandler = Mixin(CreateFrame('Frame'), ns.mixins.EventHandler)
-WorldQuestHandler:OnLoad()
-WorldQuestHandler:RegisterEvent('QUEST_ACCEPTED', function(_, questID)
-	if not questID then
-		return
-	end
-
-	if C_QuestLog.IsQuestBounty(questID) or not C_QuestLog.IsQuestTask(questID) then
-		return
-	end
-
-	if C_QuestLog.IsWorldQuest(questID) then
-		activeWorldQuests[questID] = true
-	end
-end)
-
-WorldQuestHandler:RegisterEvent('QUEST_REMOVED', function(_, questID)
-	activeWorldQuests[questID] = nil
-end)
-
 local function GetDistanceSqToPoint(mapID, x, y)
 	local playerMapID = ns:GetCurrentMapID()
 	local position = C_Map.GetPlayerMapPosition(playerMapID, 'player')
@@ -130,14 +108,6 @@ function ns:GetClosestQuestItem()
 		end
 	end
 
-	for questID in next, activeWorldQuests do
-		local distance, itemLink = GetQuestDistanceWithItem(questID)
-		if distance and distance <= closestDistance then
-			closestDistance = distance
-			closestQuestItemLink = itemLink
-		end
-	end
-
 	if not closestQuestItemLink then
 		for index = 1, C_QuestLog.GetNumQuestWatches() do
 			local questID = C_QuestLog.GetQuestIDForQuestWatchIndex(index)
@@ -154,7 +124,7 @@ function ns:GetClosestQuestItem()
 	if not closestQuestItemLink then
 		for index = 1, C_QuestLog.GetNumQuestLogEntries() do
 			local info = C_QuestLog.GetInfo(index)
-			if info and not info.isHeader and not info.isHidden and QuestHasPOIInfo(info.questID) then
+			if info and not info.isHeader and (not info.isHidden or C_QuestLog.IsWorldQuest(info.questID)) and QuestHasPOIInfo(info.questID) then
 				local distance, itemLink = GetQuestDistanceWithItem(info.questID)
 				if distance and distance <= closestDistance then
 					closestDistance = distance
