@@ -4,6 +4,30 @@ local itemData = ns.itemData
 local HBD = LibStub('HereBeDragons-2.0')
 local sqrt = math.sqrt
 
+local MAX_DISTANCE_YARDS = 1e5
+
+-- manually track world quests since the C_QuestLog API doesn't correctly do it :/
+local activeWorldQuests = {}
+local WorldQuestHandler = Mixin(CreateFrame('Frame'), ns.mixins.EventHandler)
+WorldQuestHandler:OnLoad()
+WorldQuestHandler:RegisterEvent('QUEST_ACCEPTED', function(_, questID)
+	if not questID then
+		return
+	end
+
+	if C_QuestLog.IsQuestBounty(questID) or not C_QuestLog.IsQuestTask(questID) then
+		return
+	end
+
+	if C_QuestLog.IsWorldQuest(questID) then
+		activeWorldQuests[questID] = true
+	end
+end)
+
+WorldQuestHandler:RegisterEvent('QUEST_REMOVED', function(_, questID)
+	activeWorldQuests[questID] = nil
+end)
+
 local function GetDistanceSqToPoint(mapID, x, y)
 	local playerMapID = ns:GetCurrentMapID()
 	local position = C_Map.GetPlayerMapPosition(playerMapID, 'player')
@@ -56,24 +80,24 @@ local function GetQuestDistanceWithItem(questID)
 	end
 
 	local distanceSq, onContinent = C_QuestLog.GetDistanceSqToQuest(questID)
-	if onContinent then
-		-- the square root of distanceSq is in yards, much easier to work with
-		return sqrt(distanceSq), itemLink
+	local distanceYd = sqrt(distanceSq) -- the square root of distanceSq is in yards, much easier to work with
+	if distanceYd <= MAX_DISTANCE_YARDS then
+		return distanceYd, itemLink
 	end
 
 	local questMapID = itemData.inaccurateQuestAreas[questID]
 	if questMapID then
 		if type(questMapID) == 'boolean' then
-			return 1e5-1, itemLink
+			return MAX_DISTANCE_YARDS-1, itemLink
 		elseif type(questMapID) == 'number' then
 			if questMapID == ns:GetCurrentMapID() then
-				return 1e5-2, itemLink
+				return MAX_DISTANCE_YARDS-2, itemLink
 			end
 		elseif type(questMapID) == 'table' then
 			local currentMapID = ns:GetCurrentMapID()
 			for _, mapID in next, questMapID do
 				if mapID == currentMapID then
-					return 1e5-2, itemLink
+					return MAX_DISTANCE_YARDS-2, itemLink
 				end
 			end
 		end
@@ -91,9 +115,11 @@ end
 -- adaptation of QuestSuperTracking_ChooseClosestQuest for quests with items
 function ns:GetClosestQuestItem()
 	local closestQuestItemLink
-	local closestDistance = 1e5 -- yards
+	local closestDistance = MAX_DISTANCE_YARDS -- yards
 
 	for index = 1, C_QuestLog.GetNumWorldQuestWatches() do
+		-- this only tracks supertracked worldquests,
+		-- e.g. stuff the player has shift-clicked on the map
 		local questID = C_QuestLog.GetQuestIDForWorldQuestWatchIndex(index)
 		if questID then
 			local distance, itemLink = GetQuestDistanceWithItem(questID)
@@ -101,6 +127,14 @@ function ns:GetClosestQuestItem()
 				closestDistance = distance
 				closestQuestItemLink = itemLink
 			end
+		end
+	end
+
+	for questID in next, activeWorldQuests do
+		local distance, itemLink = GetQuestDistanceWithItem(questID)
+		if distance and distance <= closestDistance then
+			closestDistance = distance
+			closestQuestItemLink = itemLink
 		end
 	end
 
