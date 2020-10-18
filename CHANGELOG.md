@@ -1,3 +1,7 @@
+### Changes in 90000.19-Release:
+
+- Fixed: WorldQuest support
+
 ### Changes in 90000.18-Release:
 
 - Fixed: Savedvariables not loading properly
