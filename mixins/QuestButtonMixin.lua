@@ -27,7 +27,7 @@ local function OnUpdate(self, elapsed)
 		self.rangeTimer = 0
 
 		-- BUG: IsItemInRange() is broken versus friendly targets
-		local inRange = IsItemInRange(self:GetItemLink(), 'target') -- this depends on something external from the mixin, bad?
+		local inRange = IsItemInRange(self:GetItemLink(), 'target')
 		if inRange == false then
 			self.Hotkey:SetTextColor(1, 0.1, 0.1)
 		else
