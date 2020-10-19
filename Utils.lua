@@ -58,8 +58,9 @@ local function GetQuestDistanceWithItem(questID)
 	end
 
 	local distanceSq, onContinent = C_QuestLog.GetDistanceSqToQuest(questID)
-	local distanceYd = sqrt(distanceSq) -- the square root of distanceSq is in yards, much easier to work with
-	if distanceYd <= MAX_DISTANCE_YARDS then
+	 -- the square root of distanceSq is in yards, much easier to work with
+	local distanceYd = distanceSq and sqrt(distanceSq)
+	if distanceYd and distanceYd <= MAX_DISTANCE_YARDS then
 		return distanceYd, itemLink
 	end
 
