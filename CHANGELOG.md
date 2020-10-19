@@ -1,3 +1,9 @@
+### Changes in 90000.20-Release:
+
+- Changed: Bind without needing to change additional options
+- Changed: Updated quest/item database
+- Fixed: Errors when receiving item that has no distance data
+
 ### Changes in 90000.19-Release:
 
 - Fixed: WorldQuest support
