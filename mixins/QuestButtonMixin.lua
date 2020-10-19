@@ -43,7 +43,9 @@ local function OnUpdate(self, elapsed)
 end
 
 local function PostClick(self)
-	self:SetChecked(IsCurrentItem(self:GetItemLink())) -- this depends on something external from the mixin, bad?
+	if self:IsShown() then
+		self:SetChecked(IsCurrentItem(self:GetItemLink()))
+	end
 end
 
 local QuestButtonMixin = {}
@@ -58,7 +60,8 @@ function QuestButtonMixin:OnLoad()
 	self:SetCheckedTexture([[Interface\Buttons\CheckButtonHilight]])
 	self:GetCheckedTexture():SetBlendMode('ADD')
 
-	self:RegisterEvent('CURRENT_SPELL_CAST_CHANGED', PostClick) -- this depends on something external from the mixin, bad?
+	self:RegisterEvent('CURRENT_SPELL_CAST_CHANGED', PostClick)
+	self:RegisterEvent('ACTIONBAR_UPDATE_STATE', PostClick)
 
 	local Texture = self:CreateTexture('$parentIcon', 'BACKGROUND')
 	Texture:SetAllPoints()
