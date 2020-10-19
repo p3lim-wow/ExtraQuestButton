@@ -43,7 +43,7 @@ Mixin(Anchor, mixins.EventHandler, mixins.QuestButton, mixins.Anchor)
 Anchor:OnLoad()
 
 local ExtraQuestButton = CreateFrame('CheckButton', addonName, UIParent, 'QuickKeybindButtonTemplate, SecureActionButtonTemplate, SecureHandlerStateTemplate, SecureHandlerAttributeTemplate')
-Mixin(ExtraQuestButton, mixins.EventHandler, mixins.QuestButton)
+Mixin(ExtraQuestButton, mixins.EventHandler, mixins.QuestButton, ItemMixin)
 ExtraQuestButton:SetAllPoints(Anchor)
 
 function ExtraQuestButton:OnLoad()
@@ -106,7 +106,7 @@ function ExtraQuestButton:UpdateBinding()
 end
 
 function ExtraQuestButton:UpdateCount()
-	if self:HasItem() then
+	if not self:IsItemEmpty() then
 		local count = GetItemCount(self:GetItemLink())
 		self:SetCount(count and count > 1 and count)
 
@@ -118,7 +118,7 @@ function ExtraQuestButton:UpdateCount()
 end
 
 function ExtraQuestButton:UpdateCooldown()
-	if self:HasItem() then
+	if not self:IsItemEmpty() then
 		local start, duration, enable = GetItemCooldown(self:GetItemID())
 		if duration > 0 then
 			self:SetCooldown(start, duration)
@@ -194,19 +194,19 @@ function ExtraQuestButton:UpdateAttributes()
 		self:SetAlpha(1)
 	end
 
-	if self:HasItem() then
-		self:SetAttribute('item', 'item:' .. self:GetItemID())
-		self:UpdateCooldown()
-	else
+	if self:IsItemEmpty() then
 		self:SetAttribute('item', nil)
 		self:ClearCooldown()
+	else
+		self:SetAttribute('item', 'item:' .. self:GetItemID())
+		self:UpdateCooldown()
 	end
 
 	return true -- to unregister the attribute queue
 end
 
 function ExtraQuestButton:QueueAttributeUpdate()
-	if not self:HasItem() and self:IsShown() then
+	if self:IsItemEmpty() and self:IsShown() then
 		-- pretend like it's gone already
 		self:SetAlpha(0)
 	end
@@ -217,10 +217,8 @@ function ExtraQuestButton:QueueAttributeUpdate()
 end
 
 function ExtraQuestButton:SetItem(itemLink)
-	self.itemLink = itemLink
-	self.itemID = GetItemInfoFromHyperlink(itemLink)
-
-	self:SetTexture(GetItemIcon(itemLink))
+	self:SetItemLink(itemLink)
+	self:SetTexture(self:GetItemIcon()) -- we're going to assume it's already loaded since it's a link
 	self:EnableUpdateRange(ItemHasRange(itemLink))
 
 	self:UpdateAttributes()
@@ -228,24 +226,10 @@ function ExtraQuestButton:SetItem(itemLink)
 end
 
 function ExtraQuestButton:Reset()
-	self.itemLink = nil
-	self.itemID = nil
+	self:Clear()
 	self:EnableUpdateRange(false)
 
 	self:UpdateAttributes()
-end
-
-function ExtraQuestButton:HasItem()
-	return not not self.itemLink
-end
-
-function ExtraQuestButton:GetItemLink()
-	return self.itemLink
-end
-
-function ExtraQuestButton:GetItemID()
-	-- some APIs can't handle item links
-	return self.itemID
 end
 
 -- init
