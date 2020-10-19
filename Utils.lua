@@ -64,6 +64,14 @@ local function GetQuestDistanceWithItem(questID)
 		return distanceYd, itemLink
 	end
 
+	local accurateQuestAreaData = itemData.accurateQuestAreas[questID]
+	if accurateQuestAreaData then
+		local distanceSq = GetDistanceSqToPoint(accurateQuestAreaData[1], accurateQuestAreaData[2], accurateQuestAreaData[3])
+		if distanceSq then
+			return distanceSq, itemLink
+		end
+	end
+
 	local questMapID = itemData.inaccurateQuestAreas[questID]
 	if questMapID then
 		if type(questMapID) == 'boolean' then
@@ -79,14 +87,6 @@ local function GetQuestDistanceWithItem(questID)
 					return MAX_DISTANCE_YARDS-2, itemLink
 				end
 			end
-		end
-	end
-
-	local accurateQuestAreaData = itemData.accurateQuestAreas[questID]
-	if accurateQuestAreaData then
-		local distanceSq = GetDistanceSqToPoint(accurateQuestAreaData[1], accurateQuestAreaData[2], accurateQuestAreaData[3])
-		if distanceSq then
-			return distanceSq, itemLink
 		end
 	end
 end
