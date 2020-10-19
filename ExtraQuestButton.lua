@@ -77,23 +77,28 @@ function ExtraQuestButton:OnLoad()
 end
 
 function ExtraQuestButton:UpdateBinding()
-	local key = GetBindingKey(ExtraQuestButtonDB.copyBindings and 'EXTRAACTIONBUTTON1' or addonName)
-	self:SetHotkey(key and GetBindingText(key, 1))
+	local keyButton = addonName
+	local key1, key2 = GetBindingKey(keyButton)
+	if not key1 and not key2 then
+		keyButton = 'EXTRAACTIONBUTTON1'
+		key1, key2 = GetBindingKey(keyButton)
+	end
 
 	if not InCombatLockdown() then
+		self:SetHotkey(key1 and GetBindingText(key1, 1))
+
 		-- reset state driver
 		UnregisterStateDriver(self, 'visible')
 
 		-- update the state driver and attribute handler
-		if ExtraQuestButtonDB.copyBindings then
-			RegisterStateDriver(self, 'visible','[extrabar][petbattle] hide; show')
-			self:SetAttribute('_onattributechanged', ATTRIBUTE_HANDLER:format('EXTRAACTIONBUTTON1'))
-		else
+		if keyButton == addonName then
 			RegisterStateDriver(self, 'visible','[petbattle] hide; show')
-			self:SetAttribute('_onattributechanged', ATTRIBUTE_HANDLER:format(addonName))
+		else
+			RegisterStateDriver(self, 'visible','[extrabar][petbattle] hide; show')
 		end
 
 		-- trigger a state update for the binding
+		self:SetAttribute('_onattributechanged', ATTRIBUTE_HANDLER:format(keyButton))
 		self:SetAttribute('binding', GetTime())
 
 		-- unregister in case we came from combat

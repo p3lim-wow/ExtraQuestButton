@@ -3,7 +3,6 @@ local addonName, ns = ...
 local defaults = {
 	scale = 1,
 	artwork = true,
-	copyBindings = true,
 	position = {'CENTER', 0, -math.floor(select(2, GetPhysicalScreenSize()) / 3)}
 }
 
@@ -42,24 +41,9 @@ SlashCmdList[addonName] = function(msg)
 		ExtraQuestButtonAnchor:Initialize()
 	elseif option == 'unlock' or option == 'lock' then
 		ExtraQuestButtonAnchor:Toggle()
-	elseif option == 'binding' then
-		if InCombatLockdown() then
-			ns:Print('Can\'t do that while in combat')
-			return
-		end
-
-		ExtraQuestButtonDB.copyBindings = not ExtraQuestButtonDB.copyBindings
-		ExtraQuestButton:UpdateBinding()
-
-		if ExtraQuestButtonDB.copyBindings then
-			ns:Print('Now using same binding as ExtraActionButton')
-		else
-			ns:Print('Now using separate binding')
-		end
 	else
 		ns:Print('Usage:')
-		ns:Print('/eqb lock    - locks/unlocks position')
-		ns:Print('/eqb reset   - resets position, scale and style')
-		ns:Print('/eqb binding - toggles shared/separate binding')
+		ns:Print('/eqb lock  - locks/unlocks position, scale and style')
+		ns:Print('/eqb reset - resets position, scale and style')
 	end
 end
