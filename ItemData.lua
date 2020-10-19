@@ -109,6 +109,7 @@ ns.itemData.inaccurateQuestAreas = {
 	[49864] = true, -- anywhere
 	[25798] = 64, -- Thousand Needles (TODO: test if we need to associate the item with the zone instead)
 	[25799] = 64, -- Thousand Needles (TODO: test if we need to associate the item with the zone instead)
+	[34461] = 590, -- Horde Garrison
 }
 
 -- same as above, just accurate (questID = {mapID, x, y[, mapID, x, y[, ...]]})
