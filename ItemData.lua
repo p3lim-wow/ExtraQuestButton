@@ -112,7 +112,7 @@ ns.itemData.inaccurateQuestAreas = {
 	[34461] = 590, -- Horde Garrison
 }
 
--- same as above, just accurate (questID = {mapID, x, y[, mapID, x, y[, ...]]})
+-- same as above, just accurate (questID = {mapID, x, y})
 -- TODO: replace the above with this one wherever we can
 ns.itemData.accurateQuestAreas = {
 	[12484] = {116, 0.1683, 0.4834}, -- Grizzly Hills
