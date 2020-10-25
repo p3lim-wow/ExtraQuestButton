@@ -12,7 +12,21 @@
 libs\LibStub\LibStub.lua
 libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
 libs\AceDB-3.0\AceDB-3.0.xml
+libs\AceGUI-3.0\AceGUI-3.0.xml
+libs\AceConfig-3.0\AceConfig-3.0.xml
 libs\HereBeDragons\HereBeDragons-2.0.lua
+
+locale\initialize.lua
+locale\deDE.lua
+locale\esES.lua
+locale\esMX.lua
+locale\frFR.lua
+locale\itIT.lua
+locale\koKR.lua
+locale\ptBR.lua
+locale\ruRU.lua
+locale\zhCN.lua
+locale\zhTW.lua
 
 ItemData.lua
 

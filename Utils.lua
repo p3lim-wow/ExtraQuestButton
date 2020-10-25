@@ -125,7 +125,11 @@ function ns:GetClosestQuestItem()
 	if not closestQuestItemLink then
 		for index = 1, C_QuestLog.GetNumQuestLogEntries() do
 			local info = C_QuestLog.GetInfo(index)
-			if info and not info.isHeader and (not info.isHidden or C_QuestLog.IsWorldQuest(info.questID)) and QuestHasPOIInfo(info.questID) then
+			if info and not info.isHeader and QuestHasPOIInfo(info.questID) then
+				if not C_QuestLog.IsWorldQuest(info.questID) and not info.isHidden and ns.db.profile.trackingOnly then
+					break
+				end
+
 				local distance, itemLink = GetQuestDistanceWithItem(info.questID)
 				if distance and distance <= closestDistance then
 					closestDistance = distance

@@ -5,6 +5,7 @@ local defaults = {
 		scale = 1,
 		artwork = true,
 		position = {'CENTER', 0, -math.floor(select(2, GetPhysicalScreenSize()) / 3)},
+		trackingOnly = false,
 	}
 }
 
