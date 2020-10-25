@@ -57,10 +57,7 @@ SlashCmdList[addonName] = function(msg)
 	option = option:lower()
 
 	if option == 'reset' then
-		-- TODO
-		-- for key, value in next, defaults do
-		-- 	ExtraQuestButtonDB[key] = value
-		-- end
+		ns.db:ResetProfile()
 
 		ExtraQuestButtonAnchor:ClearAllPoints()
 		ExtraQuestButtonAnchor:Initialize()
