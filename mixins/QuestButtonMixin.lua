@@ -84,7 +84,9 @@ function QuestButtonMixin:OnLoad()
 	StringParent:SetSize(1, 1)
 
 	local Hotkey = StringParent:CreateFontString('$parentIcon', nil, 'NumberFontNormalGray')
-	Hotkey:SetPoint('TOPLEFT', 7, -7)
+	Hotkey:SetPoint('TOPLEFT', -17, -7)
+	Hotkey:SetSize(36, 10)
+	Hotkey:SetJustifyH('RIGHT')
 	self.Hotkey = Hotkey
 
 	local Count = StringParent:CreateFontString('$parentCount', nil, 'NumberFontNormal')
