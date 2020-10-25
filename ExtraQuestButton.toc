@@ -4,13 +4,14 @@
 ## Title: ExtraQuestButton
 ## Notes: An extra button for quest items!
 ## SavedVariables: ExtraQuestButtonDB
-## OptionalDeps: LibStub, CallbackHandler-1.0, HereBeDragons
+## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, HereBeDragons
 
 ## X-Curse-Project-ID: 88865
 ## X-WoWI-ID: 23464
 
 libs\LibStub\LibStub.lua
 libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+libs\AceDB-3.0\AceDB-3.0.xml
 libs\HereBeDragons\HereBeDragons-2.0.lua
 
 ItemData.lua
@@ -20,6 +21,7 @@ mixins\QuestButtonMixin.lua
 mixins\AnchorMixin.lua
 
 Utils.lua
-Config.lua
-
 ExtraQuestButton.lua
+
+config\SavedVariables.lua
+config\Options.lua
