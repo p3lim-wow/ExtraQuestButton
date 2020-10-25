@@ -99,10 +99,12 @@ function ns:GetClosestQuestItem()
 		-- e.g. stuff the player has shift-clicked on the map
 		local questID = C_QuestLog.GetQuestIDForWorldQuestWatchIndex(index)
 		if questID then
-			local distance, itemLink = GetQuestDistanceWithItem(questID)
-			if distance and distance <= closestDistance then
-				closestDistance = distance
-				closestQuestItemLink = itemLink
+			if not (ns.db.profile.zoneOnly and not C_QuestLog.IsOnMap(questID)) then
+				local distance, itemLink = GetQuestDistanceWithItem(questID)
+				if distance and distance <= closestDistance then
+					closestDistance = distance
+					closestQuestItemLink = itemLink
+				end
 			end
 		end
 	end
@@ -111,10 +113,12 @@ function ns:GetClosestQuestItem()
 		for index = 1, C_QuestLog.GetNumQuestWatches() do
 			local questID = C_QuestLog.GetQuestIDForQuestWatchIndex(index)
 			if questID and QuestHasPOIInfo(questID) then
-				local distance, itemLink = GetQuestDistanceWithItem(questID)
-				if distance and distance <= closestDistance then
-					closestDistance = distance
-					closestQuestItemLink = itemLink
+				if not (ns.db.profile.zoneOnly and not C_QuestLog.IsOnMap(questID)) then
+					local distance, itemLink = GetQuestDistanceWithItem(questID)
+					if distance and distance <= closestDistance then
+						closestDistance = distance
+						closestQuestItemLink = itemLink
+					end
 				end
 			end
 		end
@@ -127,11 +131,12 @@ function ns:GetClosestQuestItem()
 				if not C_QuestLog.IsWorldQuest(info.questID) and not info.isHidden and ns.db.profile.trackingOnly then
 					break
 				end
-
-				local distance, itemLink = GetQuestDistanceWithItem(info.questID)
-				if distance and distance <= closestDistance then
-					closestDistance = distance
-					closestQuestItemLink = itemLink
+				if not (ns.db.profile.zoneOnly and not C_QuestLog.IsOnMap(questID)) then
+					local distance, itemLink = GetQuestDistanceWithItem(info.questID)
+					if distance and distance <= closestDistance then
+						closestDistance = distance
+						closestQuestItemLink = itemLink
+					end
 				end
 			end
 		end

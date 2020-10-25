@@ -6,6 +6,7 @@ local defaults = {
 		artwork = true,
 		position = {'CENTER', 0, -math.floor(select(2, GetPhysicalScreenSize()) / 3)},
 		trackingOnly = false,
+		zoneOnly = false,
 		distanceYd = 1e3,
 	}
 }

@@ -28,8 +28,14 @@ local function CreateOptions()
 				type = 'toggle',
 				width = 'double',
 			},
-			distanceYd = {
+			zoneOnly = {
 				order = 2,
+				name = L['Only show for quests in current zone'],
+				type = 'toggle',
+				width = 'double',
+			},
+			distanceYd = {
+				order = 3,
 				name = L['Distance in yards how far away the quest can be'],
 				type = 'range',
 				min = 5,
