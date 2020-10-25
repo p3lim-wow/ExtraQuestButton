@@ -17,8 +17,8 @@ local ATTRIBUTE_HANDLER = [[
 		-- there is (or was) a pet battle
 		if value == 'show' then
 			-- trigger an update to check if we should show an item
-			self:CallMethod('UpdateState')
 			self:Show()
+			self:CallMethod('UpdateState')
 		else
 			self:Hide()
 			self:ClearBindings()
