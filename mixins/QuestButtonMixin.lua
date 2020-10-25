@@ -90,7 +90,7 @@ function QuestButtonMixin:OnLoad()
 	self.Hotkey = Hotkey
 
 	local Count = StringParent:CreateFontString('$parentCount', nil, 'NumberFontNormal')
-	Count:SetPoint('BOTTOMRIGHT', -5, 5)
+	Count:SetPoint('BOTTOMRIGHT', -6, 3)
 	Count:SetJustifyH('RIGHT')
 	self.Count = Count
 end
