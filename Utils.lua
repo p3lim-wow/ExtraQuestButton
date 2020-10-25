@@ -4,8 +4,6 @@ local itemData = ns.itemData
 local HBD = LibStub('HereBeDragons-2.0')
 local sqrt = math.sqrt
 
-local MAX_DISTANCE_YARDS = 1e5
-
 local function GetDistanceSqToPoint(mapID, x, y)
 	local playerMapID = ns:GetCurrentMapID()
 	local position = C_Map.GetPlayerMapPosition(playerMapID, 'player')
@@ -60,7 +58,7 @@ local function GetQuestDistanceWithItem(questID)
 	local distanceSq, onContinent = C_QuestLog.GetDistanceSqToQuest(questID)
 	 -- the square root of distanceSq is in yards, much easier to work with
 	local distanceYd = distanceSq and sqrt(distanceSq)
-	if distanceYd and distanceYd <= MAX_DISTANCE_YARDS then
+	if distanceYd and distanceYd <= ns.db.profile.distanceYd then
 		return distanceYd, itemLink
 	end
 
@@ -68,23 +66,23 @@ local function GetQuestDistanceWithItem(questID)
 	if accurateQuestAreaData then
 		local distanceSq = GetDistanceSqToPoint(accurateQuestAreaData[1], accurateQuestAreaData[2], accurateQuestAreaData[3])
 		if distanceSq then
-			return distanceSq, itemLink
+			return sqrt(distanceSq), itemLink
 		end
 	end
 
 	local questMapID = itemData.inaccurateQuestAreas[questID]
 	if questMapID then
 		if type(questMapID) == 'boolean' then
-			return MAX_DISTANCE_YARDS-1, itemLink
+			return ns.db.profile.distanceYd - 1, itemLink
 		elseif type(questMapID) == 'number' then
 			if questMapID == ns:GetCurrentMapID() then
-				return MAX_DISTANCE_YARDS-2, itemLink
+				return ns.db.profile.distanceYd - 2, itemLink
 			end
 		elseif type(questMapID) == 'table' then
 			local currentMapID = ns:GetCurrentMapID()
 			for _, mapID in next, questMapID do
 				if mapID == currentMapID then
-					return MAX_DISTANCE_YARDS-2, itemLink
+					return ns.db.profile.distanceYd - 2, itemLink
 				end
 			end
 		end
@@ -94,7 +92,7 @@ end
 -- adaptation of QuestSuperTracking_ChooseClosestQuest for quests with items
 function ns:GetClosestQuestItem()
 	local closestQuestItemLink
-	local closestDistance = MAX_DISTANCE_YARDS -- yards
+	local closestDistance = ns.db.profile.distanceYd -- yards
 
 	for index = 1, C_QuestLog.GetNumWorldQuestWatches() do
 		-- this only tracks supertracked worldquests,

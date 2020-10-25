@@ -28,6 +28,15 @@ local function CreateOptions()
 				type = 'toggle',
 				width = 'double',
 			},
+			distanceYd = {
+				order = 2,
+				name = L['Distance in yards how far away the quest can be'],
+				type = 'range',
+				min = 5,
+				max = 1e4,
+				step = 1,
+				width = 'double',
+			},
 		},
 	})
 
