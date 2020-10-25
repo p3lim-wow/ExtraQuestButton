@@ -16,5 +16,10 @@ assignees: p3lim
 **What did you expect?**
 <!-- A clear and concise description of what you expected to happen. -->
 
+**Error report**
+<!-- If you encountered an error, please paste it between the backticks. -->
+```
+```
+
 **Screenshots**
 <!-- If applicable, add screenshots to help explain your problem. -->
