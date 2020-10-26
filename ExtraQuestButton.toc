@@ -3,7 +3,7 @@
 ## Version: @project-version@
 ## Title: ExtraQuestButton
 ## Notes: An extra button for quest items!
-## SavedVariables: ExtraQuestButtonDB
+## SavedVariables: ExtraQuestButtonDB, ExtraQuestButtonDB2
 ## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, HereBeDragons
 
 ## X-Curse-Project-ID: 88865
