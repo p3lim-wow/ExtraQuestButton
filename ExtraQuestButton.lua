@@ -59,9 +59,8 @@ function ExtraQuestButton:OnLoad()
 	self:RegisterEvent('BAG_UPDATE_DELAYED', self.UpdateCount)
 	self:RegisterEvent('BAG_UPDATE_COOLDOWN', self.UpdateCooldown)
 
-	-- VIGNETTES_UPDATED will trigger approx every 2 seconds while not in range of a quest area
-	-- due to the minimap POI, which is perfect for out updating criteria
-	self:RegisterEvent('VIGNETTES_UPDATED', self.UpdateState)
+	-- update every 2 seconds for the range check
+	C_Timer.NewTicker(2, self.OnUpdate)
 
 	-- quest and tracking related events that should cover all we need
 	self:RegisterEvent('QUEST_LOG_UPDATE', self.UpdateState)
@@ -74,6 +73,10 @@ function ExtraQuestButton:OnLoad()
 
 	-- some items are used directly on targets
 	self:RegisterEvent('PLAYER_TARGET_CHANGED', self.UpdateTarget)
+end
+
+function ExtraQuestButton.OnUpdate()
+	ExtraQuestButton:UpdateState()
 end
 
 function ExtraQuestButton:UpdateBinding()
