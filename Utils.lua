@@ -55,10 +55,11 @@ local function GetQuestDistanceWithItem(questID)
 		return
 	end
 
+	local maxDistanceYd = ns.db.profile.distanceYd
 	local distanceSq, onContinent = C_QuestLog.GetDistanceSqToQuest(questID)
 	 -- the square root of distanceSq is in yards, much easier to work with
 	local distanceYd = distanceSq and sqrt(distanceSq)
-	if distanceYd and distanceYd <= ns.db.profile.distanceYd then
+	if distanceYd and distanceYd <= maxDistanceYd then
 		return distanceYd, itemLink
 	end
 
@@ -73,16 +74,16 @@ local function GetQuestDistanceWithItem(questID)
 	local questMapID = itemData.inaccurateQuestAreas[questID]
 	if questMapID then
 		if type(questMapID) == 'boolean' then
-			return ns.db.profile.distanceYd - 1, itemLink
+			return maxDistanceYd - 1, itemLink
 		elseif type(questMapID) == 'number' then
 			if questMapID == ns:GetCurrentMapID() then
-				return ns.db.profile.distanceYd - 2, itemLink
+				return maxDistanceYd - 2, itemLink
 			end
 		elseif type(questMapID) == 'table' then
 			local currentMapID = ns:GetCurrentMapID()
 			for _, mapID in next, questMapID do
 				if mapID == currentMapID then
-					return ns.db.profile.distanceYd - 2, itemLink
+					return maxDistanceYd - 2, itemLink
 				end
 			end
 		end
@@ -93,13 +94,25 @@ end
 function ns:GetClosestQuestItem()
 	local closestQuestItemLink
 	local closestDistance = ns.db.profile.distanceYd -- yards
+	local onlyInZone = ns.db.profile.zoneOnly
 
 	for index = 1, C_QuestLog.GetNumWorldQuestWatches() do
 		-- this only tracks supertracked worldquests,
 		-- e.g. stuff the player has shift-clicked on the map
 		local questID = C_QuestLog.GetQuestIDForWorldQuestWatchIndex(index)
-		if questID then
-			if not (ns.db.profile.zoneOnly and not C_QuestLog.IsOnMap(questID)) then
+		if questID and (not onlyInZone or C_QuestLog.IsOnMap(questID)) then
+			local distance, itemLink = GetQuestDistanceWithItem(questID)
+			if distance and distance <= closestDistance then
+				closestDistance = distance
+				closestQuestItemLink = itemLink
+			end
+		end
+	end
+
+	if not closestQuestItemLink then
+		for index = 1, C_QuestLog.GetNumQuestWatches() do
+			local questID = C_QuestLog.GetQuestIDForQuestWatchIndex(index)
+			if questID and QuestHasPOIInfo(questID) and (not onlyInZone or C_QuestLog.IsOnMap(questID)) then
 				local distance, itemLink = GetQuestDistanceWithItem(questID)
 				if distance and distance <= closestDistance then
 					closestDistance = distance
@@ -110,32 +123,20 @@ function ns:GetClosestQuestItem()
 	end
 
 	if not closestQuestItemLink then
-		for index = 1, C_QuestLog.GetNumQuestWatches() do
-			local questID = C_QuestLog.GetQuestIDForQuestWatchIndex(index)
-			if questID and QuestHasPOIInfo(questID) then
-				if not (ns.db.profile.zoneOnly and not C_QuestLog.IsOnMap(questID)) then
-					local distance, itemLink = GetQuestDistanceWithItem(questID)
-					if distance and distance <= closestDistance then
-						closestDistance = distance
-						closestQuestItemLink = itemLink
-					end
-				end
-			end
-		end
-	end
+		local onlyIfWatched = ns.db.profile.trackingOnly
 
-	if not closestQuestItemLink then
 		for index = 1, C_QuestLog.GetNumQuestLogEntries() do
 			local info = C_QuestLog.GetInfo(index)
-			if info and not info.isHeader and QuestHasPOIInfo(info.questID) then
-				if not C_QuestLog.IsWorldQuest(info.questID) and not info.isHidden and ns.db.profile.trackingOnly then
-					break
-				end
-				if not (ns.db.profile.zoneOnly and not C_QuestLog.IsOnMap(questID)) then
-					local distance, itemLink = GetQuestDistanceWithItem(info.questID)
-					if distance and distance <= closestDistance then
-						closestDistance = distance
-						closestQuestItemLink = itemLink
+			local questID = info.questID
+			if info and not info.isHeader and QuestHasPOIInfo(questID) then
+				-- world quests are always considered
+				if not (onlyIfWatched or info.isHidden) or C_QuestLog.IsWorldQuest(questID) then
+					if not onlyInZone or C_QuestLog.IsOnMap(questID) then
+						local distance, itemLink = GetQuestDistanceWithItem(questID)
+						if distance and distance <= closestDistance then
+							closestDistance = distance
+							closestQuestItemLink = itemLink
+						end
 					end
 				end
 			end
