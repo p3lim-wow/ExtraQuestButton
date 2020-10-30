@@ -59,7 +59,7 @@ function ExtraQuestButton:OnLoad()
 	self:RegisterEvent('BAG_UPDATE_DELAYED', self.UpdateCount)
 	self:RegisterEvent('BAG_UPDATE_COOLDOWN', self.UpdateCooldown)
 
-	-- update every 2 seconds for the range check
+	-- update every 2 seconds for the distance check
 	C_Timer.NewTicker(2, self.OnUpdate)
 
 	-- quest and tracking related events that should cover all we need
