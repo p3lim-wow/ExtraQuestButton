@@ -1,3 +1,11 @@
+### Changes in 90000.21-Release:
+
+- Added: Option to set max distance to quest
+- Added: Option to only show when quest is tracked
+- Added: Option to only show when quest is in current zone
+- Fixed: ExtraQuestButton showing up with no item
+- Fixed: Hotkey text escaping the button
+
 ### Changes in 90000.20-Release:
 
 - Changed: Bind without needing to change additional options
