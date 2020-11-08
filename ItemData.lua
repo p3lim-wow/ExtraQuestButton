@@ -39,6 +39,11 @@ ns.itemData.targetItems = {
 	[141501] = 162450, -- Zuldazar
 	[43923] = 60225, -- Duskwood
 	[43814] = 60206, -- Duskwood
+	[48269] = 63508, -- Hillsbrad Foothills
+	[48136] = 63426, -- Hillsbrad Foothills
+	[48741] = 64445, -- Hillsbrad Foothills
+	[48742] = 64445, -- Hillsbrad Foothills
+	[81183] = 115475, -- Spires of Arak
 }
 
 -- items that should be used for a quest but aren't (questID = itemID)
@@ -116,6 +121,7 @@ ns.itemData.inaccurateQuestAreas = {
 -- TODO: replace the above with this one wherever we can
 ns.itemData.accurateQuestAreas = {
 	[12484] = {116, 0.1683, 0.4834}, -- Grizzly Hills
+	[35001] = {542, 0.6681, 0.4553}, -- Spires of Arak
 }
 
 -- items that needs to be shown even after the quest is complete but aren't (itemID = bool/mapID)
