@@ -44,6 +44,7 @@ ns.itemData.targetItems = {
 	[48741] = 64445, -- Hillsbrad Foothills
 	[48742] = 64445, -- Hillsbrad Foothills
 	[81183] = 115475, -- Spires of Arak
+	[166958] = 183689, -- Icecrown
 }
 
 -- items that should be used for a quest but aren't (questID = itemID)
@@ -130,6 +131,7 @@ ns.itemData.completeItems = {
 	[35797] = 116, -- Grizzly Hills
 	[60273] = 50, -- Northern Stranglethorn Vale
 	[52853] = true, -- Mount Hyjal
+	[41058] = 120, -- Storm Peaks
 }
 
 -- items that are shown after quest is complete but shouldn't (itemID = bool/itemID)
