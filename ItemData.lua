@@ -45,6 +45,7 @@ ns.itemData.targetItems = {
 	[48742] = 64445, -- Hillsbrad Foothills
 	[81183] = 115475, -- Spires of Arak
 	[166958] = 183689, -- Icecrown
+	[166959] = 183689, -- Icecrown
 }
 
 -- items that should be used for a quest but aren't (questID = itemID)
