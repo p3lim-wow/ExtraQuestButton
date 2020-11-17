@@ -90,6 +90,37 @@ local function GetQuestDistanceWithItem(questID)
 	end
 end
 
+local function IsQuestOnMapCurrentMap(questID)
+	local isOnMap = C_QuestLog.IsOnMap(questID)
+	if not isOnMap then
+		local accurateQuestAreaInfo = itemData.accurateQuestAreas[questID]
+		if accurateQuestAreaInfo then
+			isOnMap = accurateQuestAreaInfo[1] == ns:GetCurrentMapID()
+		end
+	end
+
+	if not isOnMap then
+		local inaccurateQuestAreaInfo = itemData.inaccurateQuestAreas[questID]
+		if inaccurateQuestAreaInfo then
+			if type(inaccurateQuestAreaInfo) == 'boolean' then
+				isOnMap = true
+			elseif type(inaccurateQuestAreaInfo) == 'table' then
+				local playerMapID = ns:GetCurrentMapID()
+				for _, mapID in next, inaccurateQuestAreaInfo do
+					if mapID == playerMapID then
+						isOnMap = true
+						break
+					end
+				end
+			else
+				isOnMap = inaccurateQuestAreaInfo == ns:GetCurrentMapID()
+			end
+		end
+	end
+
+	return isOnMap
+end
+
 -- adaptation of QuestSuperTracking_ChooseClosestQuest for quests with items
 function ns:GetClosestQuestItem()
 	local closestQuestItemLink
@@ -100,7 +131,7 @@ function ns:GetClosestQuestItem()
 		-- this only tracks supertracked worldquests,
 		-- e.g. stuff the player has shift-clicked on the map
 		local questID = C_QuestLog.GetQuestIDForWorldQuestWatchIndex(index)
-		if questID and (not onlyInZone or C_QuestLog.IsOnMap(questID)) then
+		if questID and (not onlyInZone or IsQuestOnMapCurrentMap(questID)) then
 			local distance, itemLink = GetQuestDistanceWithItem(questID)
 			if distance and distance <= closestDistance then
 				closestDistance = distance
@@ -112,7 +143,7 @@ function ns:GetClosestQuestItem()
 	if not closestQuestItemLink then
 		for index = 1, C_QuestLog.GetNumQuestWatches() do
 			local questID = C_QuestLog.GetQuestIDForQuestWatchIndex(index)
-			if questID and QuestHasPOIInfo(questID) and (not onlyInZone or C_QuestLog.IsOnMap(questID)) then
+			if questID and QuestHasPOIInfo(questID) and (not onlyInZone or IsQuestOnMapCurrentMap(questID)) then
 				local distance, itemLink = GetQuestDistanceWithItem(questID)
 				if distance and distance <= closestDistance then
 					closestDistance = distance
@@ -131,7 +162,7 @@ function ns:GetClosestQuestItem()
 			if info and not info.isHeader and QuestHasPOIInfo(questID) then
 				-- world quests are always considered
 				if not (onlyIfWatched or info.isHidden) or C_QuestLog.IsWorldQuest(questID) then
-					if not onlyInZone or C_QuestLog.IsOnMap(questID) then
+					if not onlyInZone or IsQuestOnMapCurrentMap(questID) then
 						local distance, itemLink = GetQuestDistanceWithItem(questID)
 						if distance and distance <= closestDistance then
 							closestDistance = distance
