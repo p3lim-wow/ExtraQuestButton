@@ -88,6 +88,9 @@ ns.itemData.questItems = {
 	[49402] = 154878, -- Tiragarde Sound
 	[50164] = 154878, -- Tiragarde Sound
 	[51646] = 154878, -- Tiragarde Sound
+	[12925] = 41612, -- Storm Peaks
+	[13425] = 41612, -- Storm Peaks
+	[27384] = 12888, -- Eastern Plaguelands
 }
 
 -- quests that doesn't have a defined area on the map (questID = bool/mapID/{mapID,...})
@@ -124,6 +127,8 @@ ns.itemData.inaccurateQuestAreas = {
 ns.itemData.accurateQuestAreas = {
 	[12484] = {116, 0.1683, 0.4834}, -- Grizzly Hills
 	[35001] = {542, 0.6681, 0.4553}, -- Spires of Arak
+	[27389] = {23, 0.3596, 0.4573}, -- Eastern Plaguelands
+	[27451] = {23, 0.5526, 0.6225}, -- Eastern Plaguelands
 }
 
 -- items that needs to be shown even after the quest is complete but aren't (itemID = bool/mapID)
