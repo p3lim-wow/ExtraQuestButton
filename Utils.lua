@@ -35,7 +35,7 @@ local function GetQuestDistanceWithItem(questID)
 
 	local itemID = ns:GetItemID(itemLink)
 	if C_QuestLog.IsComplete(questID) then
-		if not itemData.completeItems[itemID] and not showWhenComplete then
+		if not showWhenComplete and not itemData.completeItems[itemID] then
 			return
 		end
 
