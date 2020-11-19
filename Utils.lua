@@ -158,8 +158,8 @@ function ns:GetClosestQuestItem()
 
 		for index = 1, C_QuestLog.GetNumQuestLogEntries() do
 			local info = C_QuestLog.GetInfo(index)
-			local questID = info.questID
-			if info and not info.isHeader and QuestHasPOIInfo(questID) then
+			if info and not info.isHeader and QuestHasPOIInfo(info.questID) then
+				local questID = info.questID
 				-- world quests are always considered
 				if not (onlyIfWatched or info.isHidden) or C_QuestLog.IsWorldQuest(questID) then
 					if not onlyInZone or IsQuestOnMapCurrentMap(questID) then
