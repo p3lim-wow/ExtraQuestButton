@@ -18,7 +18,7 @@ ns.itemData.targetItems = {
 	[34925] = 46954, -- Icecrown
 	[35092] = 46954, -- Icecrown
 	[36845] = 49647, -- Mulgore
-	[169206] = 179921, -- Ardenwald
+	[169206] = 179921, -- Ardenweald
 	[42681] = 58167, -- Deepholm
 	[42682] = 58167, -- Deepholm
 	[44218] = 60490, -- Deepholm
@@ -46,6 +46,7 @@ ns.itemData.targetItems = {
 	[81183] = 115475, -- Spires of Arak
 	[166958] = 183689, -- Icecrown
 	[166959] = 183689, -- Icecrown
+	[158532] = 172950, -- Ardenweald
 }
 
 -- items that should be used for a quest but aren't (questID = itemID)
@@ -91,6 +92,7 @@ ns.itemData.questItems = {
 	[12925] = 41612, -- Storm Peaks
 	[13425] = 41612, -- Storm Peaks
 	[27384] = 12888, -- Eastern Plaguelands
+	[60649] = 180170, -- Ardenweald
 }
 
 -- quests that doesn't have a defined area on the map (questID = bool/mapID/{mapID,...})
@@ -129,6 +131,7 @@ ns.itemData.accurateQuestAreas = {
 	[35001] = {542, 0.6681, 0.4553}, -- Spires of Arak
 	[27389] = {23, 0.3596, 0.4573}, -- Eastern Plaguelands
 	[27451] = {23, 0.5526, 0.6225}, -- Eastern Plaguelands
+	[57455] = {1565, 0.3075, 0.3568}, -- Ardenweald
 }
 
 -- items that needs to be shown even after the quest is complete but aren't (itemID = bool/mapID)
