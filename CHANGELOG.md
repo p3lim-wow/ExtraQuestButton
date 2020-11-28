@@ -1,3 +1,11 @@
+### Changes in 90000.22-Release:
+
+- Fixed: Completed quest items not correctly showing when they should
+- Fixed: Validation of quest items throwing errors
+- Fixed: Quests not correctly being checked against current map
+- Changed: Update Interface version
+- Changed: Updated quest/item database
+
 ### Changes in 90000.21-Release:
 
 - Added: Option to set max distance to quest
