@@ -47,6 +47,7 @@ ns.itemData.targetItems = {
 	[166958] = 183689, -- Icecrown
 	[166959] = 183689, -- Icecrown
 	[158532] = 172950, -- Ardenweald
+	[167395] = 172020, -- Maldraxxus
 }
 
 -- items that should be used for a quest but aren't (questID = itemID)
@@ -93,6 +94,10 @@ ns.itemData.questItems = {
 	[13425] = 41612, -- Storm Peaks
 	[27384] = 12888, -- Eastern Plaguelands
 	[60649] = 180170, -- Ardenweald
+	[59809] = 177904, -- Night Fae Covenant
+	[59063] = 175137, -- Night Fae Covenant
+	[60609] = 180008, -- Ardenweald
+	[60609] = 180009, -- Ardenweald
 }
 
 -- quests that doesn't have a defined area on the map (questID = bool/mapID/{mapID,...})
@@ -122,6 +127,7 @@ ns.itemData.inaccurateQuestAreas = {
 	[25798] = 64, -- Thousand Needles (TODO: test if we need to associate the item with the zone instead)
 	[25799] = 64, -- Thousand Needles (TODO: test if we need to associate the item with the zone instead)
 	[34461] = 590, -- Horde Garrison
+	[59809] = true,
 }
 
 -- same as above, just accurate (questID = {mapID, x, y})
@@ -141,6 +147,7 @@ ns.itemData.completeItems = {
 	[60273] = 50, -- Northern Stranglethorn Vale
 	[52853] = true, -- Mount Hyjal
 	[41058] = 120, -- Storm Peaks
+	[177904] = true,
 }
 
 -- items that are shown after quest is complete but shouldn't (itemID = bool/itemID)
