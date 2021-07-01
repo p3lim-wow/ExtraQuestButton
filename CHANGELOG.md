@@ -1,3 +1,8 @@
+### Changes in 90100.23-Release:
+
+- Changed: Update Interface version
+- Changed: Updated quest/item database
+
 ### Changes in 90000.22-Release:
 
 - Fixed: Completed quest items not correctly showing when they should
