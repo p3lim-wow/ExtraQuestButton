@@ -8,6 +8,7 @@ local defaults = {
 		trackingOnly = false,
 		zoneOnly = false,
 		distanceYd = 1e3,
+		preferWorldQuests = true,
 	}
 }
 

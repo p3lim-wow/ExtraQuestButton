@@ -140,6 +140,10 @@ function ns:GetClosestQuestItem()
 		end
 	end
 
+	if closestQuestItemLink and ns.db.profile.preferWorldQuests then
+		return closestQuestItemLink
+	end
+
 	if not closestQuestItemLink then
 		for index = 1, C_QuestLog.GetNumQuestWatches() do
 			local questID = C_QuestLog.GetQuestIDForQuestWatchIndex(index)
