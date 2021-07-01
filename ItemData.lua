@@ -48,6 +48,7 @@ ns.itemData.targetItems = {
 	[166959] = 183689, -- Icecrown
 	[158532] = 172950, -- Ardenweald
 	[167395] = 172020, -- Maldraxxus
+	[36922] = 49679, -- Azshara
 }
 
 -- items that should be used for a quest but aren't (questID = itemID)
@@ -96,8 +97,8 @@ ns.itemData.questItems = {
 	[60649] = 180170, -- Ardenweald
 	[59809] = 177904, -- Night Fae Covenant
 	[59063] = 175137, -- Night Fae Covenant
-	[60609] = 180008, -- Ardenweald
 	[60609] = 180009, -- Ardenweald
+	[60609] = 180008, -- Ardenweald
 }
 
 -- quests that doesn't have a defined area on the map (questID = bool/mapID/{mapID,...})
