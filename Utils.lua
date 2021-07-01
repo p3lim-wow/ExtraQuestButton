@@ -55,6 +55,11 @@ local function GetQuestDistanceWithItem(questID)
 		return
 	end
 
+	if itemData.itemBlacklist[itemID] then
+		-- don't show items we specifically want to ignore
+		return
+	end
+
 	local maxDistanceYd = ns.db.profile.distanceYd
 	local distanceSq, onContinent = C_QuestLog.GetDistanceSqToQuest(questID)
 	 -- the square root of distanceSq is in yards, much easier to work with
