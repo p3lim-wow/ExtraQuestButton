@@ -1,12 +1,6 @@
 local addonName, ns = ...
 local L = ns.L
 
-local function UpdateOptions()
-	if(InterfaceOptionsFrameAddOns:IsShown()) then
-		LibStub('AceConfigRegistry-3.0'):NotifyChange(addonName)
-	end
-end
-
 local function CreateOptions()
 	CreateOptions = nop -- we only want to load this once
 
