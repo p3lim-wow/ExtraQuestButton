@@ -9,6 +9,7 @@ local defaults = {
 		zoneOnly = false,
 		distanceYd = 1e3,
 		preferWorldQuests = true,
+		activate = 'UP',
 	}
 }
 

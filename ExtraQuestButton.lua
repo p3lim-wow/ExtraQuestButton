@@ -145,6 +145,14 @@ function ExtraQuestButton:UpdateTooltip()
 end
 
 function ExtraQuestButton:UpdateState()
+	if ns.db.profile.activate == 'UP' then
+		self:RegisterForClicks('AnyUp')
+	elseif ns.db.profile.activate == 'DOWN' then
+		self:RegisterForClicks('AnyDown')
+	elseif ns.db.profile.activate == 'BOTH' then
+		self:RegisterForClicks('AnyUp', 'AnyDown')
+	end
+
 	local itemLink = self:GetTargetItem()
 	if not itemLink then
 		itemLink = ns:GetClosestQuestItem()
