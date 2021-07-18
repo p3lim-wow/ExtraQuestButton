@@ -49,6 +49,13 @@ ns.itemData.targetItems = {
 	[158532] = 172950, -- Ardenweald
 	[167395] = 172020, -- Maldraxxus
 	[36922] = 49679, -- Azshara
+	[175857] = 186199, -- Night Fae Assault in Maw
+	[176131] = 186199, -- Night Fae Assault in Maw
+	[178786] = 186199, -- Night Fae Assault in Maw
+	[178855] = 186199, -- Night Fae Assault in Maw
+	[178859] = 186199, -- Night Fae Assault in Maw
+	[178878] = 186199, -- Night Fae Assault in Maw
+	[179217] = 186199, -- Night Fae Assault in Maw
 }
 
 -- items that should be used for a quest but aren't (questID = itemID)
@@ -141,6 +148,7 @@ ns.itemData.accurateQuestAreas = {
 	[27389] = {23, 0.3596, 0.4573}, -- Eastern Plaguelands
 	[27451] = {23, 0.5526, 0.6225}, -- Eastern Plaguelands
 	[57455] = {1565, 0.3075, 0.3568}, -- Ardenweald
+	[63971] = {1543, 0.2308, 0.3729}, -- The Maw
 }
 
 -- items that needs to be shown even after the quest is complete but aren't (itemID = bool/mapID)
