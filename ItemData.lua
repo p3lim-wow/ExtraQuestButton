@@ -107,7 +107,7 @@ ns.itemData.questItems = {
 	[60188] = 178464, -- Night Fae Covenant
 	[60609] = 180009, -- Ardenweald
 	[60609] = 180008, -- Ardenweald
-	[58586] = 174465, -- Kyrian Covenant
+	[58586] = 174465, -- Venthyr Covenant
 }
 
 -- quests that doesn't have a defined area on the map (questID = bool/mapID/{mapID,...})
