@@ -1,3 +1,10 @@
+### Changes in 90100.24-Release:
+
+- Added: Option to activate on button up/down/both
+- Added: German translations courtesy of @Nulgar
+- Changed: Update quest/item database
+- Fixed: Blacklisted items not being ignored
+
 ### Changes in 90100.23-Release:
 
 - Changed: Update Interface version
