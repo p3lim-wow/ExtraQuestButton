@@ -37,12 +37,6 @@ local function CreateOptions()
 				step = 1,
 				width = 'double',
 			},
-			preferWorldQuests = {
-				order = 4,
-				name = L['Prefer to show button for world quests'],
-				type = 'toggle',
-				width = 'double',
-			},
 			activate = {
 				order = 5,
 				name = L['Activate on button press'],
