@@ -1,3 +1,8 @@
+### Changes in 90100.25-Release:
+
+- Changed: Update quest/item database
+- Fixed: Error when entering a zone with bad map data
+
 ### Changes in 90100.24-Release:
 
 - Added: Option to activate on button up/down/both
