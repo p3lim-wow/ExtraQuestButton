@@ -27,7 +27,7 @@ local function GetQuestDistanceWithItem(questID)
 		return
 	end
 
-	local itemID = ns:GetItemID(itemLink)
+	local itemID = GetItemInfoFromHyperlink(itemLink)
 	if C_QuestLog.IsComplete(questID) then
 		if not showWhenComplete and not itemData.completeItems[itemID] then
 			return
@@ -186,10 +186,6 @@ function ns:GetNPCID(unit)
 			return tonumber(npcGUID:match(NPC_ID_PATTERN))
 		end
 	end
-end
-
-function ns:GetItemID(itemLink)
-	return (GetItemInfoFromHyperlink(itemLink))
 end
 
 function ns:GenerateItemLinkFromID(itemID)
