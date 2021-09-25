@@ -5,13 +5,7 @@ local HBD = LibStub('HereBeDragons-2.0')
 local sqrt = math.sqrt
 
 local function GetDistanceSqToPoint(mapID, x, y)
-	local playerMapID = ns:GetCurrentMapID()
-	local position = C_Map.GetPlayerMapPosition(playerMapID, 'player')
-	if not position then
-		return
-	end
-
-	local playerX, playerY = position:GetXY()
+	local playerX, playerY, playerMapID = HBD:GetPlayerZonePosition()
 	return (HBD:GetZoneDistance(playerMapID, playerX, playerY, mapID, x, y))
 end
 
@@ -81,13 +75,13 @@ local function GetQuestDistanceWithItem(questID)
 		if type(questMapID) == 'boolean' then
 			return maxDistanceYd - 1, itemLink
 		elseif type(questMapID) == 'number' then
-			if questMapID == ns:GetCurrentMapID() then
+			if questMapID == HBD:GetPlayerZone() then
 				return maxDistanceYd - 2, itemLink
 			end
 		elseif type(questMapID) == 'table' then
-			local currentMapID = ns:GetCurrentMapID()
+			local playerMapID = HBD:GetPlayerZone()
 			for _, mapID in next, questMapID do
-				if mapID == currentMapID then
+				if mapID == playerMapID then
 					return maxDistanceYd - 2, itemLink
 				end
 			end
@@ -100,7 +94,7 @@ local function IsQuestOnMapCurrentMap(questID)
 	if not isOnMap then
 		local accurateQuestAreaInfo = itemData.accurateQuestAreas[questID]
 		if accurateQuestAreaInfo then
-			isOnMap = accurateQuestAreaInfo[1] == ns:GetCurrentMapID()
+			isOnMap = accurateQuestAreaInfo[1] == HBD:GetPlayerZone()
 		end
 	end
 
@@ -110,7 +104,7 @@ local function IsQuestOnMapCurrentMap(questID)
 			if type(inaccurateQuestAreaInfo) == 'boolean' then
 				isOnMap = true
 			elseif type(inaccurateQuestAreaInfo) == 'table' then
-				local playerMapID = ns:GetCurrentMapID()
+				local playerMapID = HBD:GetPlayerZone()
 				for _, mapID in next, inaccurateQuestAreaInfo do
 					if mapID == playerMapID then
 						isOnMap = true
@@ -118,7 +112,7 @@ local function IsQuestOnMapCurrentMap(questID)
 					end
 				end
 			else
-				isOnMap = inaccurateQuestAreaInfo == ns:GetCurrentMapID()
+				isOnMap = inaccurateQuestAreaInfo == HBD:GetPlayerZone()
 			end
 		end
 	end
@@ -200,10 +194,6 @@ end
 
 function ns:GenerateItemLinkFromID(itemID)
 	return string.format('|Hitem:%d|h', itemID)
-end
-
-function ns:GetCurrentMapID()
-	return C_Map.GetBestMapForUnit('player')
 end
 
 function ns:Print(...)
