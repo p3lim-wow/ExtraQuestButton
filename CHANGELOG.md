@@ -1,3 +1,7 @@
+### Changes in 90105.26-Release:
+
+- Changed: Update Interface version
+
 ### Changes in 90100.25-Release:
 
 - Changed: Update quest/item database
