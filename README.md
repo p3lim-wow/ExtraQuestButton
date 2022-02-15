@@ -1,7 +1,12 @@
 # ExtraQuestButton
 
 This is an addon for the popular MMORPG "World of Warcraft".  
-It can be downloaded at [Curse](//curseforge.com/wow/addons/extraquestbutton), [WoWInterface](//wowinterface.com/downloads/info23464), or from the releases here on GitHub.
+It can be downloaded at one of the following sites:
+
+- [Curse](https://www.curseforge.com/wow/addons/extraquestbutton)
+- [WoWInterface](https://wowinterface.com/downloads/info23464)
+- [Wago](https://addons.wago.io/addons/extraquestbutton)
+- [GitHub](https://github.com/p3lim-wow/ExtraQuestButton/releases)
 
 ## Description
 

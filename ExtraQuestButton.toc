@@ -8,6 +8,7 @@
 
 ## X-Curse-Project-ID: 88865
 ## X-WoWI-ID: 23464
+## X-Wago-ID: XrNkYjKa
 
 libs\LibStub\LibStub.lua
 libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
