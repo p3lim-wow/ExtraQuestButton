@@ -1,3 +1,7 @@
+### Changes in 90200.29-Release:
+
+- Fixed: Binding not working
+
 ### Changes in 90200.28-Release:
 
 - Changed: Actually update Interface version
