@@ -80,7 +80,7 @@ function ExtraQuestButton.OnUpdate()
 end
 
 function ExtraQuestButton:UpdateBinding()
-	local keyButton = addonName
+	local keyButton = addonName:upper()
 	local key1, key2 = GetBindingKey(keyButton)
 	if not key1 and not key2 then
 		keyButton = 'EXTRAACTIONBUTTON1'
