@@ -10,12 +10,14 @@
 ## X-WoWI-ID: 23464
 ## X-Wago-ID: XrNkYjKa
 
-libs\LibStub\LibStub.lua
-libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
-libs\AceDB-3.0\AceDB-3.0.xml
-libs\AceGUI-3.0\AceGUI-3.0.xml
-libs\AceConfig-3.0\AceConfig-3.0.xml
-libs\HereBeDragons\HereBeDragons-2.0.lua
+#@non-debug@
+# libs\LibStub\LibStub.lua
+# libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+# libs\AceDB-3.0\AceDB-3.0.xml
+# libs\AceGUI-3.0\AceGUI-3.0.xml
+# libs\AceConfig-3.0\AceConfig-3.0.xml
+# libs\HereBeDragons\HereBeDragons-2.0.lua
+#@end-non-debug@
 
 locale\initialize.lua
 locale\deDE.lua
