@@ -110,12 +110,15 @@ ns.itemData.questItems = {
 	[49402] = 154878, -- Tiragarde Sound
 	[50164] = 154878, -- Tiragarde Sound
 	[51646] = 154878, -- Tiragarde Sound
+	[53476] = 163852, -- Zandalar/Kul Tiras
 	[58586] = 174465, -- Venthyr Covenant
 	[59063] = 175137, -- Night Fae Covenant
 	[59809] = 177904, -- Night Fae Covenant
 	[60188] = 178464, -- Night Fae Covenant
 	[60609] = {180008, 180009}, -- Ardenweald
 	[60649] = 180170, -- Ardenweald
+	[61708] = 174043, -- Maldraxxus, untested
+	[63892] = 185963, -- Korthia
 }
 
 -- quests that doesn't have a defined area on the map (questID = bool/mapID/{mapID,...})
@@ -145,7 +148,9 @@ ns.itemData.inaccurateQuestAreas = {
 	[49846] = true, -- anywhere
 	[49860] = true, -- anywhere
 	[49864] = true, -- anywhere
+	[53476] = true,
 	[59809] = true,
+	[63892] = {1961, 2006, 2007}, -- Korthia and sub-zones
 }
 
 -- same as above, just accurate (questID = {mapID, x, y})
