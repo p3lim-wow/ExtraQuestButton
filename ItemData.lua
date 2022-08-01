@@ -114,8 +114,7 @@ ns.itemData.questItems = {
 	[59063] = 175137, -- Night Fae Covenant
 	[59809] = 177904, -- Night Fae Covenant
 	[60188] = 178464, -- Night Fae Covenant
-	[60609] = 180008, -- Ardenweald
-	[60609] = 180009, -- Ardenweald
+	[60609] = {180008, 180009}, -- Ardenweald
 	[60649] = 180170, -- Ardenweald
 }
 

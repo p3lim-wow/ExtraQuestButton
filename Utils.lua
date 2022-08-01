@@ -19,7 +19,17 @@ local function GetQuestDistanceWithItem(questID)
 	if not itemLink then
 		local fallbackItemID = itemData.questItems[questID]
 		if fallbackItemID then
-			itemLink = ns:GenerateItemLinkFromID(fallbackItemID)
+			if type(fallbackItemID) == 'table' then
+				for _, itemID in next, fallbackItemID do
+					local link = ns:GenerateItemLinkFromID(itemID)
+					if GetItemCount(link) > 0 then
+						itemLink = link
+						break
+					end
+				end
+			else
+				itemLink = ns:GenerateItemLinkFromID(fallbackItemID)
+			end
 		end
 	end
 
