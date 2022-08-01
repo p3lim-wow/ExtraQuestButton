@@ -39,8 +39,15 @@ local function GetQuestDistanceWithItem(questID)
 
 	local itemID = GetItemInfoFromHyperlink(itemLink)
 	if C_QuestLog.IsComplete(questID) then
-		if not showWhenComplete and not itemData.completeItems[itemID] then
+		local completeItemZone = itemData.completeItems[itemID]
+		if not showWhenComplete and not completeItemZone then
 			return
+		end
+
+		if completeItemZone and type(completeItemZone) == 'number' then
+			if HBD:GetPlayerZone() ~= completeItemZone then
+				return
+			end
 		end
 
 		local noCompleteItem = itemData.noCompleteItems[itemID]

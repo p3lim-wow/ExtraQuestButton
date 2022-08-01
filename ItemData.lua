@@ -165,6 +165,7 @@ ns.itemData.completeItems = {
 	[35797] = 116, -- Grizzly Hills
 	[41058] = 120, -- Storm Peaks
 	[52853] = true, -- Mount Hyjal
+	[57412] = 205, -- Shimmering Expanse
 	[60273] = 50, -- Northern Stranglethorn Vale
 	[62508] = 241, -- Twilight Highlands
 	[63357] = 36, -- Burning Steppes
