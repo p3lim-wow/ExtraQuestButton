@@ -46,6 +46,8 @@ local ExtraQuestButton = CreateFrame('CheckButton', addonName, UIParent, 'QuickK
 Mixin(ExtraQuestButton, mixins.EventHandler, mixins.QuestButton, ItemMixin)
 ExtraQuestButton:SetAllPoints(Anchor)
 
+local bindingName = addonName:upper()
+
 function ExtraQuestButton:OnLoad()
 	-- trigger inherited loaders
 	mixins.QuestButton.OnLoad(self)
@@ -80,7 +82,7 @@ function ExtraQuestButton.OnUpdate()
 end
 
 function ExtraQuestButton:UpdateBinding()
-	local keyButton = addonName:upper()
+	local keyButton = bindingName
 	local key1, key2 = GetBindingKey(keyButton)
 	if not key1 and not key2 then
 		keyButton = 'EXTRAACTIONBUTTON1'
@@ -94,7 +96,7 @@ function ExtraQuestButton:UpdateBinding()
 		UnregisterStateDriver(self, 'visible')
 
 		-- update the state driver and attribute handler
-		if keyButton == addonName then
+		if keyButton == bindingName then
 			RegisterStateDriver(self, 'visible','[petbattle] hide; show')
 		else
 			RegisterStateDriver(self, 'visible','[extrabar][petbattle] hide; show')
@@ -258,7 +260,7 @@ BINDING_NAME_EXTRAQUESTBUTTON = addonName
 
 -- quick binding support, this + mixin + some customizations to the enter/leave scripts
 hooksecurefunc(ActionButtonUtil, 'SetAllQuickKeybindButtonHighlights', function(show)
-	ExtraQuestButton.commandName = show and addonName:upper() -- the mixin uses this to generate the tooltip
+	ExtraQuestButton.commandName = show and bindingName -- the mixin uses this to generate the tooltip
 	ExtraQuestButton.QuickKeybindHighlightTexture:SetShown(show)
 
 	if show and InCombatLockdown() then
