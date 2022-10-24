@@ -72,7 +72,7 @@ local function GetQuestDistanceWithItem(questID)
 	end
 
 	local maxDistanceYd = ns.db.profile.distanceYd
-	local distanceSq, onContinent = C_QuestLog.GetDistanceSqToQuest(questID)
+	local distanceSq = C_QuestLog.GetDistanceSqToQuest(questID)
 	 -- the square root of distanceSq is in yards, much easier to work with
 	local distanceYd = distanceSq and sqrt(distanceSq)
 	if distanceYd and distanceYd <= maxDistanceYd then
@@ -81,9 +81,9 @@ local function GetQuestDistanceWithItem(questID)
 
 	local accurateQuestAreaData = itemData.accurateQuestAreas[questID]
 	if accurateQuestAreaData then
-		local distanceSq = GetDistanceSqToPoint(accurateQuestAreaData[1], accurateQuestAreaData[2], accurateQuestAreaData[3])
-		if distanceSq then
-			return sqrt(distanceSq), itemLink
+		local distanceSqToPoint = GetDistanceSqToPoint(accurateQuestAreaData[1], accurateQuestAreaData[2], accurateQuestAreaData[3])
+		if distanceSqToPoint then
+			return sqrt(distanceSqToPoint), itemLink
 		end
 	end
 

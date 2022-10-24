@@ -1,4 +1,4 @@
-local L = select(2, ...).L('koKR')
+local L = select(2, ...).L('koKR') -- luacheck: ignore
 
 -- Config
 -- L['Only show for tracked quests'] = ''

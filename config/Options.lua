@@ -65,8 +65,7 @@ end)
 _G['SLASH_' .. addonName .. '1'] = '/eqb'
 _G['SLASH_' .. addonName .. '2'] = '/extraquestbutton'
 SlashCmdList[addonName] = function(msg)
-	local option, value = strsplit(' ', msg)
-	option = option:lower()
+	local option = msg:lower()
 
 	if option == 'reset' then
 		ns.db:ResetProfile()

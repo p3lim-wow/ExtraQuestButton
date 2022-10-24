@@ -83,10 +83,10 @@ end
 
 function ExtraQuestButton:UpdateBinding()
 	local keyButton = bindingName
-	local key1, key2 = GetBindingKey(keyButton)
-	if not key1 and not key2 then
+	local key1 = GetBindingKey(keyButton)
+	if not key1 then
 		keyButton = 'EXTRAACTIONBUTTON1'
-		key1, key2 = GetBindingKey(keyButton)
+		key1 = GetBindingKey(keyButton)
 	end
 
 	if not InCombatLockdown() then
@@ -129,7 +129,7 @@ end
 
 function ExtraQuestButton:UpdateCooldown()
 	if not self:IsItemEmpty() then
-		local start, duration, enable = GetItemCooldown(self:GetItemID())
+		local start, duration = GetItemCooldown(self:GetItemID())
 		if duration > 0 then
 			self:SetCooldown(start, duration)
 		else

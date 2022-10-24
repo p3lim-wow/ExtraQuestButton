@@ -1,4 +1,4 @@
-local L = select(2, ...).L('deDE')
+local L = select(2, ...).L('deDE') -- luacheck: ignore
 
 -- Config
 L['Only show for tracked quests'] = 'Nur für verfolgte Quests anzeigen'

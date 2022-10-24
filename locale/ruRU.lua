@@ -1,4 +1,4 @@
-local L = select(2, ...).L('ruRU')
+local L = select(2, ...).L('ruRU') -- luacheck: ignore
 
 -- Config
 -- L['Only show for tracked quests'] = ''
