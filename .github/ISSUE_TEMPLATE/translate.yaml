@@ -1,0 +1,68 @@
+name: Translation
+description: Provide a translation for in-game strings.
+title: 'Translation: '
+labels:
+  - enhancement
+  - translation
+assignees:
+  - p3lim
+body:
+  - type: dropdown
+    id: locale
+    attributes:
+      label: Which locale are these translations for?
+      options:
+        - deDE (German)
+        - esES (Spanish, Spain)
+        - esMX (Spanish, Mexico)
+        - frFR (French)
+        - itIT (Italian)
+        - koKR (Korean)
+        - ptBR (Portuguese, Brazil)
+        - ruRU (Russian)
+        - zhCN (Chinese, Simplified, PRC)
+        - zhTW (Chinese, Traditional, Taiwan)
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        Please translate each sentence below into the fields next to them.  
+        It is not required to translate all of them.
+
+        ---
+# the rest is a list of strings to translate
+  - type: input
+    attributes:
+      label: '"Only show for tracked quests"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Only show for quests in current zone"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Distance in yards how far away the quest can be"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Activate on button press"'
+      description: Used in the settings
+  - type: input
+    attributes:
+      label: '"Up"'
+      description: Used in the settings, whether the button should activate on releasing the key
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Down"'
+      description: Used in the settings, whether the button should activate on pressing the key
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Both"'
+      description: Used in the settings, whether the button should activate on both pressing and releasing the key
+      placeholder: Translation here
