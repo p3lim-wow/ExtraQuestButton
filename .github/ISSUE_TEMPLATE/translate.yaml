@@ -47,22 +47,3 @@ body:
       label: '"Distance in yards how far away the quest can be"'
       description: Used in the settings
       placeholder: Translation here
-  - type: input
-    attributes:
-      label: '"Activate on button press"'
-      description: Used in the settings
-  - type: input
-    attributes:
-      label: '"Up"'
-      description: Used in the settings, whether the button should activate on releasing the key
-      placeholder: Translation here
-  - type: input
-    attributes:
-      label: '"Down"'
-      description: Used in the settings, whether the button should activate on pressing the key
-      placeholder: Translation here
-  - type: input
-    attributes:
-      label: '"Both"'
-      description: Used in the settings, whether the button should activate on both pressing and releasing the key
-      placeholder: Translation here

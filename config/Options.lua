@@ -37,18 +37,6 @@ local function CreateOptions()
 				step = 1,
 				width = 'double',
 			},
-			activate = {
-				order = 5,
-				name = L['Activate on button press'],
-				type = 'select',
-				values = {
-					UP = L['Up'],
-					DOWN = L['Down'],
-					BOTH = L['Both'],
-				},
-				disabled = InCombatLockdown,
-				width = 'double',
-			},
 		},
 	})
 

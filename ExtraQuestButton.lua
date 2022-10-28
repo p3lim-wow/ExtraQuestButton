@@ -53,6 +53,10 @@ function ExtraQuestButton:OnLoad()
 	mixins.QuestButton.OnLoad(self)
 	mixins.EventHandler.OnLoad(self)
 
+	-- update click mode
+	self:UpdateClickDirection()
+	self:RegisterEvent('CVAR_UPDATE', self.UpdateClickDirection)
+
 	-- set action type
 	self:SetAttribute('type', 'item')
 
@@ -147,14 +151,6 @@ function ExtraQuestButton:UpdateTooltip()
 end
 
 function ExtraQuestButton:UpdateState()
-	if ns.db.profile.activate == 'UP' then
-		self:RegisterForClicks('AnyUp')
-	elseif ns.db.profile.activate == 'DOWN' then
-		self:RegisterForClicks('AnyDown')
-	elseif ns.db.profile.activate == 'BOTH' then
-		self:RegisterForClicks('AnyUp', 'AnyDown')
-	end
-
 	local itemLink = self:GetTargetItem()
 	if not itemLink then
 		itemLink = ns:GetClosestQuestItem()
@@ -231,6 +227,30 @@ function ExtraQuestButton:QueueAttributeUpdate()
 
 	if not self:IsEventRegistered('PLAYER_REGEN_ENABLED') then
 		self:RegisterEvent('PLAYER_REGEN_ENABLED', self.UpdateAttributes)
+	end
+end
+
+local clickQueue
+function ExtraQuestButton:UpdateClickDirection(cvar)
+	if not cvar then
+		cvar = 'ActionButtonUseKeyDown'
+	end
+
+	if cvar == 'ActionButtonUseKeyDown' then
+		if InCombatLockdown() then
+			clickQueue = true
+			self:RegisterEvent('PLAYER_REGEN_ENABLED', self.UpdateClickDirection)
+			return
+		elseif clickQueue then
+			clickQueue = false
+			self:UnregisterEvent('PLAYER_REGEN_ENABLED', self.UpdateClickDirection)
+		end
+
+		if C_CVar.GetCVarBool(cvar) then
+			ExtraQuestButton:RegisterForClicks('AnyDown')
+		else
+			ExtraQuestButton:RegisterForClicks('AnyUp')
+		end
 	end
 end
 

@@ -67,6 +67,7 @@ read_globals = {
 	-- namespaces
 	'C_QuestLog',
 	'C_Timer',
+	'C_CVar',
 
 	-- API
 	'hooksecurefunc',
