@@ -1,3 +1,11 @@
+### Changes in 100000.30-Release:
+
+- Changed: Update Interface version
+- Changed: Dragonflight API updates
+- Changed: Update quest/item database
+- Fixed: Binding issues
+- Removed: Option to change up/down state, this is controlled by a CVar now
+
 ### Changes in 90200.29-Release:
 
 - Fixed: Binding not working
