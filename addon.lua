@@ -311,6 +311,8 @@ function button:EnableEditMode()
 		if not InCombatLockdown() and self:IsItemEmpty() then
 			-- hide right away
 			self:Hide()
+		else
+			self:SetItem(self:GetItemLink())
 		end
 
 		-- let state enable itself
