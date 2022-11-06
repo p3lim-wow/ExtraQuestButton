@@ -1,3 +1,10 @@
+### Changes in 100000.31-Release:
+
+- Added: Masque support
+- Added: Artwork settings
+- Changed: Use EditMode for positioning and settings
+- Changed: Savedvariables has been reset because of EditMode integration
+
 ### Changes in 100000.30-Release:
 
 - Changed: Update Interface version
