@@ -85,6 +85,10 @@ function button:OnLoad()
 
 	-- some items are used directly on targets
 	self:RegisterEvent('PLAYER_TARGET_CHANGED', self.UpdateTarget)
+
+	-- update checked status
+	self:RegisterEvent('CURRENT_SPELL_CAST_CHANGED', self.UpdateChecked)
+	self:RegisterEvent('ACTIONBAR_UPDATE_STATE', self.UpdateChecked)
 end
 
 function button:UpdateBinding()

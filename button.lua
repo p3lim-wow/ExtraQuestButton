@@ -79,12 +79,6 @@ local function onRangeUpdate(self, elapsed)
 	end
 end
 
-local function postClick(self)
-	if self:IsShown() then
-		self:SetChecked(IsCurrentItem(self:GetItemLink()))
-	end
-end
-
 local buttonMixin = {}
 function buttonMixin:SetIcon(path)
 	self.Icon:SetTexture(path)
@@ -134,6 +128,12 @@ function buttonMixin:IsUpdatingRange()
 	return self.isRangeUpdateEnabled
 end
 
+function buttonMixin:UpdateChecked()
+	if self:IsShown() then
+		self:SetChecked(IsCurrentItem(self:GetItemLink()))
+	end
+end
+
 function buttonMixin:GetItemLink()
 	-- stub
 end
@@ -145,7 +145,7 @@ function addon:CreateExtraButton(extraTemplates)
 	Button:SetClampedToScreen(true)
 	Button:SetScript('OnEnter', onEnter)
 	Button:SetScript('OnLeave', onLeave)
-	Button:SetScript('PostClick', postClick)
+	Button:SetScript('PostClick', Button.UpdateChecked)
 
 	local Icon = Button:CreateTexture('$parentIcon', 'BACKGROUND')
 	Icon:SetAllPoints()
