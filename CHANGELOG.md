@@ -1,3 +1,7 @@
+### Changes in 100000.34-Release:
+
+- Added: Slash command to let people know of the Edit Mode
+
 ### Changes in 100000.33-Release:
 
 - Fixed: Button clicking not working
