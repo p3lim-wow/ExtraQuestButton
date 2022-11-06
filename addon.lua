@@ -437,7 +437,6 @@ LEM:AddFrameSettings(button, {
 		end,
 		set = function(layoutName, value)
 			ExtraQuestButtonDB3.profiles[layoutName].trackingOnly = value
-			-- TODO: update shit
 		end,
 	},
 	{
@@ -449,7 +448,6 @@ LEM:AddFrameSettings(button, {
 		end,
 		set = function(layoutName, value)
 			ExtraQuestButtonDB3.profiles[layoutName].zoneOnly = value
-			-- TODO: update shit
 		end,
 	},
 	{
@@ -460,9 +458,7 @@ LEM:AddFrameSettings(button, {
 			return ExtraQuestButtonDB3.profiles[layoutName].distanceYd
 		end,
 		set = function(layoutName, value)
-			-- value = math.floor(value + 0.5)
 			ExtraQuestButtonDB3.profiles[layoutName].distanceYd = value
-			-- TODO: update shit
 		end,
 		minValue = 5,
 		maxValue = 10000,
