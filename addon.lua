@@ -497,3 +497,7 @@ hooksecurefunc(ActionButtonUtil, 'SetAllQuickKeybindButtonHighlights', function(
 		addon:Print('Can\'t adjust bindings in combat, you\'ll probably get errors now.')
 	end
 end)
+
+addon:RegisterSlash('/eqb', function()
+	addon:Print('Settings moved to the Edit Mode.')
+end)
