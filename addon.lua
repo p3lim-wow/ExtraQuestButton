@@ -299,10 +299,13 @@ function button:OnSettingsChanged(layoutName)
 	self:SetPoint(pos.point, pos.x, pos.y)
 end
 
-function button:EnableEditMode()
-	self.editing = LEM:IsInEditMode()
-
+function button:EnableEditMode(isInEditMode)
+	self.editing = isInEditMode
 	if self.editing then
+		if InCombatLockdown() then
+			addon:Print('Can\'t modify in combat')
+		end
+
 		-- unregister state driver and attribute handler
 		UnregisterStateDriver(self, 'visible')
 		self:SetAttribute('_onattributechanged', nil)
@@ -325,15 +328,11 @@ function button:EnableEditMode()
 end
 
 function button.OnEditModeEnter()
-	if InCombatLockdown() then
-		addon:Print('Can\'t modify in combat')
-	end
-
-	addon:Defer(button, 'EnableEditMode')
+	addon:Defer(button, 'EnableEditMode', true)
 end
 
 function button.OnEditModeExit()
-	addon:Defer(button, 'EnableEditMode')
+	addon:Defer(button, 'EnableEditMode', false)
 end
 
 function button.OnEditModeLayout(layoutName)
@@ -484,6 +483,12 @@ _G['BINDING_NAME_' .. addonName:upper()] = addonName
 
 -- hook QuickKeyBind to apply our command and state
 hooksecurefunc(ActionButtonUtil, 'SetAllQuickKeybindButtonHighlights', function(show)
+	if not show and LEM:IsInEditMode() then
+		return
+	end
+
+	addon:Defer(button, 'EnableEditMode', show)
+
 	button.commandName = show and addonName:upper()
 	button.QuickKeybindHighlightTexture:SetShown(show)
 
