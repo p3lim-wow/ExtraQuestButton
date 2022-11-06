@@ -33,7 +33,7 @@ local ATTRIBUTE_HANDLER = [[
 		end
 	elseif name == 'state-visible' then
 		-- there is (or was) a pet battle
-		if value == 'show' then
+		if value == 'show' and self:GetAttribute('item') ~= nil then
 			-- trigger an update to check if we should show an item
 			self:Show()
 			self:CallMethod('UpdateState')
