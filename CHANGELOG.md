@@ -1,3 +1,9 @@
+### Changes in 100000.33-Release:
+
+- Fixed: Button clicking not working
+- Fixed: Quick keybind mode not working
+- Fixed: Checked status not updating
+
 ### Changes in 100000.32-Release:
 
 - Fixed: Button popping up when it shouldn't
