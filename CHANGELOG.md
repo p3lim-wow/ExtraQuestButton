@@ -1,3 +1,9 @@
+### Changes in 100000.32-Release:
+
+- Fixed: Button popping up when it shouldn't
+- Fixed: Button not updating after leaving EditMode
+- Fixed: EditMode overlay getting stuck
+
 ### Changes in 100000.31-Release:
 
 - Added: Masque support
