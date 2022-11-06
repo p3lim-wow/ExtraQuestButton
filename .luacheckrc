@@ -19,21 +19,11 @@ exclude_files = {
 }
 
 globals = {
-	-- FrameXML objects we mutate
-	'SlashCmdList', -- FrameXML/ChatFrame.lua
-
 	-- savedvariables
-	'ExtraQuestButtonDB',
-
-	-- binding constants
-	'BINDING_HEADER_EXTRAQUESTBUTTON',
-	'BINDING_NAME_EXTRAQUESTBUTTON',
+	'ExtraQuestButtonDB3',
 }
 
 read_globals = {
-	string = {fields = {'split'}},
-	table = {fields = {'wipe'}},
-
 	-- FrameXML objects
 	'UIParent', -- FrameXML/UIParent.xml
 	'GameTooltip', -- ???
@@ -41,28 +31,21 @@ read_globals = {
 	'ActionButtonUtil', -- FrameXML/ActionButtonUtil.lua
 	'QuickKeybindButtonTemplateMixin', -- FrameXML/QuickKeybind.lua
 
-	'InterfaceOptionsFrameAddOns', -- OLD
-
 	-- FrameXML functions
 	'nop', -- FrameXML/UIParent.lua
 	'GameTooltip_Hide', -- FrameXML/GameTooltip.lua
 	'RegisterStateDriver', -- FrameXML/SecureStateDriver.lua
 	'UnregisterStateDriver', -- FrameXML/SecureStateDriver.lua
-
-	'InterfaceAddOnsList_Update', -- OLD
-	'InterfaceOptionsFrame_OpenToCategory', -- OLD
+	'CopyTable', -- FrameXML/TableUtil.lua 
 
 	-- FrameXML constants
 	'RANGE_INDICATOR', -- FrameXML/ActionButton.lua
-
-	-- SharedXML objects
-	'Settings', -- SharedXML/Settings/Blizzard_Settings.lua
-	'SettingsPanel', -- SharedXML/Settings/Blizzard_SettingsPanel.xml
 
 	-- SharedXML functions
 	'Mixin', -- SharedXML/Mixin.lua
 	'GetItemInfoFromHyperlink', -- SharedXML/LinkUtil.lua
 	'KeybindFrames_InQuickKeybindMode', -- SharedXML/BindingUtil.lua
+	'FormatPercentage', -- SharedXML/FormattingUtil.lua
 
 	-- namespaces
 	'C_QuestLog',
@@ -74,12 +57,10 @@ read_globals = {
 	'CreateFrame',
 	'GetBindingKey',
 	'GetBindingText',
-	'GetBuildInfo',
 	'GetItemCooldown',
 	'GetItemCount',
 	'GetItemInfo',
 	'GetLocale',
-	'GetPhysicalScreenSize',
 	'GetQuestLogSpecialItemInfo',
 	'GetTime',
 	'InCombatLockdown',
@@ -87,11 +68,6 @@ read_globals = {
 	'IsItemInRange',
 	'ItemHasRange',
 	'QuestHasPOIInfo',
-	'UnitGUID',
-
-	-- exposed globals
-	'ExtraQuestButton',
-	'ExtraQuestButtonAnchor',
 
 	-- exposed from other addons
 	'LibStub',
