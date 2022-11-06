@@ -34,6 +34,26 @@ body:
 # the rest is a list of strings to translate
   - type: input
     attributes:
+      label: '"Button scale"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Artwork opacity"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Artwork style"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Hide cooldown text"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
       label: '"Only show for tracked quests"'
       description: Used in the settings
       placeholder: Translation here
@@ -44,6 +64,6 @@ body:
       placeholder: Translation here
   - type: input
     attributes:
-      label: '"Distance in yards how far away the quest can be"'
+      label: '"Tracking distance"'
       description: Used in the settings
       placeholder: Translation here

@@ -1,5 +1,5 @@
-local addonName, ns = ...
-local itemData = ns.itemData
+local _, addon = ...
+local data = addon.data
 
 local HBD = LibStub('HereBeDragons-2.0')
 local sqrt = math.sqrt
@@ -9,7 +9,7 @@ local function GetDistanceSqToPoint(mapID, x, y)
 	return (HBD:GetZoneDistance(playerMapID, playerX, playerY, mapID, x, y))
 end
 
-local function GetQuestDistanceWithItem(questID)
+local function GetQuestDistanceWithItem(questID, maxDistanceYd)
 	local questLogIndex = C_QuestLog.GetLogIndexForQuestID(questID)
 	if not questLogIndex then
 		return
@@ -17,18 +17,18 @@ local function GetQuestDistanceWithItem(questID)
 
 	local itemLink, _, _, showWhenComplete = GetQuestLogSpecialItemInfo(questLogIndex)
 	if not itemLink then
-		local fallbackItemID = itemData.questItems[questID]
+		local fallbackItemID = data.questItems[questID]
 		if fallbackItemID then
 			if type(fallbackItemID) == 'table' then
 				for _, itemID in next, fallbackItemID do
-					local link = ns:GenerateItemLinkFromID(itemID)
+					local link = addon:GenerateItemLinkFromID(itemID)
 					if GetItemCount(link) > 0 then
 						itemLink = link
 						break
 					end
 				end
 			else
-				itemLink = ns:GenerateItemLinkFromID(fallbackItemID)
+				itemLink = addon:GenerateItemLinkFromID(fallbackItemID)
 			end
 		end
 	end
@@ -39,7 +39,7 @@ local function GetQuestDistanceWithItem(questID)
 
 	local itemID = GetItemInfoFromHyperlink(itemLink)
 	if C_QuestLog.IsComplete(questID) then
-		local completeItemZone = itemData.completeItems[itemID]
+		local completeItemZone = data.completeItems[itemID]
 		if not showWhenComplete and not completeItemZone then
 			return
 		end
@@ -50,10 +50,10 @@ local function GetQuestDistanceWithItem(questID)
 			end
 		end
 
-		local noCompleteItem = itemData.noCompleteItems[itemID]
+		local noCompleteItem = data.noCompleteItems[itemID]
 		if noCompleteItem then
 			if type(noCompleteItem) == 'number' then
-				itemLink = ns:GenerateItemLinkFromID(noCompleteItem)
+				itemLink = addon:GenerateItemLinkFromID(noCompleteItem)
 				itemID = noCompleteItem
 			else
 				return
@@ -66,12 +66,11 @@ local function GetQuestDistanceWithItem(questID)
 		return
 	end
 
-	if itemData.itemBlacklist[itemID] then
+	if data.itemBlacklist[itemID] then
 		-- don't show items we specifically want to ignore
 		return
 	end
 
-	local maxDistanceYd = ns.db.profile.distanceYd
 	local distanceSq = C_QuestLog.GetDistanceSqToQuest(questID)
 	 -- the square root of distanceSq is in yards, much easier to work with
 	local distanceYd = distanceSq and sqrt(distanceSq)
@@ -79,7 +78,7 @@ local function GetQuestDistanceWithItem(questID)
 		return distanceYd, itemLink
 	end
 
-	local accurateQuestAreaData = itemData.accurateQuestAreas[questID]
+	local accurateQuestAreaData = data.accurateQuestAreas[questID]
 	if accurateQuestAreaData then
 		local distanceSqToPoint = GetDistanceSqToPoint(accurateQuestAreaData[1], accurateQuestAreaData[2], accurateQuestAreaData[3])
 		if distanceSqToPoint then
@@ -87,7 +86,7 @@ local function GetQuestDistanceWithItem(questID)
 		end
 	end
 
-	local questMapID = itemData.inaccurateQuestAreas[questID]
+	local questMapID = data.inaccurateQuestAreas[questID]
 	if questMapID then
 		if type(questMapID) == 'boolean' then
 			return maxDistanceYd - 1, itemLink
@@ -109,14 +108,14 @@ end
 local function IsQuestOnMapCurrentMap(questID)
 	local isOnMap = C_QuestLog.IsOnMap(questID)
 	if not isOnMap then
-		local accurateQuestAreaInfo = itemData.accurateQuestAreas[questID]
+		local accurateQuestAreaInfo = data.accurateQuestAreas[questID]
 		if accurateQuestAreaInfo then
 			isOnMap = accurateQuestAreaInfo[1] == HBD:GetPlayerZone()
 		end
 	end
 
 	if not isOnMap then
-		local inaccurateQuestAreaInfo = itemData.inaccurateQuestAreas[questID]
+		local inaccurateQuestAreaInfo = data.inaccurateQuestAreas[questID]
 		if inaccurateQuestAreaInfo then
 			if type(inaccurateQuestAreaInfo) == 'boolean' then
 				isOnMap = true
@@ -138,17 +137,16 @@ local function IsQuestOnMapCurrentMap(questID)
 end
 
 -- adaptation of QuestSuperTracking_ChooseClosestQuest for quests with items
-function ns:GetClosestQuestItem()
+function addon:GetClosestQuestItem(maxDistanceYd, zoneOnly, trackingOnly)
 	local closestQuestItemLink
-	local closestDistance = ns.db.profile.distanceYd -- yards
-	local onlyInZone = ns.db.profile.zoneOnly
+	local closestDistance = maxDistanceYd -- yards
 
 	for index = 1, C_QuestLog.GetNumWorldQuestWatches() do
 		-- this only tracks supertracked worldquests,
 		-- e.g. stuff the player has shift-clicked on the map
 		local questID = C_QuestLog.GetQuestIDForWorldQuestWatchIndex(index)
-		if questID and (not onlyInZone or IsQuestOnMapCurrentMap(questID)) then
-			local distance, itemLink = GetQuestDistanceWithItem(questID)
+		if questID and (not zoneOnly or IsQuestOnMapCurrentMap(questID)) then
+			local distance, itemLink = GetQuestDistanceWithItem(questID, maxDistanceYd)
 			if distance and distance <= closestDistance then
 				closestDistance = distance
 				closestQuestItemLink = itemLink
@@ -159,8 +157,8 @@ function ns:GetClosestQuestItem()
 	if not closestQuestItemLink then
 		for index = 1, C_QuestLog.GetNumQuestWatches() do
 			local questID = C_QuestLog.GetQuestIDForQuestWatchIndex(index)
-			if questID and QuestHasPOIInfo(questID) and (not onlyInZone or IsQuestOnMapCurrentMap(questID)) then
-				local distance, itemLink = GetQuestDistanceWithItem(questID)
+			if questID and QuestHasPOIInfo(questID) and (not zoneOnly or IsQuestOnMapCurrentMap(questID)) then
+				local distance, itemLink = GetQuestDistanceWithItem(questID, maxDistanceYd)
 				if distance and distance <= closestDistance then
 					closestDistance = distance
 					closestQuestItemLink = itemLink
@@ -170,16 +168,14 @@ function ns:GetClosestQuestItem()
 	end
 
 	if not closestQuestItemLink then
-		local onlyIfWatched = ns.db.profile.trackingOnly
-
 		for index = 1, C_QuestLog.GetNumQuestLogEntries() do
 			local info = C_QuestLog.GetInfo(index)
 			if info and not info.isHeader and QuestHasPOIInfo(info.questID) then
 				local questID = info.questID
 				-- world quests are always considered
-				if not (onlyIfWatched or info.isHidden) or C_QuestLog.IsWorldQuest(questID) then
-					if not onlyInZone or IsQuestOnMapCurrentMap(questID) then
-						local distance, itemLink = GetQuestDistanceWithItem(questID)
+				if not (trackingOnly or info.isHidden) or C_QuestLog.IsWorldQuest(questID) then
+					if not zoneOnly or IsQuestOnMapCurrentMap(questID) then
+						local distance, itemLink = GetQuestDistanceWithItem(questID, maxDistanceYd)
 						if distance and distance <= closestDistance then
 							closestDistance = distance
 							closestQuestItemLink = itemLink
@@ -193,22 +189,4 @@ function ns:GetClosestQuestItem()
 	if closestQuestItemLink then
 		return closestQuestItemLink
 	end
-end
-
-local NPC_ID_PATTERN = '%w+%-.-%-.-%-.-%-.-%-(.-)%-'
-function ns:GetNPCID(unit)
-	if unit then
-		local npcGUID = UnitGUID(unit)
-		if npcGUID then
-			return tonumber(npcGUID:match(NPC_ID_PATTERN))
-		end
-	end
-end
-
-function ns:GenerateItemLinkFromID(itemID)
-	return string.format('|Hitem:%d|h', itemID)
-end
-
-function ns:Print(...)
-	print('|cff33ff99' .. addonName .. '|r', ...)
 end

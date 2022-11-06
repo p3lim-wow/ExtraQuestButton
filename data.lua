@@ -1,9 +1,8 @@
-local _, ns = ...
-ns.itemData = {}
+local data = {}
 
 -- Warlords of Draenor intro quest items which inspired this addon (itemID = bool)
 -- just let the ExtraActionBar handle these
-ns.itemData.itemBlacklist = {
+data.itemBlacklist = {
 	[113191] = true,
 	[110799] = true,
 	[109164] = true,
@@ -11,7 +10,7 @@ ns.itemData.itemBlacklist = {
 
 -- items that should be used on specific mobs (npcID = itemID)
 -- these have high priority during collision
-ns.itemData.targetItems = {
+data.targetItems = {
 	[9999] = 11804, -- Un'Goro Crater
 	[25321] = 34711, -- Borean Tundra
 	[25322] = 34711, -- Borean Tundra
@@ -62,7 +61,7 @@ ns.itemData.targetItems = {
 
 -- items that should be used for a quest but aren't (questID = itemID)
 -- these have low priority during collision
-ns.itemData.questItems = {
+data.questItems = {
 	-- (TODO: test if we need to associate any of these items with a zone directly instead)
 	[10129] = 28038, -- Hellfire Peninsula
 	[10146] = 28038, -- Hellfire Peninsula
@@ -123,7 +122,7 @@ ns.itemData.questItems = {
 
 -- quests that doesn't have a defined area on the map (questID = bool/mapID/{mapID,...})
 -- these have low priority during collision
-ns.itemData.inaccurateQuestAreas = {
+data.inaccurateQuestAreas = {
 	[11731] = {84, 87, 103}, -- alliance capitals (missing Darnassus)
 	[11921] = {84, 87, 103}, -- alliance capitals (missing Darnassus)
 	[11922] = {18, 85, 88, 110}, -- horde capitals
@@ -155,7 +154,7 @@ ns.itemData.inaccurateQuestAreas = {
 
 -- same as above, just accurate (questID = {mapID, x, y})
 -- TODO: replace the above with this one wherever we can
-ns.itemData.accurateQuestAreas = {
+data.accurateQuestAreas = {
 	[12484] = {116, 0.1683, 0.4834}, -- Grizzly Hills
 	[27389] = {23, 0.3596, 0.4573}, -- Eastern Plaguelands
 	[27451] = {23, 0.5526, 0.6225}, -- Eastern Plaguelands
@@ -166,7 +165,7 @@ ns.itemData.accurateQuestAreas = {
 
 -- items that needs to be shown even after the quest is complete but aren't (itemID = bool/mapID)
 -- these have low priority during collision
-ns.itemData.completeItems = {
+data.completeItems = {
 	[35797] = 116, -- Grizzly Hills
 	[41058] = 120, -- Storm Peaks
 	[52853] = true, -- Mount Hyjal
@@ -180,6 +179,9 @@ ns.itemData.completeItems = {
 
 -- items that are shown after quest is complete but shouldn't (itemID = bool/itemID)
 -- optionally the value can be the replacement item ID
-ns.itemData.noCompleteItems = {
+data.noCompleteItems = {
 	[23680] = 60273, -- Northern Stranglethorn Vale
 }
+
+local _, addon = ...
+addon.data = data
