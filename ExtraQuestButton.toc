@@ -4,7 +4,7 @@
 ## Title: ExtraQuestButton
 ## Notes: An extra button for quest items!
 ## SavedVariables: ExtraQuestButtonDB3
-## OptionalDeps: LibStub, HereBeDragons
+## OptionalDeps: LibStub, HereBeDragons, Masque
 
 ## X-Curse-Project-ID: 88865
 ## X-WoWI-ID: 23464

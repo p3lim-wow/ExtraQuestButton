@@ -1,5 +1,7 @@
 local addonName, addon = ...
 
+local Masque = LibStub('Masque', true)
+
 local ART_STYLES = {
 	AirStrike = [[Interface\ExtraButton\AirStrike]],
 	Amber = [[Interface\ExtraButton\Amber]],
@@ -217,6 +219,26 @@ function addon:CreateExtraButton(extraTemplates)
 		Button.QuickKeybindHighlightTexture:ClearAllPoints()
 		Button.QuickKeybindHighlightTexture:SetPoint('TOPLEFT')
 		Button.QuickKeybindHighlightTexture:SetSize(54, 53)
+	end
+
+	if Masque then
+		-- https://github.com/SFX-WoW/Masque/wiki/Group-API
+		-- https://github.com/SFX-WoW/Masque/wiki/AddButton
+		-- https://github.com/SFX-WoW/Masque/wiki/Regions
+		Masque:Group(addonName, addonName):AddButton(Button, {
+			-- Common
+			Cooldown = Cooldown,
+			Count = Count,
+			Icon = Icon,
+			Mask = Mask,
+			Normal = NormalTexture,
+
+			-- Action
+			Checked = CheckedTexture,
+			Highlight = HighlightTexture,
+			HotKey = HotKey,
+			Pushed = PushedTexture,
+		})
 	end
 
 	return Button
