@@ -21,14 +21,14 @@ local function GetQuestDistanceWithItem(questID, maxDistanceYd)
 		if fallbackItemID then
 			if type(fallbackItemID) == 'table' then
 				for _, itemID in next, fallbackItemID do
-					local link = addon:GenerateItemLinkFromID(itemID)
+					local link = addon:GetItemLinkFromID(itemID)
 					if GetItemCount(link) > 0 then
 						itemLink = link
 						break
 					end
 				end
 			else
-				itemLink = addon:GenerateItemLinkFromID(fallbackItemID)
+				itemLink = addon:GetItemLinkFromID(fallbackItemID)
 			end
 		end
 	end
@@ -53,7 +53,7 @@ local function GetQuestDistanceWithItem(questID, maxDistanceYd)
 		local noCompleteItem = data.noCompleteItems[itemID]
 		if noCompleteItem then
 			if type(noCompleteItem) == 'number' then
-				itemLink = addon:GenerateItemLinkFromID(noCompleteItem)
+				itemLink = addon:GetItemLinkFromID(noCompleteItem)
 				itemID = noCompleteItem
 			else
 				return
