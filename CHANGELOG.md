@@ -1,3 +1,7 @@
+### Changes in 100000.35-Release:
+
+- Fixed: Error generating item link from ID
+
 ### Changes in 100000.34-Release:
 
 - Added: Slash command to let people know of the Edit Mode
