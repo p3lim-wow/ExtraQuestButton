@@ -1,3 +1,7 @@
+### Changes in 100002.36-Release:
+
+- Changed: Update Interface version
+
 ### Changes in 100000.35-Release:
 
 - Fixed: Error generating item link from ID
