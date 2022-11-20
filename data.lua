@@ -1,11 +1,11 @@
 local data = {}
 
--- Warlords of Draenor intro quest items which inspired this addon (itemID = bool)
--- just let the ExtraActionBar handle these
 data.itemBlacklist = {
+	-- sometimes Blizzard does what I want to do, let them handle it
 	[113191] = true,
 	[110799] = true,
 	[109164] = true,
+	[191729] = true,
 }
 
 -- items that should be used on specific mobs (npcID = itemID)
