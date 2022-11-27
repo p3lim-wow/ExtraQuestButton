@@ -1,3 +1,7 @@
+### Changes in 100002.38-Release:
+
+- Fixed: Taint issues from dropdowns closing
+
 ### Changes in 100002.37-Release:
 
 - Changed: Ignore items from Dracthyr starting area
