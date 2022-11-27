@@ -1,3 +1,8 @@
+### Changes in 100002.37-Release:
+
+- Changed: Ignore items from Dracthyr starting area
+- Fixed: Artwork dropdown not updating
+
 ### Changes in 100002.36-Release:
 
 - Changed: Update Interface version
