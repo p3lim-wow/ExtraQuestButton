@@ -1,3 +1,8 @@
+### Changes in 100005.39-Release:
+
+- Changed: Update Interface version
+- Fixed: Missing library
+
 ### Changes in 100002.38-Release:
 
 - Fixed: Taint issues from dropdowns closing
