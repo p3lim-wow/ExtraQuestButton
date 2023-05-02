@@ -123,7 +123,7 @@ function button:UpdateBinding()
 		-- trigger a state update for the binding
 		self:SetAttribute('binding', GetTime())
 	else
-		addon:Defer(self, 'UpdateBinding')
+		addon:Defer(self, 'UpdateBinding', self)
 	end
 end
 
@@ -241,7 +241,7 @@ function button:SetItem(itemLink)
 	self:SetIcon(self:GetItemIcon()) -- we're going to assume it's already loaded since it's a link
 	self:EnableUpdateRange(ItemHasRange(itemLink))
 
-	addon:Defer(self, 'UpdateAttributes')
+	addon:Defer(self, 'UpdateAttributes', self)
 	self:UpdateCount()
 end
 
@@ -253,7 +253,7 @@ function button:Reset()
 	self:Clear()
 	self:EnableUpdateRange(false)
 
-	addon:Defer(self, 'UpdateAttributes')
+	addon:Defer(self, 'UpdateAttributes', self)
 end
 
 function button.OnUpdate()
@@ -323,16 +323,16 @@ function button:EnableEditMode(isInEditMode)
 		end
 
 		-- let state enable itself
-		addon:Defer(self, 'UpdateBinding')
+		addon:Defer(self, 'UpdateBinding', self)
 	end
 end
 
 function button.OnEditModeEnter()
-	addon:Defer(button, 'EnableEditMode', true)
+	addon:Defer(button, 'EnableEditMode', button, true)
 end
 
 function button.OnEditModeExit()
-	addon:Defer(button, 'EnableEditMode', false)
+	addon:Defer(button, 'EnableEditMode', button, false)
 end
 
 function button.OnEditModeLayout(layoutName)
@@ -487,7 +487,7 @@ hooksecurefunc(ActionButtonUtil, 'SetAllQuickKeybindButtonHighlights', function(
 		return
 	end
 
-	addon:Defer(button, 'EnableEditMode', show)
+	addon:Defer(button, 'EnableEditMode', button, show)
 
 	button.commandName = show and addonName:upper()
 	button.QuickKeybindHighlightTexture:SetShown(show)
