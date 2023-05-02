@@ -88,6 +88,7 @@ data.questItems = {
 	[12925] = 41612, -- Storm Peaks
 	[13343] = 44450, -- Dragonblight
 	[13425] = 41612, -- Storm Peaks
+	[13542] = 44868, -- Darkshore
 	[27384] = 12888, -- Eastern Plaguelands
 	[28317] = 63357, -- Burning Steppes
 	[28318] = 63357, -- Burning Steppes
