@@ -1,3 +1,8 @@
+### Changes in 100100.40-Release:
+
+- Changed: Update Interface version
+- Changed: Update quest/item database
+
 ### Changes in 100005.39-Release:
 
 - Changed: Update Interface version
