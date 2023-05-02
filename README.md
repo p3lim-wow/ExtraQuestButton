@@ -18,10 +18,16 @@ If they share the key binding and both are to be shown, Extra**Action**Button wi
 
 Use the Edit Mode to change settings.
 
-## Feedback
+## Translations
 
-If you have a question, please use the comments section on Curse/WoWInterface.  
-If you would like to report a bug or contribute to the project, please follow [this link](https://github.com/p3lim-wow/ExtraQuestButton/issues?q=) to get started.  
+If you want to help translate ExtraQuestButton, please use this form on GitHub:  
+[https://github.com/p3lim-wow/ExtraQuestButton/issues/new?template=translate.yaml](https://github.com/p3lim-wow/ExtraQuestButton/issues/new?assignees=p3lim&labels=enhancement%2Ctranslation&template=translate.yaml&title=Translation%3A+)
+
+## Feedback & issues
+
+If you would like to report a bug or contribute to the project, please visit GitHub:  
+<https://github.com/p3lim-wow/ExtraQuestButton/issues/new/choose>
+
 **If you find a quest item that doesn't show up properly, please report the quest.**
 
 ## Legal
