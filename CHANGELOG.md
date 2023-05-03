@@ -1,3 +1,7 @@
+### Changes in 100100.41-Release:
+
+- Fixed: Old LibEditMode version
+
 ### Changes in 100100.40-Release:
 
 - Changed: Update Interface version
