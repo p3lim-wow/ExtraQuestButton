@@ -186,5 +186,10 @@ data.noCompleteItems = {
 	[23680] = 60273, -- Northern Stranglethorn Vale
 }
 
+-- items that should have priority in an area where there are multiple quest items
+data.priorityItems = {
+	[63508] = true, -- Helcular's Rod, Hillsbrad Foothills
+}
+
 local _, addon = ...
 addon.data = data
