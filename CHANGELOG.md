@@ -1,3 +1,9 @@
+### Changes in 100105.42-Release:
+
+- Changed: Update Interface version
+- Changed: Certain items are now prioritized over others when there is a collision
+- Changed: Update item database
+
 ### Changes in 100100.41-Release:
 
 - Fixed: Old LibEditMode version
