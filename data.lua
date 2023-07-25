@@ -101,6 +101,8 @@ data.questItems = {
 	[29821] = 84157, -- Jade Forest
 	[31112] = 84157, -- Jade Forest
 	[31769] = 89769, -- Jade Forest
+	[34461] = 111956, -- Garrison
+	[34587] = 111956, -- Garrison
 	[35237] = 11891, -- Ashenvale
 	[36848] = 36851, -- Grizzly Hills
 	[37565] = 118330, -- Azsuna
@@ -189,6 +191,8 @@ data.noCompleteItems = {
 -- items that should have priority in an area where there are multiple quest items
 data.priorityItems = {
 	[63508] = true, -- Helcular's Rod, Hillsbrad Foothills
+	[64471] = true, -- Goblin Pocket-Nuke, Hillsbrad Foothills
+	[64583] = true, -- Water Barrel, Hillsbrad Foothills
 }
 
 local _, addon = ...
