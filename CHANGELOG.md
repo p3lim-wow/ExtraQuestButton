@@ -1,3 +1,9 @@
+### Changes in 100105.43-Release:
+
+- Added: German translations courtesy of @BlueNightSky
+- Fixed: Priority of quest items in Hillsbrad Foothills for horde
+- Fixed: Barracks blueprint not working for alliance
+
 ### Changes in 100105.42-Release:
 
 - Changed: Update Interface version
