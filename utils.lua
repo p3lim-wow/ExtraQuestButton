@@ -141,20 +141,31 @@ local function IsQuestOnMapCurrentMap(questID)
 	return isOnMap
 end
 
+local function sortPrioritizedItemLinks(a, b)
+	return a[2] > b[2]
+end
+
+local prioritizedItemLinks = {}
 -- adaptation of QuestSuperTracking_ChooseClosestQuest for quests with items
 function addon:GetClosestQuestItem(maxDistanceYd, zoneOnly, trackingOnly)
 	local priorityItemLink
 	local closestQuestItemLink
 	local closestDistance = maxDistanceYd -- yards
 
+	local hasPrioritizedItem = false
 	for index = 1, C_QuestLog.GetNumWorldQuestWatches() do
 		-- this only tracks supertracked worldquests,
 		-- e.g. stuff the player has shift-clicked on the map
 		local questID = C_QuestLog.GetQuestIDForWorldQuestWatchIndex(index)
 		if questID and (not zoneOnly or IsQuestOnMapCurrentMap(questID)) then
 			local distance, itemLink = GetQuestDistanceWithItem(questID, maxDistanceYd)
-			if IsItemPrioritized(itemLink) then
-				priorityItemLink = itemLink
+			local priorityIndex = IsItemPrioritized(itemLink)
+			if priorityIndex then
+				if not hasPrioritizedItem then
+					table.wipe(prioritizedItemLinks)
+					hasPrioritizedItem = true
+				end
+				table.insert(prioritizedItemLinks, {itemLink, priorityIndex})
 			elseif distance and distance <= closestDistance then
 				closestDistance = distance
 				closestQuestItemLink = itemLink
@@ -167,8 +178,13 @@ function addon:GetClosestQuestItem(maxDistanceYd, zoneOnly, trackingOnly)
 			local questID = C_QuestLog.GetQuestIDForQuestWatchIndex(index)
 			if questID and QuestHasPOIInfo(questID) and (not zoneOnly or IsQuestOnMapCurrentMap(questID)) then
 				local distance, itemLink = GetQuestDistanceWithItem(questID, maxDistanceYd)
-				if IsItemPrioritized(itemLink) then
-					priorityItemLink = itemLink
+				local priorityIndex = IsItemPrioritized(itemLink)
+				if priorityIndex then
+					if not hasPrioritizedItem then
+						table.wipe(prioritizedItemLinks)
+						hasPrioritizedItem = true
+					end
+					table.insert(prioritizedItemLinks, {itemLink, priorityIndex})
 				elseif distance and distance <= closestDistance then
 					closestDistance = distance
 					closestQuestItemLink = itemLink
@@ -186,8 +202,13 @@ function addon:GetClosestQuestItem(maxDistanceYd, zoneOnly, trackingOnly)
 				if not (trackingOnly or info.isHidden) or C_QuestLog.IsWorldQuest(questID) then
 					if not zoneOnly or IsQuestOnMapCurrentMap(questID) then
 						local distance, itemLink = GetQuestDistanceWithItem(questID, maxDistanceYd)
-						if IsItemPrioritized(itemLink) then
-							priorityItemLink = itemLink
+						local priorityIndex = IsItemPrioritized(itemLink)
+						if priorityIndex then
+							if not hasPrioritizedItem then
+								table.wipe(prioritizedItemLinks)
+								hasPrioritizedItem = true
+							end
+							table.insert(prioritizedItemLinks, {itemLink, priorityIndex})
 						elseif distance and distance <= closestDistance then
 							closestDistance = distance
 							closestQuestItemLink = itemLink
@@ -198,7 +219,10 @@ function addon:GetClosestQuestItem(maxDistanceYd, zoneOnly, trackingOnly)
 		end
 	end
 
-	if priorityItemLink or closestQuestItemLink then
-		return priorityItemLink or closestQuestItemLink
+	if hasPrioritizedItem then
+		table.sort(prioritizedItemLinks, sortPrioritizedItemLinks)
+		return prioritizedItemLinks[1][1]
+	elseif closestQuestItemLink then
+		return closestQuestItemLink
 	end
 end

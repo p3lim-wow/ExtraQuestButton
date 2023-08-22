@@ -189,9 +189,9 @@ data.noCompleteItems = {
 
 -- items that should have priority in an area where there are multiple quest items
 data.priorityItems = {
-	[63508] = true, -- Helcular's Rod, Hillsbrad Foothills
-	[64471] = true, -- Goblin Pocket-Nuke, Hillsbrad Foothills
-	[64583] = true, -- Water Barrel, Hillsbrad Foothills
+	[63508] = 1, -- Helcular's Rod, Hillsbrad Foothills
+	[64471] = 1, -- Goblin Pocket-Nuke, Hillsbrad Foothills
+	[64583] = 2, -- Water Barrel, Hillsbrad Foothills
 }
 
 local _, addon = ...
