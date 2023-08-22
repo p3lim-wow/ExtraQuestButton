@@ -1,3 +1,7 @@
+### Changes in 100105.44-Release:
+
+- Fixed: Wrong priority of quest items in Hillsbrad Foothills for horde
+
 ### Changes in 100105.43-Release:
 
 - Added: Taiwanese translations courtesy of @BlueNightSky
