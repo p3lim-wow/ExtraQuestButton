@@ -1,3 +1,7 @@
+### Changes in 100105.45-Release:
+
+- Changed: Update LibEditMode library
+
 ### Changes in 100105.44-Release:
 
 - Fixed: Wrong priority of quest items in Hillsbrad Foothills for horde
