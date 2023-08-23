@@ -24,6 +24,8 @@ globals = {
 }
 
 read_globals = {
+	table = {fields = {'wipe'}},
+
 	-- FrameXML objects
 	'UIParent', -- FrameXML/UIParent.xml
 	'GameTooltip', -- ???

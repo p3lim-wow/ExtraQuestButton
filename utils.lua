@@ -148,7 +148,6 @@ end
 local prioritizedItemLinks = {}
 -- adaptation of QuestSuperTracking_ChooseClosestQuest for quests with items
 function addon:GetClosestQuestItem(maxDistanceYd, zoneOnly, trackingOnly)
-	local priorityItemLink
 	local closestQuestItemLink
 	local closestDistance = maxDistanceYd -- yards
 
