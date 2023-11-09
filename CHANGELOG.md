@@ -1,3 +1,8 @@
+### Changes in 100200.46-Release:
+
+- Changed: Update Interface version
+- Changed: Update quest/item database
+
 ### Changes in 100105.45-Release:
 
 - Changed: Update LibEditMode library
