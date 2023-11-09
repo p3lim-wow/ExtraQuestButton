@@ -121,6 +121,9 @@ data.questItems = {
 	[60649] = 180170, -- Ardenweald
 	[61708] = 174043, -- Maldraxxus, untested
 	[63892] = 185963, -- Korthia
+	[12022] = 169219, -- Brewfest
+	[12191] = 169219, -- Brewfest
+	[66439] = 192545, -- The Waking Shores
 }
 
 -- quests that doesn't have a defined area on the map (questID = bool/mapID/{mapID,...})
@@ -154,6 +157,8 @@ data.inaccurateQuestAreas = {
 	[53476] = true,
 	[59809] = true,
 	[63892] = {1961, 2006, 2007}, -- Korthia and sub-zones
+	[75923] = 2023, -- Ohn'ahran Plains
+	[66439] = 2022, -- The Waking Shores
 }
 
 -- same as above, just accurate (questID = {mapID, x, y})
