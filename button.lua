@@ -60,7 +60,7 @@ end
 local function onRangeUpdate(self, elapsed)
 	if (self.rangeTimer or 0) < 0.2 then
 		self.rangeTimer = (self.rangeTimer or 0) + elapsed
-	else
+	elseif not InCombatLockdown() then -- IsItemInRange is combat restricted now...
 		self.rangeTimer = 0
 
 		-- BUG: IsItemInRange() is broken versus friendly targets
