@@ -124,6 +124,7 @@ data.questItems = {
 	[12022] = 169219, -- Brewfest
 	[12191] = 169219, -- Brewfest
 	[66439] = 192545, -- The Waking Shores
+	[77891] = 209017, -- Emerald Dream
 }
 
 -- quests that doesn't have a defined area on the map (questID = bool/mapID/{mapID,...})
@@ -159,6 +160,7 @@ data.inaccurateQuestAreas = {
 	[63892] = {1961, 2006, 2007}, -- Korthia and sub-zones
 	[75923] = 2023, -- Ohn'ahran Plains
 	[66439] = 2022, -- The Waking Shores
+	[77891] = 2200, -- Emerald Dream
 }
 
 -- same as above, just accurate (questID = {mapID, x, y})
