@@ -1,3 +1,8 @@
+### Changes in 100200.47-Release:
+
+- Changed: Range indicator won't update in combat any more
+- Changed: Update quest/item database
+
 ### Changes in 100200.46-Release:
 
 - Changed: Update Interface version
