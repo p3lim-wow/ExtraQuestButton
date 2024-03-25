@@ -27,36 +27,35 @@ read_globals = {
 	table = {fields = {'wipe'}},
 
 	-- FrameXML objects
-	'UIParent', -- FrameXML/UIParent.xml
+	'ActionButtonUtil', -- FrameXML/ActionButtonUtil.lua
 	'GameTooltip', -- ???
 	'ItemMixin', -- FrameXML/ObjectAPI/Item.lua
-	'ActionButtonUtil', -- FrameXML/ActionButtonUtil.lua
 	'QuickKeybindButtonTemplateMixin', -- FrameXML/QuickKeybind.lua
+	'UIParent', -- FrameXML/UIParent.xml
 
 	-- FrameXML functions
-	'nop', -- FrameXML/UIParent.lua
+	'CopyTable', -- FrameXML/TableUtil.lua
 	'GameTooltip_Hide', -- FrameXML/GameTooltip.lua
 	'RegisterStateDriver', -- FrameXML/SecureStateDriver.lua
 	'UnregisterStateDriver', -- FrameXML/SecureStateDriver.lua
-	'CopyTable', -- FrameXML/TableUtil.lua 
+	'nop', -- FrameXML/UIParent.lua
 
 	-- FrameXML constants
 	'RANGE_INDICATOR', -- FrameXML/ActionButton.lua
 
 	-- SharedXML functions
-	'Mixin', -- SharedXML/Mixin.lua
+	'FormatPercentage', -- SharedXML/FormattingUtil.lua
 	'GetItemInfoFromHyperlink', -- SharedXML/LinkUtil.lua
 	'KeybindFrames_InQuickKeybindMode', -- SharedXML/BindingUtil.lua
-	'FormatPercentage', -- SharedXML/FormattingUtil.lua
+	'Mixin', -- SharedXML/Mixin.lua
 
 	-- namespaces
+	'C_CVar',
 	'C_Item',
 	'C_QuestLog',
 	'C_Timer',
-	'C_CVar',
 
 	-- API
-	'hooksecurefunc',
 	'CreateFrame',
 	'GetBindingKey',
 	'GetBindingText',
@@ -65,6 +64,7 @@ read_globals = {
 	'GetTime',
 	'InCombatLockdown',
 	'QuestHasPOIInfo',
+	'hooksecurefunc',
 
 	-- exposed from other addons
 	'LibStub',
