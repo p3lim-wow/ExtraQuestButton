@@ -50,6 +50,7 @@ read_globals = {
 	'FormatPercentage', -- SharedXML/FormattingUtil.lua
 
 	-- namespaces
+	'C_Item',
 	'C_QuestLog',
 	'C_Timer',
 	'C_CVar',
@@ -59,16 +60,10 @@ read_globals = {
 	'CreateFrame',
 	'GetBindingKey',
 	'GetBindingText',
-	'GetItemCooldown',
-	'GetItemCount',
-	'GetItemInfo',
 	'GetLocale',
 	'GetQuestLogSpecialItemInfo',
 	'GetTime',
 	'InCombatLockdown',
-	'IsCurrentItem',
-	'IsItemInRange',
-	'ItemHasRange',
 	'QuestHasPOIInfo',
 
 	-- exposed from other addons

@@ -134,7 +134,7 @@ function button:UpdateCount()
 
 	if not self:IsItemEmpty() then
 		-- update count
-		local count = GetItemCount(self:GetItemLink())
+		local count = C_Item.GetItemCount(self:GetItemLink())
 		self:SetCount(count)
 
 		if count == 0 then
@@ -150,7 +150,7 @@ function button:UpdateCooldown()
 	end
 
 	if not self:IsItemEmpty() then
-		local start, duration = GetItemCooldown(self:GetItemID())
+		local start, duration = C_Item.GetItemCooldown(self:GetItemID())
 		if duration > 0 then
 			self:SetCooldown(start, duration)
 		else
@@ -189,7 +189,7 @@ function button:UpdateTarget()
 	if npcID then
 		local targetItemID = data.targetItems[npcID]
 		if targetItemID then
-			if GetItemCount(targetItemID) > 0 then
+			if C_Item.GetItemCount(targetItemID) > 0 then
 				self:SetTargetItem(targetItemID)
 				self:UpdateState()
 				return
@@ -211,7 +211,7 @@ function button:SetTargetItem(itemID)
 
 	if itemID then
 		-- need to turn this into an item link
-		local _, itemLink = GetItemInfo(itemID)
+		local _, itemLink = C_Item.GetItemInfo(itemID)
 		itemID = itemLink
 	end
 
@@ -243,7 +243,7 @@ function button:SetItem(itemLink)
 
 	self:SetItemLink(itemLink)
 	self:SetIcon(self:GetItemIcon()) -- we're going to assume it's already loaded since it's a link
-	self:EnableUpdateRange(ItemHasRange(itemLink))
+	self:EnableUpdateRange(C_Item.ItemHasRange(itemLink))
 
 	addon:Defer(self, 'UpdateAttributes', self)
 	self:UpdateCount()

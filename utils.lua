@@ -22,7 +22,7 @@ local function GetQuestDistanceWithItem(questID, maxDistanceYd)
 			if type(fallbackItemID) == 'table' then
 				for _, itemID in next, fallbackItemID do
 					local link = addon:GetItemLinkFromID(itemID)
-					if GetItemCount(link) > 0 then
+					if C_Item.GetItemCount(link) > 0 then
 						itemLink = link
 						break
 					end
@@ -61,7 +61,7 @@ local function GetQuestDistanceWithItem(questID, maxDistanceYd)
 		end
 	end
 
-	if GetItemCount(itemLink) == 0 then
+	if C_Item.GetItemCount(itemLink) == 0 then
 		-- no point showing items we don't have
 		return
 	end

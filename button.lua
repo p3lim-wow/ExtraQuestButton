@@ -63,8 +63,8 @@ local function onRangeUpdate(self, elapsed)
 	elseif not InCombatLockdown() and self:GetItemLink() then -- C_Item.IsItemInRange is combat restricted now...
 		self.rangeTimer = 0
 
-		-- BUG: IsItemInRange() is broken versus friendly targets
-		local inRange = IsItemInRange(self:GetItemLink(), 'target')
+		-- BUG: C_Item.IsItemInRange() is broken versus friendly targets
+		local inRange = C_Item.IsItemInRange(self:GetItemLink(), 'target')
 		if inRange == false then
 			self.HotKey:SetTextColor(1, 0.1, 0.1)
 		else
@@ -130,7 +130,7 @@ end
 
 function buttonMixin:UpdateChecked()
 	if self:IsShown() and self:GetItemLink() then
-		self:SetChecked(IsCurrentItem(self:GetItemLink()))
+		self:SetChecked(C_Item.IsCurrentItem(self:GetItemLink()))
 	end
 end
 
