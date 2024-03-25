@@ -1,3 +1,11 @@
+### Changes in 100206.48-Release:
+
+- Added: Special handling for Technoscrying (world) quests
+- Changed: Update Interface version
+- Changed: Update quest/item database
+- Fixed: API deprecations in 10.2.6
+- Fixed: Caching issues
+
 ### Changes in 100200.47-Release:
 
 - Changed: Range indicator won't update in combat any more
