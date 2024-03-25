@@ -54,6 +54,7 @@ read_globals = {
 	'C_Item',
 	'C_QuestLog',
 	'C_Timer',
+	'C_UnitAuras',
 
 	-- API
 	'CreateFrame',
