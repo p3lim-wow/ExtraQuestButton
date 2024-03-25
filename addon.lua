@@ -237,6 +237,10 @@ function button:UpdateAttributes()
 end
 
 function button:SetItem(itemLink)
+	if not itemLink then
+		return
+	end
+
 	self:SetItemLink(itemLink)
 	self:SetIcon(self:GetItemIcon()) -- we're going to assume it's already loaded since it's a link
 	self:EnableUpdateRange(ItemHasRange(itemLink))

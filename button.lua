@@ -60,7 +60,7 @@ end
 local function onRangeUpdate(self, elapsed)
 	if (self.rangeTimer or 0) < 0.2 then
 		self.rangeTimer = (self.rangeTimer or 0) + elapsed
-	elseif not InCombatLockdown() then -- IsItemInRange is combat restricted now...
+	elseif not InCombatLockdown() and self:GetItemLink() then -- C_Item.IsItemInRange is combat restricted now...
 		self.rangeTimer = 0
 
 		-- BUG: IsItemInRange() is broken versus friendly targets
@@ -129,7 +129,7 @@ function buttonMixin:IsUpdatingRange()
 end
 
 function buttonMixin:UpdateChecked()
-	if self:IsShown() then
+	if self:IsShown() and self:GetItemLink() then
 		self:SetChecked(IsCurrentItem(self:GetItemLink()))
 	end
 end
