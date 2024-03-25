@@ -125,6 +125,12 @@ data.questItems = {
 	[12191] = 169219, -- Brewfest
 	[66439] = 192545, -- The Waking Shores
 	[77891] = 209017, -- Emerald Dream
+	[77483] = 202247, -- Technoscrying
+	[77484] = 202247, -- Technoscrying
+	[77434] = 202247, -- Technoscrying
+	[78931] = 202247, -- Technoscrying
+	[78820] = 202247, -- Technoscrying
+	[78616] = 202247, -- Technoscrying
 }
 
 -- quests that doesn't have a defined area on the map (questID = bool/mapID/{mapID,...})

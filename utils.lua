@@ -18,6 +18,12 @@ local function GetQuestDistanceWithItem(questID, maxDistanceYd)
 	local itemLink, _, _, showWhenComplete = GetQuestLogSpecialItemInfo(questLogIndex)
 	if not itemLink then
 		local fallbackItemID = data.questItems[questID]
+		if fallbackItemID == 202247 then
+			-- extra handling for technoscrying quests
+			if C_UnitAuras.GetPlayerAuraBySpellID(409668) or C_UnitAuras.GetPlayerAuraBySpellID(414539) then
+				fallbackItemID = nil
+			end
+		end
 		if fallbackItemID then
 			if type(fallbackItemID) == 'table' then
 				for _, itemID in next, fallbackItemID do
