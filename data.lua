@@ -167,6 +167,10 @@ data.inaccurateQuestAreas = {
 	[75923] = 2023, -- Ohn'ahran Plains
 	[66439] = 2022, -- The Waking Shores
 	[77891] = 2200, -- Emerald Dream
+	[78068] = true, -- anywhere
+	[78070] = true, -- anywhere
+	[78075] = true, -- anywhere
+	[78081] = true, -- anywhere
 }
 
 -- same as above, just accurate (questID = {mapID, x, y})
