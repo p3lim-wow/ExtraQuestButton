@@ -1,4 +1,4 @@
-## Interface: 100206
+## Interface: 110000
 ## Author: p3lim
 ## Version: @project-version@
 ## Title: ExtraQuestButton
