@@ -424,6 +424,7 @@ LEM:AddFrameSettings(button, {
 			button:SetArtworkStyle(value)
 		end,
 		values = ART_STYLE_OPTIONS,
+		height = 200,
 	},
 	{
 		name = L['Hide cooldown text'],
