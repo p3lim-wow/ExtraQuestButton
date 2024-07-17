@@ -131,6 +131,7 @@ data.questItems = {
 	[78931] = 202247, -- Technoscrying
 	[78820] = 202247, -- Technoscrying
 	[78616] = 202247, -- Technoscrying
+	[78755] = 211483, -- Khaz Algar
 }
 
 -- quests that doesn't have a defined area on the map (questID = bool/mapID/{mapID,...})
