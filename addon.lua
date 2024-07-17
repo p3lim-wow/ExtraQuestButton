@@ -82,6 +82,7 @@ function button:OnLoad()
 	self:RegisterEvent('ZONE_CHANGED_NEW_AREA', self.UpdateState)
 	self:RegisterEvent('WAYPOINT_UPDATE', self.UpdateState)
 	self:RegisterEvent('BAG_UPDATE_DELAYED', self.UpdateState)
+	self:RegisterUnitEvent('UNIT_AURA', 'player', self.UpdateState)
 
 	-- some items are used directly on targets
 	self:RegisterEvent('PLAYER_TARGET_CHANGED', self.UpdateTarget)
