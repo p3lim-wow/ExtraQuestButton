@@ -11,9 +11,6 @@ externals:
   libs/HereBeDragons:
     url: https://github.com/Nevcairiel/HereBeDragons
     tag: latest
-  libs/LibDropDown:
-    url: https://github.com/p3lim-wow/LibDropDown
-    tag: latest
   libs/LibEditMode:
     url: https://github.com/p3lim-wow/LibEditMode
     tag: latest

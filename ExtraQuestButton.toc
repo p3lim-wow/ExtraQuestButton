@@ -15,13 +15,11 @@
 # libs\Dashi\embed.xml
 # libs\LibStub\LibStub.lua
 # libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
-# libs\LibDropDown\embed.xml
 # libs\LibEditMode\embed.xml
 # libs\HereBeDragons\HereBeDragons-2.0.lua
 #@end-non-debug@
 #@debug@
 ..\Dashi\embed.xml
-..\LibDropDown\embed.xml
 ..\LibEditMode\embed.xml
 #@end-debug@
 
