@@ -168,7 +168,9 @@ function button:UpdateState()
 	if not itemLink then
 		local layoutName = LEM:GetActiveLayoutName()
 		local profile = ExtraQuestButtonDB3.profiles[layoutName]
-		itemLink = addon:GetClosestQuestItem(profile.distanceYd, profile.zoneOnly, profile.trackingOnly)
+		if profile then
+			itemLink = addon:GetClosestQuestItem(profile.distanceYd, profile.zoneOnly, profile.trackingOnly)
+		end
 	end
 
 	if itemLink then
