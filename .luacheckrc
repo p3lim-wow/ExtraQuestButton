@@ -15,9 +15,6 @@ ignore = {
 	'631', -- line is too long
 }
 
-exclude_files = {
-}
-
 globals = {
 	-- savedvariables
 	'ExtraQuestButtonDB3',
@@ -27,30 +24,26 @@ read_globals = {
 	table = {fields = {'wipe'}},
 
 	-- FrameXML objects
-	'ActionButtonUtil', -- FrameXML/ActionButtonUtil.lua
-	'GameTooltip', -- ???
-	'ItemMixin', -- FrameXML/ObjectAPI/Item.lua
-	'QuickKeybindButtonTemplateMixin', -- FrameXML/QuickKeybind.lua
-	'UIParent', -- FrameXML/UIParent.xml
+	'ActionButtonUtil',
+	'GameTooltip',
+	'ItemMixin',
+	'QuickKeybindButtonTemplateMixin',
+	'UIParent',
 
 	-- FrameXML functions
-	'CopyTable', -- FrameXML/TableUtil.lua
-	'GameTooltip_Hide', -- FrameXML/GameTooltip.lua
-	'RegisterStateDriver', -- FrameXML/SecureStateDriver.lua
-	'UnregisterStateDriver', -- FrameXML/SecureStateDriver.lua
-	'nop', -- FrameXML/UIParent.lua
+	'CopyTable',
+	'FormatPercentage',
+	'GameTooltip_Hide',
+	'KeybindFrames_InQuickKeybindMode',
+	'Mixin',
+	'RegisterStateDriver', -- deprecated
+	'UnregisterStateDriver', -- deprecated
+	'GetItemInfoFromHyperlink',
 
 	-- FrameXML constants
-	'RANGE_INDICATOR', -- FrameXML/ActionButton.lua
-
-	-- SharedXML functions
-	'FormatPercentage', -- SharedXML/FormattingUtil.lua
-	'GetItemInfoFromHyperlink', -- SharedXML/LinkUtil.lua
-	'KeybindFrames_InQuickKeybindMode', -- SharedXML/BindingUtil.lua
-	'Mixin', -- SharedXML/Mixin.lua
+	'RANGE_INDICATOR',
 
 	-- namespaces
-	'C_CVar',
 	'C_Item',
 	'C_QuestLog',
 	'C_Timer',
@@ -60,7 +53,6 @@ read_globals = {
 	'CreateFrame',
 	'GetBindingKey',
 	'GetBindingText',
-	'GetLocale',
 	'GetQuestLogSpecialItemInfo',
 	'GetTime',
 	'InCombatLockdown',
