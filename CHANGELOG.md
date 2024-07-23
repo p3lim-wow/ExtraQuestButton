@@ -1,3 +1,9 @@
+### Changes in 110000.49-Release:
+
+- Changed: Update Interface version
+- Changed: Updated quest/item database
+- Fixed: Various errors
+
 ### Changes in 100206.48-Release:
 
 - Added: Special handling for Technoscrying (world) quests
