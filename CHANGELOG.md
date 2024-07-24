@@ -1,3 +1,7 @@
+### Changes in 110000.50-Release:
+
+- Changed: Update LibEditMode version
+
 ### Changes in 110000.49-Release:
 
 - Changed: Update Interface version
