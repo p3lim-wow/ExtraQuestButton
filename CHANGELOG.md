@@ -1,3 +1,7 @@
+### Changes in 110000.51-Release:
+
+- Added: German translations courtesy of @Marakuja
+
 ### Changes in 110000.50-Release:
 
 - Changed: Update LibEditMode version
