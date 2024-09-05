@@ -132,6 +132,7 @@ data.questItems = {
 	[78820] = 202247, -- Technoscrying
 	[78616] = 202247, -- Technoscrying
 	[78755] = 211483, -- Khaz Algar
+	[79960] = 216664, -- Azj
 }
 
 -- quests that doesn't have a defined area on the map (questID = bool/mapID/{mapID,...})
@@ -172,6 +173,7 @@ data.inaccurateQuestAreas = {
 	[78070] = true, -- anywhere
 	[78075] = true, -- anywhere
 	[78081] = true, -- anywhere
+	[79960] = 2255,
 }
 
 -- same as above, just accurate (questID = {mapID, x, y})
