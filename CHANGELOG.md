@@ -1,3 +1,8 @@
+### Changes in 110000.52-Release:
+
+- Added: zhCN translations (thanks @Tsundoro)
+- Changed: Update quest database
+
 ### Changes in 110000.51-Release:
 
 - Added: German translations courtesy of @Marakuja
