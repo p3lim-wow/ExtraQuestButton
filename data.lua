@@ -132,7 +132,7 @@ data.questItems = {
 	[78820] = 202247, -- Technoscrying
 	[78616] = 202247, -- Technoscrying
 	[78755] = 211483, -- Khaz Algar
-	[79960] = 216664, -- Azj
+	[79960] = 216664, -- Azj-Kahet
 }
 
 -- quests that doesn't have a defined area on the map (questID = bool/mapID/{mapID,...})
@@ -185,6 +185,7 @@ data.accurateQuestAreas = {
 	[35001] = {542, 0.6681, 0.4553}, -- Spires of Arak
 	[57455] = {1565, 0.3075, 0.3568}, -- Ardenweald
 	[63971] = {1543, 0.2308, 0.3729}, -- The Maw
+	[82266] = {2213, 0.3081, 0.3343}, -- City of Threads, Azj-Kahet
 }
 
 -- items that needs to be shown even after the quest is complete but aren't (itemID = bool/mapID)
