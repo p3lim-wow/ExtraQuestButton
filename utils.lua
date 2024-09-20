@@ -201,10 +201,9 @@ function addon:GetClosestQuestItem(maxDistanceYd, zoneOnly, trackingOnly)
 	if not closestQuestItemLink then
 		for index = 1, C_QuestLog.GetNumQuestLogEntries() do
 			local info = C_QuestLog.GetInfo(index)
-			if info and not info.isHeader and QuestHasPOIInfo(info.questID) then
+			if info and not info.isHeader and info.hasLocalPOI then
 				local questID = info.questID
-				-- world quests are always considered
-				if not (trackingOnly or info.isHidden) or C_QuestLog.IsWorldQuest(questID) then
+				if C_QuestLog.IsWorldQuest(questID) or info.questClassification == Enum.QuestClassification.BonusObjective or (trackingOnly and not info.isHidden) then
 					if not zoneOnly or IsQuestOnMapCurrentMap(questID) then
 						local distance, itemLink = GetQuestDistanceWithItem(questID, maxDistanceYd)
 						local priorityIndex = IsItemPrioritized(itemLink)
