@@ -1,3 +1,8 @@
+### Changes in 110000.53-Release:
+
+- Added: Support for bonus objectives with quest items
+- Changed: Update quest database
+
 ### Changes in 110000.52-Release:
 
 - Added: zhCN translations (thanks @Tsundoro)
