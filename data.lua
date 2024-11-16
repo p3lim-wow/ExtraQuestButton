@@ -49,6 +49,7 @@ data.targetItems = {
 	[166959] = 183689, -- Icecrown
 	[167395] = 172020, -- Maldraxxus
 	[169206] = 179921, -- Ardenweald
+	[171211] = 180613, -- Bastion
 	[175857] = 186199, -- Night Fae Assault in Maw
 	[176131] = 186199, -- Night Fae Assault in Maw
 	[178693] = 186097, -- Night Fae Assault in Maw
