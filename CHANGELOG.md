@@ -1,3 +1,8 @@
+### Changes in 110000.54-Release:
+
+- Changed: Update Interface version
+- Changed: Update quest database
+
 ### Changes in 110000.53-Release:
 
 - Added: Support for bonus objectives with quest items
