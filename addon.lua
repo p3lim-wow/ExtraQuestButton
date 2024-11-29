@@ -188,7 +188,7 @@ function button:UpdateTarget()
 		return
 	end
 
-	local npcID = addon:GetNPCID('target')
+	local npcID = addon:GetUnitID('target')
 	if npcID then
 		local targetItemID = data.targetItems[npcID]
 		if targetItemID then
