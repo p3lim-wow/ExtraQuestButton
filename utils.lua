@@ -111,11 +111,6 @@ local function GetQuestDistanceWithItem(questID, maxDistanceYd)
 	end
 end
 
-local function IsItemPrioritized(itemLink)
-	local itemID = GetItemInfoFromHyperlink(itemLink or '') or -1
-	return data.priorityItems[itemID]
-end
-
 local function IsQuestOnMapCurrentMap(questID)
 	local isOnMap = C_QuestLog.IsOnMap(questID)
 	if not isOnMap then
@@ -147,86 +142,77 @@ local function IsQuestOnMapCurrentMap(questID)
 	return isOnMap
 end
 
-local function sortPrioritizedItemLinks(a, b)
-	return a[2] > b[2]
+local function sortByClosestDistance(a, b)
+	return a[2] < b[2]
 end
 
-local prioritizedItemLinks = {}
--- adaptation of QuestSuperTracking_ChooseClosestQuest for quests with items
-function addon:GetClosestQuestItem(maxDistanceYd, zoneOnly, trackingOnly)
-	local closestQuestItemLink
-	local closestDistance = maxDistanceYd -- yards
+local function GetItemPriority(itemLink)
+	local itemID = GetItemInfoFromHyperlink(itemLink or '') or -1
+	return data.priorityItems[itemID]
+end
 
-	local hasPrioritizedItem = false
+local uniqueItems = {}
+local prioritizedItemLinks = {}
+local function addPrioritizedItem(questID, maxDistanceYd)
+	local distance, itemLink = GetQuestDistanceWithItem(questID, maxDistanceYd)
+	local priorityIndex = GetItemPriority(itemLink)
+	if distance or priorityIndex then
+		if not priorityIndex then
+			priorityIndex = 0
+		end
+
+		if not prioritizedItemLinks[priorityIndex] then
+			prioritizedItemLinks[priorityIndex] = {}
+		end
+
+		if not uniqueItems[itemLink] then
+			table.insert(prioritizedItemLinks[priorityIndex], {itemLink, distance})
+			uniqueItems[itemLink] = true
+		end
+	end
+end
+
+function addon:GetClosestQuestItem(maxDistanceYd, zoneOnly, trackingOnly)
+	table.wipe(prioritizedItemLinks)
+	table.wipe(uniqueItems)
+
 	for index = 1, C_QuestLog.GetNumWorldQuestWatches() do
 		-- this only tracks supertracked worldquests,
 		-- e.g. stuff the player has shift-clicked on the map
 		local questID = C_QuestLog.GetQuestIDForWorldQuestWatchIndex(index)
 		if questID and (not zoneOnly or IsQuestOnMapCurrentMap(questID)) then
-			local distance, itemLink = GetQuestDistanceWithItem(questID, maxDistanceYd)
-			local priorityIndex = IsItemPrioritized(itemLink)
-			if priorityIndex then
-				if not hasPrioritizedItem then
-					table.wipe(prioritizedItemLinks)
-					hasPrioritizedItem = true
-				end
-				table.insert(prioritizedItemLinks, {itemLink, priorityIndex})
-			elseif distance and distance <= closestDistance then
-				closestDistance = distance
-				closestQuestItemLink = itemLink
-			end
+			addPrioritizedItem(questID, maxDistanceYd)
 		end
 	end
 
-	if not closestQuestItemLink then
-		for index = 1, C_QuestLog.GetNumQuestWatches() do
-			local questID = C_QuestLog.GetQuestIDForQuestWatchIndex(index)
-			if questID and QuestHasPOIInfo(questID) and (not zoneOnly or IsQuestOnMapCurrentMap(questID)) then
-				local distance, itemLink = GetQuestDistanceWithItem(questID, maxDistanceYd)
-				local priorityIndex = IsItemPrioritized(itemLink)
-				if priorityIndex then
-					if not hasPrioritizedItem then
-						table.wipe(prioritizedItemLinks)
-						hasPrioritizedItem = true
-					end
-					table.insert(prioritizedItemLinks, {itemLink, priorityIndex})
-				elseif distance and distance <= closestDistance then
-					closestDistance = distance
-					closestQuestItemLink = itemLink
+	for index = 1, C_QuestLog.GetNumQuestWatches() do
+		local questID = C_QuestLog.GetQuestIDForQuestWatchIndex(index)
+		if questID and QuestHasPOIInfo(questID) and (not zoneOnly or IsQuestOnMapCurrentMap(questID)) then
+			addPrioritizedItem(questID, maxDistanceYd)
+		end
+	end
+
+	for index = 1, C_QuestLog.GetNumQuestLogEntries() do
+		local info = C_QuestLog.GetInfo(index)
+		if info and not info.isHeader and info.hasLocalPOI then
+			local questID = info.questID
+			if C_QuestLog.IsWorldQuest(questID) or info.questClassification == Enum.QuestClassification.BonusObjective or (trackingOnly and not info.isHidden) then
+				if not zoneOnly or IsQuestOnMapCurrentMap(questID) then
+					addPrioritizedItem(questID, maxDistanceYd)
 				end
 			end
 		end
 	end
 
-	if not closestQuestItemLink then
-		for index = 1, C_QuestLog.GetNumQuestLogEntries() do
-			local info = C_QuestLog.GetInfo(index)
-			if info and not info.isHeader and info.hasLocalPOI then
-				local questID = info.questID
-				if C_QuestLog.IsWorldQuest(questID) or info.questClassification == Enum.QuestClassification.BonusObjective or (trackingOnly and not info.isHidden) then
-					if not zoneOnly or IsQuestOnMapCurrentMap(questID) then
-						local distance, itemLink = GetQuestDistanceWithItem(questID, maxDistanceYd)
-						local priorityIndex = IsItemPrioritized(itemLink)
-						if priorityIndex then
-							if not hasPrioritizedItem then
-								table.wipe(prioritizedItemLinks)
-								hasPrioritizedItem = true
-							end
-							table.insert(prioritizedItemLinks, {itemLink, priorityIndex})
-						elseif distance and distance <= closestDistance then
-							closestDistance = distance
-							closestQuestItemLink = itemLink
-						end
-					end
-				end
+	for index, items in next, prioritizedItemLinks do
+		if #items > 0 then
+			if #items > 1 then
+				table.sort(items, sortByClosestDistance)
+			end
+
+			for _, itemInfo in next, items do
+				return itemInfo[1]
 			end
 		end
-	end
-
-	if hasPrioritizedItem then
-		table.sort(prioritizedItemLinks, sortPrioritizedItemLinks)
-		return prioritizedItemLinks[1][1]
-	elseif closestQuestItemLink then
-		return closestQuestItemLink
 	end
 end
