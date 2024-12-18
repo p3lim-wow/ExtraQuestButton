@@ -214,6 +214,7 @@ data.priorityItems = {
 	[63508] = 1, -- Helcular's Rod, Hillsbrad Foothills
 	[64471] = 1, -- Goblin Pocket-Nuke, Hillsbrad Foothills
 	[64583] = 2, -- Water Barrel, Hillsbrad Foothills
+	[232466] = -10, -- Leave the Storm, Siren Isle
 }
 
 local _, addon = ...
