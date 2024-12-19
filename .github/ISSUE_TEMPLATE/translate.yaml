@@ -1,11 +1,11 @@
+# This file is auto-generated!
 name: Translation
 description: Provide a translation for in-game strings.
 title: 'Translation: '
 labels:
-  - enhancement
   - translation
 assignees:
-  - p3lim
+  - p3lim-wow
 body:
   - type: dropdown
     id: locale
@@ -28,42 +28,47 @@ body:
     attributes:
       value: |
         Please translate each sentence below into the fields next to them.  
-        It is not required to translate all of them.
 
         ---
-# the rest is a list of strings to translate
-  - type: input
-    attributes:
-      label: '"Button scale"'
-      description: Used in the settings
-      placeholder: Translation here
   - type: input
     attributes:
       label: '"Artwork opacity"'
-      description: Used in the settings
       placeholder: Translation here
+    validations:
+      required: true
   - type: input
     attributes:
       label: '"Artwork style"'
-      description: Used in the settings
       placeholder: Translation here
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: '"Button scale"'
+      placeholder: Translation here
+    validations:
+      required: true
   - type: input
     attributes:
       label: '"Hide cooldown text"'
-      description: Used in the settings
       placeholder: Translation here
-  - type: input
-    attributes:
-      label: '"Only show for tracked quests"'
-      description: Used in the settings
-      placeholder: Translation here
+    validations:
+      required: true
   - type: input
     attributes:
       label: '"Only show for quests in current zone"'
-      description: Used in the settings
       placeholder: Translation here
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: '"Only show for tracked quests"'
+      placeholder: Translation here
+    validations:
+      required: true
   - type: input
     attributes:
       label: '"Tracking distance"'
-      description: Used in the settings
       placeholder: Translation here
+    validations:
+      required: true
