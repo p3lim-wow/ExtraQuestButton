@@ -204,7 +204,7 @@ function addon:GetClosestQuestItem(maxDistanceYd, zoneOnly, trackingOnly)
 		end
 	end
 
-	for index, items in next, prioritizedItemLinks do
+	for _, items in next, prioritizedItemLinks do
 		if #items > 0 then
 			if #items > 1 then
 				table.sort(items, sortByClosestDistance)
