@@ -60,6 +60,7 @@ data.targetItems = {
 	[178859] = 186199, -- Night Fae Assault in Maw
 	[178878] = 186199, -- Night Fae Assault in Maw
 	[179217] = 186199, -- Night Fae Assault in Maw
+	[226580] = 219322, -- Azj-Kahet
 }
 
 -- items that should be used for a quest but aren't (questID = itemID)
