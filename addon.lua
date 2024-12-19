@@ -30,6 +30,7 @@ local ATTRIBUTE_HANDLER = [[
 		elseif not value then
 			self:Hide()
 			self:ClearBindings()
+			self:SetAttribute('item', nil) -- avoid ghost clicks
 		end
 	elseif name == 'state-visible' then
 		-- there is (or was) a pet battle
@@ -40,6 +41,7 @@ local ATTRIBUTE_HANDLER = [[
 		else
 			self:Hide()
 			self:ClearBindings()
+			self:SetAttribute('item', nil) -- avoid ghost clicks
 		end
 	end
 
