@@ -6,6 +6,7 @@ data.itemBlacklist = {
 	[110799] = true,
 	[109164] = true,
 	[191729] = true,
+	[228988] = true,
 }
 
 -- items that should be used on specific mobs (npcID = itemID)
