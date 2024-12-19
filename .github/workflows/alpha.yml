@@ -27,3 +27,4 @@ jobs:
         with:
           name: ExtraQuestButton-${{ steps.sha.outputs.sha_short }}
           path: .release/
+          include-hidden-files: true
