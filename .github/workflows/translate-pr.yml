@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Extract translations
-        uses: p3lim/lua-translations@v1
+        uses: p3lim/lua-translations@master
         with:
           action: extract
         id: extract
