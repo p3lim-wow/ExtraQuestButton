@@ -1,3 +1,9 @@
+### Changes in 110000.56-Release:
+
+- Fixed: "Rock Reviver" no longer handled by ExtraActionButton, we'll track it
+- Fixed: Prioritize "Rock Reviver"
+- Fixed: Untracked quests still being tracked when opted out of it
+
 ### Changes in 110000.55-Release:
 
 - Added: Priority system with database
