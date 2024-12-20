@@ -1,3 +1,14 @@
+### Changes in 110000.55-Release:
+
+- Added: Priority system with database
+- Added: "Leave the Storm" as a low priority item
+- Added: "Rock Reviver" item to blocklist (handled by ExtraActionButton)
+- Added: New events from 11.0.7 to update when entering/leaving quest area
+- Changed: Items are now prioritized properly by distance
+- Fixed: "Ghost" clicks when using the button in a macro
+- Fixed: "Malodorous Philter" item not showing up for world quest
+- Removed: Untranslated strings
+
 ### Changes in 110000.54-Release:
 
 - Changed: Update Interface version
