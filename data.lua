@@ -6,7 +6,6 @@ data.itemBlacklist = {
 	[110799] = true,
 	[109164] = true,
 	[191729] = true,
-	[228988] = true,
 }
 
 -- items that should be used on specific mobs (npcID = itemID)
@@ -217,6 +216,7 @@ data.priorityItems = {
 	[64471] = 1, -- Goblin Pocket-Nuke, Hillsbrad Foothills
 	[64583] = 2, -- Water Barrel, Hillsbrad Foothills
 	[232466] = -10, -- Leave the Storm, Siren Isle
+	[228988] = 1, -- Rock Reviver, Siren Isle
 }
 
 local _, addon = ...
