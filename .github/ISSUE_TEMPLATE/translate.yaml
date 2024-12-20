@@ -32,43 +32,43 @@ body:
         ---
   - type: input
     attributes:
-      label: '"Artwork opacity"'
+      label: Artwork opacity
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Artwork style"'
+      label: Artwork style
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Button scale"'
+      label: Button scale
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Hide cooldown text"'
+      label: Hide cooldown text
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Only show for quests in current zone"'
+      label: Only show for quests in current zone
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Only show for tracked quests"'
+      label: Only show for tracked quests
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Tracking distance"'
+      label: Tracking distance
       placeholder: Translation here
     validations:
       required: true
