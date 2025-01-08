@@ -1,3 +1,8 @@
+### Changes in 110000.57-Release:
+
+- Changed: Update Interface version
+- Fixed: World quest items not showing up
+
 ### Changes in 110000.56-Release:
 
 - Fixed: "Rock Reviver" no longer handled by ExtraActionButton, we'll track it
