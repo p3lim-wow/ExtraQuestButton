@@ -20,8 +20,8 @@ Use the Edit Mode to change settings.
 
 ## Translations
 
-If you want to help translate ExtraQuestButton, please use this form on GitHub:  
-[https://github.com/p3lim-wow/ExtraQuestButton/issues/new?template=translate.yaml](https://github.com/p3lim-wow/ExtraQuestButton/issues/new?assignees=p3lim&labels=enhancement%2Ctranslation&template=translate.yaml&title=Translation%3A+)
+If you want to help translate ExtraQuestButton, please go here:  
+<https://legacy.curseforge.com/wow/addons/extraquestbutton/localization>
 
 ## Feedback & issues
 
