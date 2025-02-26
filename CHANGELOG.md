@@ -1,3 +1,9 @@
+### Changes in 110100.58-Release:
+
+- Added: Data for a broken quest in Undermine
+- Added: AI translations (please contribute!)
+- Changed: Update Interface version
+
 ### Changes in 110000.57-Release:
 
 - Changed: Update Interface version
