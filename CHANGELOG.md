@@ -1,3 +1,8 @@
+### Changes in 110100.59-Release:
+
+- Changed: Update Interface version
+- Changed: Update quest database
+
 ### Changes in 110100.58-Release:
 
 - Added: Data for a broken quest in Undermine
