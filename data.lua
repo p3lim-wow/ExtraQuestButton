@@ -92,6 +92,7 @@ data.questItems = {
 	[13343] = 44450, -- Dragonblight
 	[13425] = 41612, -- Storm Peaks
 	[13542] = 44868, -- Darkshore
+	[13890] = 46365, -- Ashenvale
 	[26868] = 60681, -- Loch Modan
 	[27384] = 12888, -- Eastern Plaguelands
 	[28317] = 63357, -- Burning Steppes
@@ -146,6 +147,8 @@ data.inaccurateQuestAreas = {
 	[11922] = {18, 85, 88, 110}, -- horde capitals
 	[11926] = {18, 85, 88, 110}, -- horde capitals
 	[12779] = 124, -- Scarlet Enclave (Death Knight starting zone)
+	[13798] = 63, -- Ashenvale
+	[13875] = 63, -- Ashenvale
 	[13998] = 11, -- Northern Barrens
 	[14246] = 66, -- Desolace
 	[24440] = 7, -- Mulgore
@@ -177,6 +180,12 @@ data.inaccurateQuestAreas = {
 	[78075] = true, -- anywhere
 	[78081] = true, -- anywhere
 	[79960] = 2255,
+	[13103] = 125, -- Dalaran (Northrend)
+	[13115] = 125, -- Dalaran (Northrend)
+	[13107] = 125, -- Dalaran (Northrend)
+	[13116] = 125, -- Dalaran (Northrend)
+	[13114] = {125, 127}, -- Crystalsong Forest
+	[13102] = {125, 127}, -- Crystalsong Forest
 }
 
 -- same as above, just accurate (questID = {mapID, x, y})
@@ -213,6 +222,7 @@ data.noCompleteItems = {
 
 -- items that should have priority in an area where there are multiple quest items
 data.priorityItems = {
+	[46316] = -10, -- Orc-Hair Braid, Ashenvale
 	[63508] = 1, -- Helcular's Rod, Hillsbrad Foothills
 	[64471] = 1, -- Goblin Pocket-Nuke, Hillsbrad Foothills
 	[64583] = 2, -- Water Barrel, Hillsbrad Foothills
