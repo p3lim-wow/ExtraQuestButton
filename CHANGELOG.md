@@ -1,3 +1,7 @@
+### Changes in 110200.60-Release:
+
+- Fixed: EditMode error
+
 ### Changes in 110100.59-Release:
 
 - Changed: Update Interface version
