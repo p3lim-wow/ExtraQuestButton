@@ -186,6 +186,8 @@ data.inaccurateQuestAreas = {
 	[13116] = 125, -- Dalaran (Northrend)
 	[13114] = {125, 127}, -- Crystalsong Forest
 	[13102] = {125, 127}, -- Crystalsong Forest
+	[86603] = 2371, -- K'aresh
+	[89056] = 2371, -- K'aresh
 }
 
 -- same as above, just accurate (questID = {mapID, x, y})
