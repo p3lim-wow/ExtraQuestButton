@@ -40,7 +40,7 @@ local ATTRIBUTE_HANDLER = [[
 		else
 			self:Hide()
 			self:ClearBindings()
-			self:ClearAttribute('item') -- avoid ghost clicks
+			self:SetAttribute('item', nil) -- avoid ghost clicks
 		end
 	end
 
@@ -233,7 +233,7 @@ function button:UpdateAttributes()
 	end
 
 	if self:IsItemEmpty() then
-		self:ClearAttribute('item')
+		self:SetAttribute('item', nil)
 		self:ClearCooldown()
 	else
 		self:SetAttribute('item', 'item:' .. self:GetItemID())
@@ -317,7 +317,7 @@ function button:EnableEditMode(isInEditMode)
 
 		-- unregister state driver and attribute handler
 		UnregisterStateDriver(self, 'visible')
-		self:ClearAttribute('_onattributechanged')
+		self:SetAttribute('_onattributechanged', nil)
 
 		-- set custom texture, clear cooldowns and show
 		self:SetIcon([[Interface\Icons\INV_Misc_Wrench_01]])
