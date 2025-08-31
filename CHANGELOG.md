@@ -1,3 +1,7 @@
+### Changes in 110200.62-Release:
+
+- Fixed: Button not clearing properly
+
 ### Changes in 110200.61-Release:
 
 - Fixed: Various quests in K'aresh
