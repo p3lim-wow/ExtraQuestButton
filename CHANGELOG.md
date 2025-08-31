@@ -1,3 +1,7 @@
+### Changes in 110200.61-Release:
+
+- Fixed: Various quests in K'aresh
+
 ### Changes in 110200.60-Release:
 
 - Fixed: EditMode error
