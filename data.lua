@@ -137,6 +137,7 @@ data.questItems = {
 	[78755] = 211483, -- Khaz Algar
 	[79960] = 216664, -- Azj-Kahet
 	[84672] = {229824, 229825, 229805}, -- Undermine
+	[35187] = {112904, 112791}, -- garrison campaign
 }
 
 -- quests that doesn't have a defined area on the map (questID = bool/mapID/{mapID,...})
@@ -188,6 +189,11 @@ data.inaccurateQuestAreas = {
 	[13102] = {125, 127}, -- Crystalsong Forest
 	[86603] = 2371, -- K'aresh
 	[89056] = 2371, -- K'aresh
+	[35187] = 539, -- Shadowmoon Valley (the quest drops its location data at the end)
+	[54103] = 49, -- Redridge Mountains
+	[54106] = 49, -- Redridge Mountains
+	[54999] = true,
+	[55034] = true,
 }
 
 -- same as above, just accurate (questID = {mapID, x, y})
