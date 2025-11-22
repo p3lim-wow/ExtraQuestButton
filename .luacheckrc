@@ -59,7 +59,9 @@ read_globals = {
 	'GetTime',
 	'InCombatLockdown',
 	'QuestHasPOIInfo',
+	'UnitCreatureID',
 	'hooksecurefunc',
+	'issecretvalue',
 
 	-- exposed from other addons
 	'LibStub',
