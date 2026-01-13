@@ -364,6 +364,27 @@ function button.OnEditModeLayout(layoutName)
 	button:OnSettingsChanged(layoutName)
 end
 
+function button.OnEditModeCreate(layoutName, _, sourceName)
+	if sourceName then
+		if ExtraQuestButtonDB3 and ExtraQuestButtonDB3.profiles and ExtraQuestButtonDB3.profiles[sourceName] then
+			ExtraQuestButtonDB3.profiles[layoutName] = CopyTable(ExtraQuestButtonDB3.profiles[sourceName])
+		end
+	end
+end
+
+function button.OnEditModeRename(oldLayoutName, newLayoutName)
+	if ExtraQuestButtonDB3 and ExtraQuestButtonDB3.profiles and ExtraQuestButtonDB3.profiles[oldLayoutName] then
+		ExtraQuestButtonDB3.profiles[newLayoutName] = CopyTable(ExtraQuestButtonDB3.profiles[oldLayoutName])
+		ExtraQuestButtonDB3.profiles[oldLayoutName] = nil
+	end
+end
+
+function button.OnEditModeDelete(layoutName)
+	if ExtraQuestButtonDB3 and ExtraQuestButtonDB3.profiles and ExtraQuestButtonDB3.profiles[layoutName] then
+		ExtraQuestButtonDB3.profiles[layoutName] = nil
+	end
+end
+
 -- init
 button:OnLoad()
 
@@ -372,6 +393,9 @@ LEM:AddFrame(button, button.OnPositionChanged, DEFAULTS.position)
 LEM:RegisterCallback('enter', button.OnEditModeEnter)
 LEM:RegisterCallback('exit', button.OnEditModeExit)
 LEM:RegisterCallback('layout', button.OnEditModeLayout)
+LEM:RegisterCallback('create', button.OnEditModeCreate)
+LEM:RegisterCallback('rename', button.OnEditModeRename)
+LEM:RegisterCallback('delete', button.OnEditModeDelete)
 
 -- build LDD-compatible data
 local ART_STYLE_OPTIONS = {}
