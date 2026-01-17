@@ -1,3 +1,9 @@
+### Changes in 120000.64-Release:
+
+- Changed: Update Interface version
+- Fixed: Settings not updating properly when renaming/copying/deleting Edit Mode profiles
+- Fixed: Creature IDs sometimes being secret in 12.x
+
 ### Changes in 110205.63-Release:
 
 - Fixed: Accidental pollution of the global table library
