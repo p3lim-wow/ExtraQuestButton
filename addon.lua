@@ -191,21 +191,22 @@ function button:UpdateTarget()
 	end
 
 	local npcID
-	if UnitCreatureID then -- 12.x
+	if UnitCreatureID then
 		npcID = UnitCreatureID('target')
-		if issecretvalue(npcID) then
-			return
+		if npcID ~= nil and issecretvalue(npcID) then
+			npcID = nil
 		end
 	else
 		npcID = addon:GetUnitID('target')
-		if npcID then
-			local targetItemID = data.targetItems[npcID]
-			if targetItemID then
-				if C_Item.GetItemCount(targetItemID) > 0 then
-					self:SetTargetItem(targetItemID)
-					self:UpdateState()
-					return
-				end
+	end
+
+	if npcID then
+		local targetItemID = data.targetItems[npcID]
+		if targetItemID then
+			if C_Item.GetItemCount(targetItemID) > 0 then
+				self:SetTargetItem(targetItemID)
+				self:UpdateState()
+				return
 			end
 		end
 	end
