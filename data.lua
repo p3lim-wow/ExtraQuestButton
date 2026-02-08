@@ -30,6 +30,7 @@ data.targetItems = {
 	[29747] = 41265, -- Icecrown
 	[34925] = 46954, -- Icecrown
 	[35092] = 46954, -- Icecrown
+	[36231] = 49202, -- Gilneas
 	[36845] = 49647, -- Mulgore
 	[36922] = 49679, -- Azshara
 	[42681] = 58167, -- Deepholm
