@@ -3,7 +3,7 @@ local addonName, addon = ...
 local L = addon.L
 local data = addon.data
 
-local LEM = LibStub('LibEditMode')
+local LEM = addon.LibEditMode
 
 local DEFAULTS = {
 	position = {
