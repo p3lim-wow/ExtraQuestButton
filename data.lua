@@ -195,6 +195,10 @@ data.inaccurateQuestAreas = {
 	[54106] = 49, -- Redridge Mountains
 	[54999] = true,
 	[55034] = true,
+	[79331] = {1, 37}, -- noblegarden quest with no area until item has been used (Durotar/Elwynn)
+	[79578] = {1, 37}, -- noblegarden quest with no area until item has been used (Durotar/Elwynn)
+	[79330] = {1, 37}, -- noblegarden quest with no area until item has been used (Durotar/Elwynn)
+	[79577] = {1, 37}, -- noblegarden quest with no area until item has been used (Durotar/Elwynn)
 }
 
 -- same as above, just accurate (questID = {mapID, x, y})
