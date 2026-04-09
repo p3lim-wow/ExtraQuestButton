@@ -1,3 +1,8 @@
+### Changes in 120000.68-Release:
+
+- Changed: Update quest database
+- Changed: Update Interface version
+
 ### Changes in 120000.67-Release:
 
 - Changed: Update quest database
