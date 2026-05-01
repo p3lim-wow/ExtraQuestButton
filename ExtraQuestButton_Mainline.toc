@@ -1,4 +1,4 @@
-## Interface: 120001, 120005
+## Interface: 120005, 120007
 ## Author: p3lim
 ## Version: @project-version@
 ## Title: ExtraQuestButton
