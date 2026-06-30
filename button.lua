@@ -181,7 +181,9 @@ function addon:CreateExtraButton(extraTemplates)
 
 	local HotKey = overlayParent:CreateFontString('$parentHotKey', 'ARTWORK', 'NumberFontNormalGray')
 	HotKey:SetPoint('TOPRIGHT', -6, -6)
+	HotKey:SetPoint('TOPLEFT', 6, -6)
 	HotKey:SetJustifyH('RIGHT')
+	HotKey:SetWordWrap(false)
 	Button.HotKey = HotKey
 
 	local Count = overlayParent:CreateFontString('$parentCount', 'ARTWORK', 'NumberFontNormal')
