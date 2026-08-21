@@ -47,6 +47,7 @@ read_globals = {
 	-- namespaces
 	'C_Item',
 	'C_QuestLog',
+	'C_Secrets',
 	'C_Timer',
 	'C_UnitAuras',
 	'Enum',
