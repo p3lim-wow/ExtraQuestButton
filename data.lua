@@ -87,6 +87,7 @@ data.questItems = {
 	[12470] = 37923, -- Dragonblight
 	[12484] = 38149, -- Grizzly Hills
 	[12661] = 41390, -- Zul'Drak
+	[12704] = {38622, 38623, 38624}, -- Sholozar Basin
 	[12713] = 38699, -- Zul'Drak
 	[12861] = 41161, -- Zul'Drak
 	[12925] = 41612, -- Storm Peaks
@@ -139,6 +140,10 @@ data.questItems = {
 	[79960] = 216664, -- Azj-Kahet
 	[84672] = {229824, 229825, 229805}, -- Undermine
 	[35187] = {112904, 112791}, -- garrison campaign
+	[93767] = 251039, -- Arcantina
+	[30598] = 80303, -- Krasarang Wilds
+	[26557] = 58949, -- Orgrimmar
+	[26572] = 58958, -- Durotar
 }
 
 -- quests that doesn't have a defined area on the map (questID = bool/mapID/{mapID,...})
@@ -241,6 +246,7 @@ data.priorityItems = {
 	[64583] = 2, -- Water Barrel, Hillsbrad Foothills
 	[232466] = -10, -- Leave the Storm, Siren Isle
 	[228988] = 1, -- Rock Reviver, Siren Isle
+	[58958] = 1, -- Drowned Thunder Lizard Tail, Durotar
 }
 
 local _, addon = ...
