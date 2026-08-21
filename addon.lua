@@ -190,14 +190,9 @@ function button:UpdateTarget()
 		return
 	end
 
-	local npcID
-	if UnitCreatureID then
-		npcID = UnitCreatureID('target')
-		if npcID ~= nil and issecretvalue(npcID) then
-			npcID = nil
-		end
-	else
-		npcID = addon:GetUnitID('target')
+	local npcID = UnitCreatureID('target')
+	if npcID ~= nil and issecretvalue(npcID) then
+		npcID = nil
 	end
 
 	if npcID then
