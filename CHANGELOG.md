@@ -1,3 +1,7 @@
+### Changes in 120100.71-Release:
+
+- Added: Support for Forever
+
 ### Changes in 120100.70-Release:
 
 - Changed: Improved item detection/range logic
