@@ -4,6 +4,7 @@
 ## Title: ExtraQuestButton
 ## Notes: An extra button for quest items!
 ## IconTexture: Interface\Icons\inv_gizmo_goblingtonkcontroller
+## AllowLoadGameType: standard, camelot
 ## SavedVariables: ExtraQuestButtonDB3
 ## OptionalDeps: LibStub, HereBeDragons, Masque
 
