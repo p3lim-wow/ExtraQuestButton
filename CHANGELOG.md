@@ -1,3 +1,7 @@
+### Changes in 120100.72-Release:
+
+- Changed: Update embeds for gamepad editmode fixes in Forever
+
 ### Changes in 120100.71-Release:
 
 - Added: Support for Forever
