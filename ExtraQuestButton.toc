@@ -24,6 +24,8 @@
 ..\Dashi\embed.xml
 ..\LibEditMode\namespaced.lua
 ..\LibEditMode\embed.xml
+..\LibStub\LibStub.lua
+..\HereBeDragons\HereBeDragons-2.0.lua
 #@end-debug@
 
 locale\[TextLocale].lua [AllowLoadTextLocale deDE, esES, esMX, frFR, itIT, koKR, ptBR, ruRU, zhCN, zhTW]
